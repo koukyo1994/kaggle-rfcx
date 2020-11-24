@@ -2,6 +2,9 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
+from iterstrat.ml_stratifiers import MultilabelStratifiedKFold
+from sklearn import model_selection
+
 
 def get_device(device: str):
     if torch.cuda.is_available() and "cuda" in device:
@@ -27,3 +30,13 @@ def get_scheduler(optimizer, config: dict):
     else:
         return optim.lr_scheduler.__getattribute__(scheduler_name)(
             optimizer, **scheduler_config["params"])
+
+
+def get_split(config: dict):
+    split_config = config["split"]
+    name = split_config["name"]
+
+    if hasattr(model_selection, name):
+        return model_selection.__getattribute__(name)(**split_config["params"])
+    else:
+        return MultilabelStratifiedKFold(**split_config["params"])
