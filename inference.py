@@ -61,7 +61,30 @@ if __name__ == "__main__":
             model, expdir / f"fold{i}/checkpoints/best.pth").to(device)
 
         if config["inference"]["prediction_type"] == "strong":
-            raise NotImplementedError
+            recording_ids = []
+            batch_predictions = []
+            for batch in tqdm(loader, leave=True):
+                recording_ids.extend(batch["recording_id"])
+                input_ = batch[global_params["input_key"]].to(device)
+                with torch.no_grad():
+                    output = model(input_)
+                framewise_output = output["framewise_output"].detach()
+                clipwise_output, _ = framewise_output.max(dim=1)
+                batch_predictions.append(
+                    clipwise_output.cpu().numpy())
+            fold_prediction = np.concatenate(batch_predictions, axis=0)
+
+            fold_prediction_df = pd.DataFrame(
+                fold_prediction, columns=[f"s{i}" for i in range(fold_prediction.shape[1])])
+            fold_prediction_df = pd.concat([
+                pd.DataFrame({"recording_id": recording_ids}),
+                fold_prediction_df
+            ], axis=1)
+
+            fold_prediction_df = fold_prediction_df.groupby(
+                "recording_id").max().reset_index(drop=False)
+            fold_predictions.append(fold_prediction_df)
+            submission_name = "strong.csv"
         else:
             recording_ids = []
             batch_predictions = []
@@ -84,6 +107,7 @@ if __name__ == "__main__":
             fold_prediction_df = fold_prediction_df.groupby(
                 "recording_id").max().reset_index(drop=False)
             fold_predictions.append(fold_prediction_df)
+            submission_name = "weak.csv"
 
     folds_prediction_df = pd.concat(fold_predictions, axis=0).reset_index(drop=True)
     folds_prediction_df = folds_prediction_df.groupby("recording_id").mean().reset_index(drop=False)
@@ -97,4 +121,4 @@ if __name__ == "__main__":
     assert len(set(submission["recording_id"]) - set(folds_prediction_df["recording_id"])) == 0, \
         "prediction doesn't have enough recording_id"
 
-    folds_prediction_df.to_csv(submission_file_dir / f"{config_name}.csv", index=False)
+    folds_prediction_df.to_csv(submission_file_dir / submission_name, index=False)
