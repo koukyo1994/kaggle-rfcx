@@ -127,3 +127,40 @@ class WaveformValidDataset(torchdata.Dataset):
                 "strong": strong_label
             }
         }
+
+
+class WaveformTestDataset(torchdata.Dataset):
+    def __init__(self, df: pd.DataFrame, datadir: Path,
+                 transforms=None, sampling_rate=32000, duration=10, hop_length=320):
+        self.df = df
+        self.datadir = datadir
+        self.transforms = transforms
+        self.sampling_rate = sampling_rate
+        self.duration = duration
+        self.hop_length = hop_length
+
+    def __len__(self):
+        return len(self.df) * (CLIP_DURATION // self.duration)
+
+    def __getitem__(self, idx_: int):
+        n_chunk_per_clip = CLIP_DURATION // self.duration
+        idx = idx_ // n_chunk_per_clip
+        segment_id = idx_ % n_chunk_per_clip
+
+        sample = self.df.loc[idx, :]
+        flac_id = sample["recording_id"]
+
+        offset = segment_id * self.duration
+        y, sr = librosa.load(self.datadir / f"{flac_id}.flac",
+                             sr=self.sampling_rate,
+                             mono=True,
+                             offset=offset,
+                             duration=self.duration,
+                             res_type="kaiser_fast")
+        if self.transforms:
+            y = self.transforms(y).astype(np.float32)
+
+        return {
+            "recording_id": flac_id,
+            "waveform": y
+        }

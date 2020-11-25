@@ -5,12 +5,13 @@ import transforms
 
 from pathlib import Path
 
-from .pytorch import WaveformDataset, WaveformValidDataset
+from .pytorch import WaveformDataset, WaveformValidDataset, WaveformTestDataset
 
 
 __DATASETS__ = {
     "WaveformDataset": WaveformDataset,
-    "WaveformValidDataset": WaveformValidDataset
+    "WaveformValidDataset": WaveformValidDataset,
+    "WaveformTestDataset": WaveformTestDataset
 }
 
 
@@ -61,6 +62,23 @@ def get_train_loader(df: pd.DataFrame,
 
         dataset = __DATASETS__[dataset_config[phase]["name"]](
             df, tp, fp, datadir, transform, **params)
+    else:
+        raise NotImplementedError
+    loader = torchdata.DataLoader(dataset, **loader_config)
+    return loader
+
+
+def get_test_loader(df: pd.DataFrame,
+                    datadir: Path,
+                    config: dict):
+    dataset_config = config["dataset"]
+    loader_config = config["loader"]["test"]
+    if dataset_config["test"]["name"] in ["WaveformTestDataset"]:
+        transform = transforms.get_waveform_transforms(config, "test")
+        params = dataset_config["test"]["params"]
+
+        dataset = __DATASETS__[dataset_config["test"]["name"]](
+            df, datadir, transform, **params)
     else:
         raise NotImplementedError
     loader = torchdata.DataLoader(dataset, **loader_config)
