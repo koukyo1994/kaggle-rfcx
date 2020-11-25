@@ -49,7 +49,7 @@ class BCE2WayLoss(nn.Module):
 
     def forward(self, input, target):
         input_ = input[self.output_key]
-        target = target.float()
+        target = target["weak"].float()
 
         framewise_output = input["framewise_output"]
         clipwise_output_with_max, _ = framewise_output.max(dim=1)
@@ -71,7 +71,7 @@ class BCE2WayStrongLoss(nn.Module):
 
     def forward(self, input, target):
         input_ = input[self.output_key]
-        target = target.float()
+        target = target["strong"].float()
 
         clipwise_output = input["clipwise_output"]
         clipwise_target, _ = target.max(dim=1)
@@ -92,7 +92,7 @@ class Focal2WayLoss(nn.Module):
 
     def forward(self, input, target):
         input_ = input["logit"]
-        target = target.float()
+        target = target["weak"].float()
 
         framewise_output = input["framewise_logit"]
         clipwise_output_with_max, _ = framewise_output.max(dim=1)
@@ -113,7 +113,7 @@ class Focal2WayStrongLoss(nn.Module):
 
     def forward(self, input, target):
         input_ = input["framewise_logit"]
-        target = target.float()
+        target = target["strong"].float()
 
         clipwise_output = input["logit"]
         clipwise_target, _ = target.max(dim=1)

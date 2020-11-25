@@ -58,8 +58,10 @@ class WaveformDataset(torchdata.Dataset):
         return {
             "recording_id": flac_id,
             "waveform": y,
-            "targets": label,
-            "strong_targets": strong_label
+            "targets": {
+                "weak": label,
+                "strong": strong_label
+            }
         }
 
 
@@ -115,6 +117,8 @@ class WaveformValidDataset(torchdata.Dataset):
         return {
             "recording_id": flac_id,
             "waveform": y,
-            "targets": label,
-            "strong_targets": strong_label
+            "targets": {
+                "weak": label,
+                "strong": strong_label
+            }
         }

@@ -25,7 +25,7 @@ class LWLRAPCallback(Callback):
         self.target: List[np.ndarray] = []
 
     def on_batch_end(self, state: IRunner):
-        targ = state.input[self.input_key].detach().cpu().numpy()
+        targ = state.input[self.input_key]["weak"].detach().cpu().numpy()
         out = state.output[self.output_key]
 
         clipwise_output = out[self.model_output_key].detach().cpu().numpy()
