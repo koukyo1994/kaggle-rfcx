@@ -103,7 +103,7 @@ class WaveformValidDataset(torchdata.Dataset):
 
         n_points = len(y)
         n_frames = int(n_points / self.hop_length) + 1
-        strong_label = np.zeros((N_CLASSES, n_frames), dtype=np.float32)
+        strong_label = np.zeros((n_frames, N_CLASSES), dtype=np.float32)
         if len(tp) != 0:
             for row in tp:
                 t_min, t_max = row[1], row[2]
