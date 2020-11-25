@@ -6,7 +6,7 @@ import torch.utils.data as torchdata
 from pathlib import Path
 
 
-N_CLASSES = 23
+N_CLASSES = 24
 CLIP_DURATION = 60
 
 
