@@ -82,7 +82,7 @@ if __name__ == "__main__":
             ], axis=1)
 
             fold_prediction_df = fold_prediction_df.groupby(
-                "recording_id").max().reset_index(drop=True)
+                "recording_id").max().reset_index(drop=False)
             fold_predictions.append(fold_prediction_df)
     import pdb
     pdb.set_trace()
