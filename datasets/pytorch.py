@@ -56,6 +56,7 @@ class WaveformDataset(torchdata.Dataset):
                     strong_label[species_id, start_index:end_index] = 1.0
 
         return {
+            "recording_id": flac_id,
             "waveform": y,
             "targets": label,
             "strong_targets": strong_label
@@ -112,6 +113,7 @@ class WaveformValidDataset(torchdata.Dataset):
                     strong_label[species_id, start_index:end_index] = 1.0
 
         return {
+            "recording_id": flac_id,
             "waveform": y,
             "targets": label,
             "strong_targets": strong_label
