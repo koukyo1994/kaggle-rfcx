@@ -87,7 +87,7 @@ if __name__ == "__main__":
     import pdb
     pdb.set_trace()
     folds_prediction_df = pd.concat(fold_predictions, axis=0).reset_index(drop=True)
-    folds_prediction_df = folds_prediction_df.groupby("recording_id").mean().reset_index(drop=True)
+    folds_prediction_df = folds_prediction_df.groupby("recording_id").mean().reset_index(drop=False)
 
     assert len(folds_prediction_df) == len(submission), \
         "prediction length does not match sample submission length"
