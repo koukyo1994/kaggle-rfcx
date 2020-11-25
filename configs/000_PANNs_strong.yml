@@ -15,6 +15,7 @@ data:
   train_fp_path: input/train_fp.csv
   train_audio_path: input/train
   test_audio_path: input/test
+  sample_submission_path: input/sample_submission.csv
 
 dataset:
   train:
@@ -99,3 +100,6 @@ callbacks:
       input_key: targets
       output_key: logits
       prefix: lwlrap
+
+inference:
+  prediction_type: weak
