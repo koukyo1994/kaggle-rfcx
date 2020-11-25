@@ -16,7 +16,7 @@ class WaveformDataset(torchdata.Dataset):
         unique_recording_id = df.recording_id.unique().tolist()
         unique_tp_recordin_id = tp.recording_id.unique().tolist()
         intersection = set(unique_recording_id).intersection(unique_tp_recordin_id)
-        self.df = df[df.recodring_id.isin(intersection)].reset_index(drop=True)
+        self.df = df[df.recording_id.isin(intersection)].reset_index(drop=True)
         self.tp = tp[tp.recording_id.isin(intersection)].reset_index(drop=True)
         self.fp = fp  # unused
         self.datadir = datadir
