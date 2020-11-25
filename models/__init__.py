@@ -48,3 +48,13 @@ def get_model(config: dict):
         return model
     else:
         raise NotImplementedError
+
+
+def prepare_for_inference(model, checkpoint_path: Path):
+    if not torch.cuda.is_available():
+        checkpoint = torch.load(checkpoint_path, map_location="cpu")
+    else:
+        checkpoint = torch.load(checkpoint_path)
+    model.load_state_dict(checkpoint["model_state_dict"])
+    model.eval()
+    return model
