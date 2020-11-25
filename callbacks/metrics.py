@@ -33,13 +33,15 @@ class LWLRAPCallback(Callback):
         self.prediction.append(clipwise_output)
         self.target.append(targ)
 
-        score = lwlrap(targ, clipwise_output)
+        score_class, weight = lwlrap(targ, clipwise_output)
+        score = (score_class * weight).sum()
         state.batch_metrics[self.prefix] = score
 
     def on_loader_end(self, state: IRunner):
         y_pred = np.concatenate(self.prediction, axis=0)
         y_true = np.concatenate(self.target, axis=0)
-        score = lwlrap(y_true, y_pred)
+        score_class, weight = lwlrap(y_true, y_pred)
+        score = (score_class * weight).sum()
         if state.is_valid_loader:
             state.epoch_metrics[state.valid_loader + "_epoch_" + self.prefix] = score
         else:
