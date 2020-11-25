@@ -29,6 +29,12 @@ dataset:
       sampling_rate: 32000
       duration: 10
       hop_length: 320
+  test:
+    name: WaveformTestDataset
+    params:
+      sampling_rate: 32000
+      duration: 10
+      hop_length: 320
 
 transforms:
   train:
@@ -40,6 +46,7 @@ transforms:
         db_limit: 5
         mode: sine
   valid:
+  test:
 
 loss:
   name: BCE2WayStrongLoss
@@ -78,6 +85,10 @@ loader:
     shuffle: True
     num_workers: 10
   valid:
+    batch_size: 64
+    shuffle: False
+    num_workers: 10
+  test:
     batch_size: 64
     shuffle: False
     num_workers: 10
