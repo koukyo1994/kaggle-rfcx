@@ -13,11 +13,11 @@ CLIP_DURATION = 60
 class WaveformDataset(torchdata.Dataset):
     def __init__(self, df: pd.DataFrame, tp: pd.DataFrame, fp: pd.DataFrame, datadir: Path,
                  transforms=None, sampling_rate=32000, duration=10, hop_length=320):
-        unique_recoding_id = df.recoding_id.unique().tolist()
-        unique_tp_recordin_id = tp.recoding_id.unique().tolist()
-        intersection = set(unique_recoding_id).intersection(unique_tp_recordin_id)
-        self.df = df[df.recoding_id.isin(intersection)].reset_index(drop=True)
-        self.tp = tp[tp.recoding_id.isin(intersection)].reset_index(drop=True)
+        unique_recording_id = df.recording_id.unique().tolist()
+        unique_tp_recordin_id = tp.recording_id.unique().tolist()
+        intersection = set(unique_recording_id).intersection(unique_tp_recordin_id)
+        self.df = df[df.recodring_id.isin(intersection)].reset_index(drop=True)
+        self.tp = tp[tp.recording_id.isin(intersection)].reset_index(drop=True)
         self.fp = fp  # unused
         self.datadir = datadir
         self.transforms = transforms
