@@ -78,6 +78,8 @@ class AttBlock(nn.Module):
             padding=0,
             bias=True)
 
+        # For compatibility. Not used.
+        self.bn_att = nn.BatchNorm1d(out_features)
         self.init_weights()
 
     def init_weights(self):
