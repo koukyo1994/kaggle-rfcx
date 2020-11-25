@@ -84,8 +84,7 @@ if __name__ == "__main__":
             fold_prediction_df = fold_prediction_df.groupby(
                 "recording_id").max().reset_index(drop=False)
             fold_predictions.append(fold_prediction_df)
-    import pdb
-    pdb.set_trace()
+
     folds_prediction_df = pd.concat(fold_predictions, axis=0).reset_index(drop=True)
     folds_prediction_df = folds_prediction_df.groupby("recording_id").mean().reset_index(drop=False)
 
