@@ -13,9 +13,12 @@ CLIP_DURATION = 60
 class WaveformDataset(torchdata.Dataset):
     def __init__(self, df: pd.DataFrame, tp: pd.DataFrame, fp: pd.DataFrame, datadir: Path,
                  transforms=None, sampling_rate=32000, duration=10, hop_length=320):
-        self.df = df
-        self.tp = tp
-        self.fp = fp
+        unique_recoding_id = df.recoding_id.unique().tolist()
+        unique_tp_recordin_id = tp.recoding_id.unique().tolist()
+        intersection = set(unique_recoding_id).intersection(unique_tp_recordin_id)
+        self.df = df[df.recoding_id.isin(intersection)].reset_index(drop=True)
+        self.tp = tp[tp.recoding_id.isin(intersection)].reset_index(drop=True)
+        self.fp = fp  # unused
         self.datadir = datadir
         self.transforms = transforms
         self.sampling_rate = sampling_rate
@@ -23,13 +26,17 @@ class WaveformDataset(torchdata.Dataset):
         self.hop_length = hop_length
 
     def __len__(self):
-        return len(self.df)
+        return len(self.tp)
 
     def __getitem__(self, idx: int):
-        sample = self.df.loc[idx, :]
+        sample = self.tp.loc[idx, :]
         flac_id = sample["recording_id"]
 
-        offset = np.random.choice(np.arange(0, CLIP_DURATION - self.duration, 0.1))
+        t_min = sample["t_min"]
+        t_max = sample["t_max"]
+        species_id = sample["species_id"]
+
+        offset = np.random.choice(np.arange(t_max - self.duration, t_min, 0.1))
         y, sr = librosa.load(self.datadir / f"{flac_id}.flac",
                              sr=self.sampling_rate,
                              mono=True,
@@ -39,21 +46,18 @@ class WaveformDataset(torchdata.Dataset):
         if self.transforms:
             y = self.transforms(y).astype(np.float32)
 
-        tp = self.tp.query(f"recording_id == '{flac_id}'")[["species_id", "t_min", "t_max"]].values
         label = np.zeros(N_CLASSES, dtype=np.float32)
 
         n_points = len(y)
         n_frames = int(n_points / self.hop_length) + 1
         strong_label = np.zeros((n_frames, N_CLASSES), dtype=np.float32)
-        if len(tp) != 0:
-            for row in tp:
-                t_min, t_max = row[1], row[2]
-                species_id = int(row[0])
-                if t_min > offset and t_max < offset + self.duration:
-                    label[species_id] = 1.0
-                    start_index = int(((t_min - offset) * self.sampling_rate) / self.hop_length) + 1
-                    end_index = int(((t_max - offset) * self.sampling_rate) / self.hop_length) + 1
-                    strong_label[start_index:end_index, species_id] = 1.0
+
+        label[species_id] = 1.0
+
+        start_index = int(((t_min - offset) * self.sampling_rate) / self.hop_length) + 1
+        end_index = int(((t_max - offset) * self.sampling_rate) / self.hop_length) + 1
+
+        strong_label[start_index:end_index, species_id] = 1.0
 
         return {
             "recording_id": flac_id,

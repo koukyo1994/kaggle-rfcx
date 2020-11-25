@@ -24,7 +24,7 @@ dataset:
       duration: 10
       hop_length: 320
   valid:
-    name: WaveformValidDataset
+    name: WaveformDataset
     params:
       sampling_rate: 32000
       duration: 10
