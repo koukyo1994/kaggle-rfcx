@@ -22,8 +22,8 @@ def get_metadata(config: dict):
     train_audio = Path(data_config["train_audio_path"])
     test_audio = Path(data_config["test_audio_path"])
 
-    train_flacs = list(train_audio.glob("*.flac"))
-    test_flacs = list(test_audio.glob("*.flac"))
+    train_flacs = [flac.name.replace(".flac", "") for flac in train_audio.glob("*.flac")]
+    test_flacs = [flac.name.replace(".flac", "") for flac in test_audio.glob("*.flac")]
     train_all = pd.DataFrame({
         "recording_id": train_flacs
     })
