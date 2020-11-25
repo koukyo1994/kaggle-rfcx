@@ -34,7 +34,10 @@ def lwlrap(truth: np.ndarray, scores: np.ndarray):
         precisions_for_samples_by_classes[sample_num, pos_class_indices] = precision_at_hits
 
     labels_per_class = np.sum(truth > 0, axis=0)
-    weight_per_class = labels_per_class / float(np.sum(labels_per_class))
+    if float(np.sum(labels_per_class)) > 0:
+        weight_per_class = labels_per_class / float(np.sum(labels_per_class))
+    else:
+        weight_per_class = np.zeros_like(labels_per_class)
 
     per_class_lwlrap = (np.sum(precisions_for_samples_by_classes, axis=0) /
                         np.maximum(1, labels_per_class))
