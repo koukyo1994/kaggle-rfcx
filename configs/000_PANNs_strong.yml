@@ -5,7 +5,7 @@ globals:
   main_metric: epoch_lwlrap
   minimize_metric: False
   input_key: waveform
-  input_target_key: targets
+  input_target_key: strong_targets
   weights:
   folds:
     - 0
