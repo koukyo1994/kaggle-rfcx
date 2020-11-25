@@ -44,7 +44,7 @@ class WaveformDataset(torchdata.Dataset):
 
         n_points = len(y)
         n_frames = int(n_points / self.hop_length) + 1
-        strong_label = np.zeros((N_CLASSES, n_frames), dtype=np.float32)
+        strong_label = np.zeros((n_frames, N_CLASSES), dtype=np.float32)
         if len(tp) != 0:
             for row in tp:
                 t_min, t_max = row[1], row[2]
@@ -53,7 +53,7 @@ class WaveformDataset(torchdata.Dataset):
                     label[species_id] = 1.0
                     start_index = int(((t_min - offset) * self.sampling_rate) / self.hop_length) + 1
                     end_index = int(((t_max - offset) * self.sampling_rate) / self.hop_length) + 1
-                    strong_label[species_id, start_index:end_index] = 1.0
+                    strong_label[start_index:end_index, species_id] = 1.0
 
         return {
             "recording_id": flac_id,
@@ -112,7 +112,7 @@ class WaveformValidDataset(torchdata.Dataset):
                     label[species_id] = 1.0
                     start_index = int(((t_min - offset) * self.sampling_rate) / self.hop_length) + 1
                     end_index = int(((t_max - offset) * self.sampling_rate) / self.hop_length) + 1
-                    strong_label[species_id, start_index:end_index] = 1.0
+                    strong_label[start_index:end_index, species_id] = 1.0
 
         return {
             "recording_id": flac_id,

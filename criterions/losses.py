@@ -74,7 +74,7 @@ class BCE2WayStrongLoss(nn.Module):
         target = target["strong"].float()
 
         clipwise_output = input["clipwise_output"]
-        clipwise_target, _ = target.max(dim=1)
+        clipwise_target = target["weak"].float()
 
         loss = self.bce(input_, target)
         aux_loss = self.bce(clipwise_output, clipwise_target)
@@ -116,7 +116,7 @@ class Focal2WayStrongLoss(nn.Module):
         target = target["strong"].float()
 
         clipwise_output = input["logit"]
-        clipwise_target, _ = target.max(dim=1)
+        clipwise_target = target["weak"].float()
 
         loss = self.focal(input_, target)
         aux_loss = self.focal(clipwise_output, clipwise_target)
