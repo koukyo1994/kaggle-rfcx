@@ -37,6 +37,7 @@ class WaveformDataset(torchdata.Dataset):
         species_id = sample["species_id"]
 
         offset = np.random.choice(np.arange(t_max - self.duration, t_min, 0.1))
+        offset = min(CLIP_DURATION - self.duration, offset)
         y, sr = librosa.load(self.datadir / f"{flac_id}.flac",
                              sr=self.sampling_rate,
                              mono=True,
