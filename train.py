@@ -32,7 +32,6 @@ if __name__ == "__main__":
 
     # data
     tp, fp, train_all, _, train_audio, _ = datasets.get_metadata(config)
-
     # validation
     splitter = training.get_split(config)
 
