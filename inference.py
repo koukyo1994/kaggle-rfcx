@@ -11,6 +11,8 @@ import utils
 
 from pathlib import Path
 
+from tqdm import tqdm
+
 
 if __name__ == "__main__":
     ##################################################
@@ -63,7 +65,7 @@ if __name__ == "__main__":
         else:
             recording_ids = []
             batch_predictions = []
-            for batch in loader:
+            for batch in tqdm(loader, leave=True):
                 recording_ids.extend(batch["recording_id"])
                 input_ = batch[global_params["input_key"]].to(device)
                 with torch.no_grad():
@@ -82,7 +84,8 @@ if __name__ == "__main__":
             fold_prediction_df = fold_prediction_df.groupby(
                 "recording_id").max().reset_index(drop=True)
             fold_predictions.append(fold_prediction_df)
-
+    import pdb
+    pdb.set_trace()
     folds_prediction_df = pd.concat(fold_predictions, axis=0).reset_index(drop=True)
     folds_prediction_df = folds_prediction_df.groupby("recording_id").mean().reset_index(drop=True)
 
