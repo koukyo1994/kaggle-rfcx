@@ -98,3 +98,46 @@ class AttBlock(nn.Module):
             return x
         elif self.activation == 'sigmoid':
             return torch.sigmoid(x)
+
+
+class AttBlockV2(nn.Module):
+    def __init__(self,
+                 in_features: int,
+                 out_features: int,
+                 activation="linear"):
+        super().__init__()
+
+        self.activation = activation
+        self.att = nn.Conv1d(
+            in_channels=in_features,
+            out_channels=out_features,
+            kernel_size=1,
+            stride=1,
+            padding=0,
+            bias=True)
+        self.cla = nn.Conv1d(
+            in_channels=in_features,
+            out_channels=out_features,
+            kernel_size=1,
+            stride=1,
+            padding=0,
+            bias=True)
+
+        self.init_weights()
+
+    def init_weights(self):
+        init_layer(self.att)
+        init_layer(self.cla)
+
+    def forward(self, x):
+        # x: (n_samples, n_in, n_time)
+        norm_att = torch.softmax(torch.tanh(self.att(x)), dim=-1)
+        cla = self.nonlinear_transform(self.cla(x))
+        x = torch.sum(norm_att * cla, dim=2)
+        return x, norm_att, cla
+
+    def nonlinear_transform(self, x):
+        if self.activation == 'linear':
+            return x
+        elif self.activation == 'sigmoid':
+            return torch.sigmoid(x)

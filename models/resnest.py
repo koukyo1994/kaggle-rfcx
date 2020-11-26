@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-from .layers import AttBlock
+from .layers import AttBlockV2
 from .utils import init_layer, interpolate, pad_framewise_output
 
 
@@ -21,7 +21,7 @@ class ResNestSED(nn.Module):
         in_features = base_model.fc.in_features
 
         self.fc1 = nn.Linear(in_features, in_features, bias=True)
-        self.att_block = AttBlock(in_features, num_classes, activation="sigmoid")
+        self.att_block = AttBlockV2(in_features, num_classes, activation="sigmoid")
 
         self.init_weight()
 

@@ -3,7 +3,7 @@ import torch
 
 from pathlib import Path
 
-from .layers import AttBlock
+from .layers import AttBlock, AttBlockV2
 from .panns import PANNsCNN14Att
 from .resnest import ResNestSED
 from .utils import init_layer
@@ -70,10 +70,10 @@ def get_model(config: dict):
                     model_state_dict[new_key] = weights[key]
                 # to fit for birdcall competition
                 n_classes = model_state_dict["att_block.att.weight"].size(0)
-                model.att_block = AttBlock(
+                model.att_block = AttBlockV2(  # type: ignore
                     2048, n_classes, activation="sigmoid")
                 model.load_state_dict(model_state_dict)
-                model.att_block = AttBlock(
+                model.att_block = AttBlockV2(  # type: ignore
                     2048, model_params["n_classes"], activation="sigmoid")
                 model.att_block.init_weights()
         return model
