@@ -43,7 +43,10 @@ class BCE2WayLoss(nn.Module):
         super().__init__()
 
         self.output_key = output_key
-        self.bce = nn.BCELoss()
+        if "logit" in self.output_key:
+            self.bce = nn.BCEWithLogitsLoss()
+        else:
+            self.bce = nn.BCELoss()
 
         self.weights = weights
 
@@ -51,7 +54,10 @@ class BCE2WayLoss(nn.Module):
         input_ = input[self.output_key]
         target = target["weak"].float()
 
-        framewise_output = input["framewise_output"]
+        if "logit" in self.output_key:
+            framewise_output = input["framewise_logit"]
+        else:
+            framewise_output = input["framewise_output"]
         clipwise_output_with_max, _ = framewise_output.max(dim=1)
 
         loss = self.bce(input_, target)
@@ -65,7 +71,10 @@ class BCE2WayStrongLoss(nn.Module):
         super().__init__()
 
         self.output_key = output_key
-        self.bce = nn.BCELoss()
+        if "logit" in self.output_key:
+            self.bce = nn.BCEWithLogitsLoss()
+        else:
+            self.bce = nn.BCELoss()
 
         self.weights = weights
 
@@ -73,7 +82,10 @@ class BCE2WayStrongLoss(nn.Module):
         input_ = input[self.output_key]
         target_ = target["strong"].float()
 
-        clipwise_output = input["clipwise_output"]
+        if "logit" in self.output_key:
+            clipwise_output = input["logit"]
+        else:
+            clipwise_output = input["clipwise_output"]
         clipwise_target = target["weak"].float()
 
         loss = self.bce(input_, target_)

@@ -65,7 +65,7 @@ transforms:
 loss:
   name: BCE2WayLoss
   params:
-    output_key: clipwise_output
+    output_key: logit
     weights:
       - 1.0
       - 0.5
