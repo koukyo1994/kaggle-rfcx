@@ -61,11 +61,18 @@ def get_model(config: dict):
         if weights_path is not None:
             if Path(weights_path).exists():
                 weights = torch.load(weights_path)["model_state_dict"]
+                # for loading ema weight
+                model_state_dict = {}
+                for key in weights:
+                    if key == "n_averaged":
+                        continue
+                    new_key = key.replace("module.", "")
+                    model_state_dict[new_key] = weights[key]
                 # to fit for birdcall competition
-                n_classes = weights["att_block.att.weight"].size(0)
+                n_classes = model_state_dict["att_block.att.weight"].size(0)
                 model.att_block = AttBlock(
                     2048, n_classes, activation="sigmoid")
-                model.load_state_dict(weights)
+                model.load_state_dict(model_state_dict)
                 model.att_block = AttBlock(
                     2048, model_params["n_classes"], activation="sigmoid")
                 model.att_block.init_weights()
