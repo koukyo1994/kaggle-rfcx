@@ -5,10 +5,12 @@ import transforms
 
 from pathlib import Path
 
+from .spectrogram import SpectrogramDataset
 from .waveform import WaveformDataset, WaveformValidDataset, WaveformTestDataset
 
 
 __DATASETS__ = {
+    "SpectrogramDataset": SpectrogramDataset,
     "WaveformDataset": WaveformDataset,
     "WaveformValidDataset": WaveformValidDataset,
     "WaveformTestDataset": WaveformTestDataset
@@ -62,6 +64,16 @@ def get_train_loader(df: pd.DataFrame,
 
         dataset = __DATASETS__[dataset_config[phase]["name"]](
             df, tp, fp, datadir, transform, **params)
+    elif dataset_config[phase]["name"] == "SpectrogramDataset":
+        waveform_transforms = transforms.get_waveform_transforms(config, phase)
+        spectrogram_transforms = transforms.get_spectrogram_transforms(config, phase)
+        params = dataset_config[phase]["params"]
+
+        dataset = __DATASETS__[dataset_config[phase]["name"]](
+            df, tp, fp, datadir,
+            waveform_transforms,
+            spectrogram_transforms,
+            **params)
     else:
         raise NotImplementedError
     loader = torchdata.DataLoader(dataset, **loader_config)

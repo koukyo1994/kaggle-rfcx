@@ -5,9 +5,7 @@ import torch.utils.data as torchdata
 
 from pathlib import Path
 
-
-N_CLASSES = 24
-CLIP_DURATION = 60
+from .constatns import N_CLASSES, CLIP_DURATION
 
 
 class WaveformDataset(torchdata.Dataset):
