@@ -5,7 +5,7 @@ import transforms
 
 from pathlib import Path
 
-from .pytorch import WaveformDataset, WaveformValidDataset, WaveformTestDataset
+from .waveform import WaveformDataset, WaveformValidDataset, WaveformTestDataset
 
 
 __DATASETS__ = {
