@@ -74,7 +74,7 @@ def get_model(config: dict):
                     2048, n_classes, activation="sigmoid")
                 model.load_state_dict(model_state_dict)
                 model.att_block = AttBlockV2(  # type: ignore
-                    2048, model_params["n_classes"], activation="sigmoid")
+                    2048, model_params["num_classes"], activation="sigmoid")
                 model.att_block.init_weights()
         return model
     else:
