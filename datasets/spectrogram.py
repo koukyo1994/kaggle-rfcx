@@ -280,8 +280,8 @@ class MultiLabelSpectrogramDataset(torchdata.Dataset):
 
         label = np.zeros(N_CLASSES, dtype=np.float32)
 
-        n_points = len(y)
-        n_frames = int(n_points / self.hop_length) + 1
+        n_frames = image.shape[1]
+        seconds_per_frame = self.duration / n_frames
         strong_label = np.zeros((n_frames, N_CLASSES), dtype=np.float32)
 
         for species_id in all_tp_events["species_id"].unique():
@@ -292,8 +292,8 @@ class MultiLabelSpectrogramDataset(torchdata.Dataset):
             t_max = row.t_max
             species_id = row.species_id
 
-            start_index = int(((t_min - offset) * self.sampling_rate) / self.hop_length) + 1
-            end_index = int(((t_max - offset) * self.sampling_rate) / self.hop_length) + 1
+            start_index = int((t_min - offset) / seconds_per_frame)
+            end_index = int((t_max - offset) / seconds_per_frame)
 
             strong_label[start_index:end_index, species_id] = 1.0
 
