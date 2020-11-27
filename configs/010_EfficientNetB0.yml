@@ -111,15 +111,15 @@ model:
 
 loader:
   train:
-    batch_size: 64
+    batch_size: 32
     shuffle: True
     num_workers: 10
   valid:
-    batch_size: 64
+    batch_size: 32
     shuffle: False
     num_workers: 10
   test:
-    batch_size: 64
+    batch_size: 32
     shuffle: False
     num_workers: 10
 
