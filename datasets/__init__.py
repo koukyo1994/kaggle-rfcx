@@ -35,7 +35,7 @@ def get_metadata(config: dict):
         "recording_id": test_flacs
     })
     clip_level_tp = tp.groupby("recording_id")["species_id"].apply(list)
-    clip_level_fp = tp.groupby("recording_id")["species_id"].apply(list)
+    clip_level_fp = fp.groupby("recording_id")["species_id"].apply(list)
 
     tp["species_id_song_id"] = tp["species_id"].map(str) + "_" + tp["songtype_id"].map(str)
     fp["species_id_song_id"] = fp["species_id"].map(str) + "_" + fp["songtype_id"].map(str)
@@ -43,10 +43,18 @@ def get_metadata(config: dict):
     clip_level_tp_joint = tp.groupby("recording_id")["species_id_song_id"].apply(list)
     clip_level_fp_joint = fp.groupby("recording_id")["species_id_song_id"].apply(list)
 
-    train_all = train_all.merge(clip_level_tp, on="recording_id", how="left")
-    train_all = train_all.merge(clip_level_fp, on="recording_id", how="left")
-    train_all = train_all.merge(clip_level_tp_joint, on="recording_id", how="left")
-    train_all = train_all.merge(clip_level_fp_joint, on="recording_id", how="left")
+    train_all = train_all.merge(clip_level_tp, on="recording_id", how="left").rename(
+        columns={"species_id": "tp"})
+    train_all = train_all.merge(clip_level_fp, on="recording_id", how="left").rename(
+        columns={"species_id": "fp"})
+    train_all = train_all.merge(clip_level_tp_joint, on="recording_id", how="left").rename(
+        columns={"species_id_song_id": "tp_species_id_song_id"})
+    train_all = train_all.merge(clip_level_fp_joint, on="recording_id", how="left").rename(
+        columns={"species_id_song_id": "fp_species_id_song_id"})
+
+    train_all["n_tp"] = train_all.tp.map(lambda x: len(x) if isinstance(x, list) else 0)
+    train_all["n_fp"] = train_all.fp.map(lambda x: len(x) if isinstance(x, list) else 0)
+    train_all["n_tp_fp"] = train_all["n_tp"] + train_all["n_fp"]
 
     return tp, fp, train_all, test_all, train_audio, test_audio
 
