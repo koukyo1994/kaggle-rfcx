@@ -208,9 +208,8 @@ class MultiLabelWaveformDataset(torchdata.Dataset):
             y = self.transforms(y).astype(np.float32)
 
         tail = offset + self.duration
-        query_string = f"recording_id == '{flac_id}' & ("
-        query_string += f"(t_max > {offset} & t_min < {offset}) | "
-        query_string += f"(t_min < {tail} & t_max > {tail}))"
+        query_string = f"recording_id == '{flac_id}' & "
+        query_string += f"t_min < {tail} & t_max > {offset}"
         all_tp_events = self.tp.query(query_string)
 
         label = np.zeros(N_CLASSES, dtype=np.float32)
