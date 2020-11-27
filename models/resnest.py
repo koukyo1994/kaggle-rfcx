@@ -9,9 +9,10 @@ from .utils import init_layer, interpolate, pad_framewise_output
 
 class ResNestSED(nn.Module):
     def __init__(self, base_model_name: str, pretrained=False,
-                 num_classes=264):
+                 num_classes=264,
+                 interpolate_ratio=30):
         super().__init__()
-        self.interpolate_ratio = 30  # Downsampled ratio
+        self.interpolate_ratio = interpolate_ratio  # Downsampled ratio
         base_model = torch.hub.load("zhanghang1989/ResNeSt",
                                     base_model_name,
                                     pretrained=pretrained)
