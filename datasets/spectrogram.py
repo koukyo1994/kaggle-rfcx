@@ -273,6 +273,8 @@ class MultiLabelSpectrogramDataset(torchdata.Dataset):
         image = np.moveaxis(image, 2, 0)
         image = (image / 255.0).astype(np.float32)
 
+        import pdb
+        pdb.set_trace()
         tail = offset + self.duration
         query_string = f"recording_id == '{flac_id}' & ("
         query_string += f"(t_max > {offset} & t_min < {offset}) | "
