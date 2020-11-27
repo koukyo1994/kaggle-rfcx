@@ -1,0 +1,11 @@
+catalyst==20.11
+colorednoise==1.1.1
+efficientnet-pytorch==0.7.0
+librosa==0.8.0
+numpy
+opencv-python==4.4.0.46
+pandas
+torch==1.7.0+cu110
+torchaudio==0.7.0
+torchlibrosa==0.0.4
+torchvision==0.8.1+cu110
