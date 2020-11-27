@@ -5,16 +5,19 @@ import transforms
 
 from pathlib import Path
 
-from .spectrogram import SpectrogramDataset, SpectrogramTestDataset
-from .waveform import WaveformDataset, WaveformValidDataset, WaveformTestDataset
+from .spectrogram import SpectrogramDataset, SpectrogramTestDataset, MultiLabelSpectrogramDataset
+from .waveform import (WaveformDataset, WaveformValidDataset, WaveformTestDataset,
+                       MultiLabelWaveformDataset)
 
 
 __DATASETS__ = {
     "SpectrogramDataset": SpectrogramDataset,
     "SpectrogramTestDataset": SpectrogramTestDataset,
+    "MultiLabelSpectrogramDataset": MultiLabelSpectrogramDataset,
     "WaveformDataset": WaveformDataset,
     "WaveformValidDataset": WaveformValidDataset,
-    "WaveformTestDataset": WaveformTestDataset
+    "WaveformTestDataset": WaveformTestDataset,
+    "MultiLabelWaveformDataset": MultiLabelWaveformDataset
 }
 
 
