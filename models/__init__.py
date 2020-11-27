@@ -3,6 +3,7 @@ import torch
 
 from pathlib import Path
 
+from .effcientnet import EfficientNetSED
 from .layers import AttBlock, AttBlockV2
 from .panns import PANNsCNN14Att
 from .resnest import ResNestSED
@@ -56,6 +57,29 @@ def get_model(config: dict):
         return model
     elif model_name == "ResNestSED":
         model = ResNestSED(**model_params)  # type: ignore
+
+        weights_path = config["globals"].get("weights")
+        if weights_path is not None:
+            if Path(weights_path).exists():
+                weights = torch.load(weights_path)["model_state_dict"]
+                # for loading ema weight
+                model_state_dict = {}
+                for key in weights:
+                    if key == "n_averaged":
+                        continue
+                    new_key = key.replace("module.", "")
+                    model_state_dict[new_key] = weights[key]
+                # to fit for birdcall competition
+                n_classes = model_state_dict["att_block.att.weight"].size(0)
+                model.att_block = AttBlockV2(  # type: ignore
+                    2048, n_classes, activation="sigmoid")
+                model.load_state_dict(model_state_dict)
+                model.att_block = AttBlockV2(  # type: ignore
+                    2048, model_params["num_classes"], activation="sigmoid")
+                model.att_block.init_weights()
+        return model
+    elif model_name == "EfficientNetSED":
+        model = EfficientNetSED(**model_params)  # type: ignore
 
         weights_path = config["globals"].get("weights")
         if weights_path is not None:
