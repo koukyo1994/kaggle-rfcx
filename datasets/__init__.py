@@ -70,13 +70,14 @@ def get_train_loader(df: pd.DataFrame,
                      phase: str):
     dataset_config = config["dataset"]
     loader_config = config["loader"][phase]
-    if dataset_config[phase]["name"] in ["WaveformDataset", "WaveformValidDataset"]:
+    if dataset_config[phase]["name"] in ["WaveformDataset", "WaveformValidDataset",
+                                         "MultiLabelWaveformDataset"]:
         transform = transforms.get_waveform_transforms(config, phase)
         params = dataset_config[phase]["params"]
 
         dataset = __DATASETS__[dataset_config[phase]["name"]](
             df, tp, fp, datadir, transform, **params)
-    elif dataset_config[phase]["name"] == "SpectrogramDataset":
+    elif dataset_config[phase]["name"] in ["SpectrogramDataset", "MultiLabelSpectrogramDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, phase)
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, phase)
         params = dataset_config[phase]["params"]
