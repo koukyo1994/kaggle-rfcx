@@ -5,12 +5,14 @@ import transforms
 
 from pathlib import Path
 
+from .fp_sample import SampleFPSpectrogramDataset
 from .spectrogram import SpectrogramDataset, SpectrogramTestDataset, MultiLabelSpectrogramDataset
 from .waveform import (WaveformDataset, WaveformValidDataset, WaveformTestDataset,
                        MultiLabelWaveformDataset)
 
 
 __DATASETS__ = {
+    "SampleFPSpectrogramDataset": SampleFPSpectrogramDataset,
     "SpectrogramDataset": SpectrogramDataset,
     "SpectrogramTestDataset": SpectrogramTestDataset,
     "MultiLabelSpectrogramDataset": MultiLabelSpectrogramDataset,
@@ -77,7 +79,8 @@ def get_train_loader(df: pd.DataFrame,
 
         dataset = __DATASETS__[dataset_config[phase]["name"]](
             df, tp, fp, datadir, transform, **params)
-    elif dataset_config[phase]["name"] in ["SpectrogramDataset", "MultiLabelSpectrogramDataset"]:
+    elif dataset_config[phase]["name"] in ["SpectrogramDataset", "MultiLabelSpectrogramDataset",
+                                           "SampleFPSpectrogramDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, phase)
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, phase)
         params = dataset_config[phase]["params"]
