@@ -108,7 +108,7 @@ class SpectrogramDataset(torchdata.Dataset):
 
         label = np.zeros(N_CLASSES, dtype=np.float32)
 
-        n_frames = image.shape[1]
+        n_frames = image.shape[2]
         seconds_per_frame = self.duration / n_frames
         strong_label = np.zeros((n_frames, N_CLASSES), dtype=np.float32)
 
