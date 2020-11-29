@@ -84,19 +84,23 @@ if __name__ == "__main__":
 
     weights_dict = {}
     classes = [f"s{i}" for i in range(24)]
-    for class_ in classes:
-        logger.info("*" * 20)
-        logger.info(f"class: {class_}")
+    if config["strategy"]["name"] == "classwise":
+        for class_ in classes:
+            logger.info("*" * 20)
+            logger.info(f"class: {class_}")
 
-        predictions = []
-        for oof in oofs:
-            predictions.append(oof[class_].values)
-        target = ground_truth_df[class_].values
-        result_dict = search_averaging_weights(predictions, target)
+            predictions = []
+            for oof in oofs:
+                predictions.append(oof[class_].values)
+            target = ground_truth_df[class_].values
+            result_dict = search_averaging_weights(predictions, target)
 
-        logger.info(
-            f"Best score {result_dict['best_score']}, Best Weights{result_dict['best_weights']}")
-        weights_dict[class_] = result_dict["best_weights"]
+            logger.info(
+                f"Best score {result_dict['best_score']}, Best Weights{result_dict['best_weights']}")
+            weights_dict[class_] = result_dict["best_weights"]
+    else:
+        for class_ in classes:
+            weights_dict[class_] = config["strategy"]["weights"]
 
     blended = np.zeros((len(oofs[0]), 24))
     for class_ in weights_dict:

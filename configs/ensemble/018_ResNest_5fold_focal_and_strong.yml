@@ -13,3 +13,9 @@ data:
   train_audio_path: input/train
   test_audio_path: input/test
   sample_submission_path: input/sample_submission.csv
+
+strategy:
+  name: simple
+  weights:
+    - 0.5
+    - 0.5
