@@ -74,8 +74,10 @@ if __name__ == "__main__":
             logger.info("*" * 20)
             recording_ids = []
             batch_predictions = []
+            indices = []
             for batch in tqdm(val_loader, leave=True):
                 recording_ids.extend(batch["recording_id"])
+                indices.extend(batch["index"].numpy())
                 input_ = batch[global_params["input_key"]].to(device)
                 with torch.no_grad():
                     output = model(input_)
@@ -87,7 +89,7 @@ if __name__ == "__main__":
             oof_prediction_df = pd.DataFrame(
                 oof_prediction, columns=[f"s{i}" for i in range(oof_prediction.shape[1])])
             oof_prediction_df = pd.concat([
-                pd.DataFrame({"recording_id": recording_ids}),
+                pd.DataFrame({"index": indices, "recording_id": recording_ids}),
                 oof_prediction_df
             ], axis=1)
 
@@ -133,8 +135,10 @@ if __name__ == "__main__":
             logger.info("*" * 20)
             recording_ids = []
             batch_predictions = []
+            indices = []
             for batch in tqdm(val_loader, leave=True):
                 recording_ids.extend(batch["recording_id"])
+                indices.extend(batch["index"].numpy())
                 input_ = batch[global_params["input_key"]].to(device)
                 with torch.no_grad():
                     output = model(input_)
@@ -144,7 +148,7 @@ if __name__ == "__main__":
             oof_prediction_df = pd.DataFrame(
                 oof_prediction, columns=[f"s{i}" for i in range(oof_prediction.shape[1])])
             oof_prediction_df = pd.concat([
-                pd.DataFrame({"recording_id": recording_ids}),
+                pd.DataFrame({"index": indices, "recording_id": recording_ids}),
                 oof_prediction_df
             ], axis=1)
 

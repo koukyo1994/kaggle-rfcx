@@ -62,6 +62,7 @@ class SpectrogramDataset(torchdata.Dataset):
 
     def __getitem__(self, idx: int):
         sample = self.tp.loc[idx, :]
+        index = sample["index"]
         flac_id = sample["recording_id"]
 
         t_min = sample["t_min"]
@@ -124,7 +125,8 @@ class SpectrogramDataset(torchdata.Dataset):
             "targets": {
                 "weak": label,
                 "strong": strong_label
-            }
+            },
+            "index": index
         }
 
 
@@ -229,6 +231,7 @@ class MultiLabelSpectrogramDataset(torchdata.Dataset):
 
     def __getitem__(self, idx: int):
         sample = self.tp.loc[idx, :]
+        index = sample["index"]
         flac_id = sample["recording_id"]
 
         t_min = sample["t_min"]
@@ -302,5 +305,6 @@ class MultiLabelSpectrogramDataset(torchdata.Dataset):
             "targets": {
                 "weak": label,
                 "strong": strong_label
-            }
+            },
+            "index": index
         }

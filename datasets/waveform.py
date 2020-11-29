@@ -28,6 +28,7 @@ class WaveformDataset(torchdata.Dataset):
 
     def __getitem__(self, idx: int):
         sample = self.tp.loc[idx, :]
+        index = sample["index"]
         flac_id = sample["recording_id"]
 
         t_min = sample["t_min"]
@@ -64,7 +65,8 @@ class WaveformDataset(torchdata.Dataset):
             "targets": {
                 "weak": label,
                 "strong": strong_label
-            }
+            },
+            "index": index
         }
 
 
@@ -89,6 +91,7 @@ class WaveformValidDataset(torchdata.Dataset):
         segment_id = idx_ % n_chunk_per_clip
 
         sample = self.df.loc[idx, :]
+        index = sample["index"]
         flac_id = sample["recording_id"]
 
         offset = segment_id * self.duration
@@ -123,7 +126,8 @@ class WaveformValidDataset(torchdata.Dataset):
             "targets": {
                 "weak": label,
                 "strong": strong_label
-            }
+            },
+            "index": index
         }
 
 
@@ -186,6 +190,7 @@ class MultiLabelWaveformDataset(torchdata.Dataset):
 
     def __getitem__(self, idx: int):
         sample = self.tp.loc[idx, :]
+        index = sample["index"]
         flac_id = sample["recording_id"]
 
         t_min = sample["t_min"]
@@ -237,5 +242,6 @@ class MultiLabelWaveformDataset(torchdata.Dataset):
             "targets": {
                 "weak": label,
                 "strong": strong_label
-            }
+            },
+            "index": index
         }

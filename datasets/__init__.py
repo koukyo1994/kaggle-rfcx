@@ -45,6 +45,9 @@ def get_metadata(config: dict):
     tp["species_id_song_id"] = tp["species_id"].map(str) + "_" + tp["songtype_id"].map(str)
     fp["species_id_song_id"] = fp["species_id"].map(str) + "_" + fp["songtype_id"].map(str)
 
+    tp = tp.reset_index(drop=False)
+    fp = fp.reset_index(drop=False)
+
     clip_level_tp_joint = tp.groupby("recording_id")["species_id_song_id"].apply(list)
     clip_level_fp_joint = fp.groupby("recording_id")["species_id_song_id"].apply(list)
 
