@@ -186,9 +186,6 @@ if __name__ == "__main__":
 
     oof_df = pd.concat(oof_predictions, axis=0).reset_index(drop=True)
 
-    assert len(oof_df) == len(tp), \
-        "oof length does not match tp length"
-
     oof_df.to_csv(submission_file_dir / oof_name, index=False)
 
     folds_prediction_df = pd.concat(fold_predictions, axis=0).reset_index(drop=True)
