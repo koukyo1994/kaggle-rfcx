@@ -39,7 +39,7 @@ if __name__ == "__main__":
     device = training.get_device(global_params["device"])
 
     # data
-    _, _, train_all, test_all, _, test_audio = datasets.get_metadata(config)
+    tp, fp, train_all, test_all, train_audio, test_audio = datasets.get_metadata(config)
     submission = pd.read_csv(config["data"]["sample_submission_path"])
     # validation
     splitter = training.get_split(config)
@@ -48,6 +48,7 @@ if __name__ == "__main__":
     # Main Loop #
     ##################################################
     fold_predictions = []
+    oof_predictions = []
     for i, (trn_idx, val_idx) in enumerate(splitter.split(train_all)):
         if i not in global_params["folds"]:
             continue
@@ -55,12 +56,50 @@ if __name__ == "__main__":
         logger.info(f"Fold {i}")
         logger.info("=" * 20)
 
+        val_df = train_all.iloc[val_idx, :].reset_index(drop=True)
+        val_loader = datasets.get_train_loader(
+            val_df, tp, fp, train_audio, config, phase="valid")
+
         loader = datasets.get_test_loader(test_all, test_audio, config)
         model = models.get_model(config)
         model = models.prepare_for_inference(
             model, expdir / f"fold{i}/checkpoints/best.pth").to(device)
 
         if config["inference"]["prediction_type"] == "strong":
+            ##################################################
+            # OOF #
+            ##################################################
+            logger.info("*" * 20)
+            logger.info(f"OOF prediction for fold{i}")
+            logger.info("*" * 20)
+            recording_ids = []
+            batch_predictions = []
+            for batch in tqdm(val_loader, leave=True):
+                recording_ids.extend(batch["recording_id"])
+                input_ = batch[global_params["input_key"]].to(device)
+                with torch.no_grad():
+                    output = model(input_)
+                framewise_output = output["framewise_output"].detach()
+                clipwise_output, _ = framewise_output.max(dim=1)
+                batch_predictions.append(
+                    clipwise_output.cpu().numpy())
+            oof_prediction = np.concatenate(batch_predictions, axis=0)
+            oof_prediction_df = pd.DataFrame(
+                oof_prediction, columns=[f"s{i}" for i in range(oof_prediction.shape[1])])
+            oof_prediction_df = pd.concat([
+                pd.DataFrame({"recording_id": recording_ids}),
+                oof_prediction_df
+            ], axis=1)
+
+            oof_predictions.append(oof_prediction_df)
+            oof_name = "oof_strong.csv"
+
+            ##################################################
+            # Prediction #
+            ##################################################
+            logger.info("*" * 20)
+            logger.info(f"Prediction on test for fold{i}")
+            logger.info("*" * 20)
             recording_ids = []
             batch_predictions = []
             for batch in tqdm(loader, leave=True):
@@ -86,6 +125,38 @@ if __name__ == "__main__":
             fold_predictions.append(fold_prediction_df)
             submission_name = "strong.csv"
         else:
+            ##################################################
+            # OOF #
+            ##################################################
+            logger.info("*" * 20)
+            logger.info(f"OOF prediction for fold{i}")
+            logger.info("*" * 20)
+            recording_ids = []
+            batch_predictions = []
+            for batch in tqdm(val_loader, leave=True):
+                recording_ids.extend(batch["recording_id"])
+                input_ = batch[global_params["input_key"]].to(device)
+                with torch.no_grad():
+                    output = model(input_)
+                batch_predictions.append(
+                    output["clipwise_output"].cpu().numpy())
+            oof_prediction = np.concatenate(batch_predictions, axis=0)
+            oof_prediction_df = pd.DataFrame(
+                oof_prediction, columns=[f"s{i}" for i in range(oof_prediction.shape[1])])
+            oof_prediction_df = pd.concat([
+                pd.DataFrame({"recording_id": recording_ids}),
+                oof_prediction_df
+            ], axis=1)
+
+            oof_predictions.append(oof_prediction_df)
+            oof_name = "oof_weak.csv"
+
+            ##################################################
+            # Prediction #
+            ##################################################
+            logger.info("*" * 20)
+            logger.info(f"Prediction on test for fold{i}")
+            logger.info("*" * 20)
             recording_ids = []
             batch_predictions = []
             for batch in tqdm(loader, leave=True):
@@ -108,6 +179,13 @@ if __name__ == "__main__":
                 "recording_id").max().reset_index(drop=False)
             fold_predictions.append(fold_prediction_df)
             submission_name = "weak.csv"
+
+    oof_df = pd.concat(oof_predictions, axis=0).reset_index(drop=True)
+
+    assert len(oof_df) == len(tp), \
+        "oof length does not match tp length"
+
+    oof_df.to_csv(submission_file_dir / oof_name, index=False)
 
     folds_prediction_df = pd.concat(fold_predictions, axis=0).reset_index(drop=True)
     folds_prediction_df = folds_prediction_df.groupby("recording_id").mean().reset_index(drop=False)
