@@ -1,8 +1,10 @@
 results:
   - submission: out/015_ResNest_strong_focal_5fold/submission/weak.csv
     oof: out/015_ResNest_strong_focal_5fold/submission/oof_weak.csv
+    name: 015_focal
   - submission: out/016_ResNestSED_strong_5fold/submission/weak.csv
     oof: out/016_ResNestSED_strong_5fold/submission/oof_weak.csv
+    name: 016_strong
 
 data:
   data:

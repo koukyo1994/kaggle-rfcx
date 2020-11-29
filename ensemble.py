@@ -8,13 +8,13 @@ from pathlib import Path
 
 from tqdm import tqdm
 
-from sklearn.metrics import log_loss
+from sklearn.metrics import average_precision_score
 
 from callbacks import lwlrap
 
 
 def search_averaging_weights(predictions: list, target: np.ndarray, trials=1000):
-    best_loss = np.inf
+    best_score = -np.inf
     best_weights = np.zeros(len(predictions))
     utils.set_seed(1213)
 
@@ -24,11 +24,11 @@ def search_averaging_weights(predictions: list, target: np.ndarray, trials=1000)
         blended = np.zeros(len(predictions[0]))
         for weight, pred in zip(weights, predictions):
             blended += weight * pred
-        loss = log_loss(y_true=target, y_pred=blended)
-        if loss < best_loss:
-            best_loss = loss
+        score = average_precision_score(y_true=target, y_score=blended)
+        if score > best_score:
+            best_score = score
             best_weights = weights
-    return {"best_loss": best_loss, "best_weights": best_weights}
+    return {"best_loss": best_score, "best_weights": best_weights}
 
 
 if __name__ == "__main__":
@@ -43,9 +43,11 @@ if __name__ == "__main__":
 
     oofs = []
     submissions = []
+    names = []
     for result_dict in config["results"]:
         oofs.append(pd.read_csv(result_dict["oof"]))
         submissions.append(pd.read_csv(result_dict["submission"]))
+        names.append(result_dict["name"])
 
     tp, _, _, _, _, _ = datasets.get_metadata(config)
     indices = tp[["index"]]
@@ -105,6 +107,11 @@ if __name__ == "__main__":
     score_class, weight = lwlrap(ground_truth_df[classes].values, blended)
     score = (score_class * weight).sum()
     logger.info(f"Blended LWLRAP: {score:5f}")
+
+    for oos, name in zip(oofs, names):
+        score_class, weight = lwlrap(ground_truth_df[classes].values, oof[classes].values)
+        score = (score_class * weight).sum()
+        logger.info(f"Name: {name} LWLRAP: {score:5f}")
 
     blended_sub = np.zeros((len(submissions[0]), 24))
     for class_ in weights_dict:
