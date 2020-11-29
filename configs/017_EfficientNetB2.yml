@@ -80,7 +80,7 @@ transforms:
 loss:
   name: BCE2WayStrongLoss
   params:
-    output_key: logit
+    output_key: framewise_logit
     weights:
       - 1.0
       - 0.5
