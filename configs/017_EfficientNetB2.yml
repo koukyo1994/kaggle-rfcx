@@ -19,7 +19,7 @@ data:
 
 dataset:
   train:
-    name: SpectrogramDataset
+    name: MultiLabelSpectrogramDataset
     params:
       sampling_rate: 32000
       duration: 10
@@ -34,7 +34,7 @@ dataset:
         time_constant: 0.4
         eps: 0.000001
   valid:
-    name: SpectrogramDataset
+    name: MultiLabelSpectrogramDataset
     params:
       sampling_rate: 32000
       duration: 10
@@ -78,7 +78,7 @@ transforms:
   test:
 
 loss:
-  name: BCE2WayLoss
+  name: BCE2WayStrongLoss
   params:
     output_key: logit
     weights:
