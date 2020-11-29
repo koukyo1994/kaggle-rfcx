@@ -1,3 +1,4 @@
+from ._metrics import lwlrap
 from .metrics import LWLRAPCallback
 
 
