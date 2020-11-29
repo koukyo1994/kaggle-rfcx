@@ -103,6 +103,7 @@ if __name__ == "__main__":
             weights_dict[class_] = config["strategy"]["weights"]
 
     blended = np.zeros((len(oofs[0]), 24))
+    class_level_score = {}
     for class_ in weights_dict:
         index = classes.index(class_)
         weights = weights_dict[class_]
@@ -112,11 +113,13 @@ if __name__ == "__main__":
     score_class, weight = lwlrap(ground_truth_df[classes].values, blended)
     score = (score_class * weight).sum()
     logger.info(f"Blended LWLRAP: {score:5f}")
+    class_level_score["blend"] = score_class
 
     for oof, name in zip(oofs, names):
         score_class, weight = lwlrap(ground_truth_df[classes].values, oof[classes].values)
         score = (score_class * weight).sum()
         logger.info(f"Name: {name} LWLRAP: {score:5f}")
+        class_level_score[name] = score_class
 
     blended_sub = np.zeros((len(submissions[0]), 24))
     for class_ in weights_dict:
@@ -129,3 +132,4 @@ if __name__ == "__main__":
         pd.DataFrame(blended_sub, columns=classes)
     ], axis=1)
     sub.to_csv(expdir / "blended.csv", index=False)
+    utils.save_json(class_level_score, expdir / "class_level_results.json")
