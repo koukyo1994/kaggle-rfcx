@@ -78,7 +78,7 @@ transforms:
   test:
 
 loss:
-  name: FocalWayStrongLoss
+  name: Focal2WayStrongLoss
   params:
     weights:
       - 1.0
