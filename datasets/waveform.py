@@ -5,7 +5,7 @@ import torch.utils.data as torchdata
 
 from pathlib import Path
 
-from .constants import N_CLASSES, CLIP_DURATION
+from .constants import N_CLASSES, CLIP_DURATION, CLASS_MAP
 
 
 class WaveformDataset(torchdata.Dataset):
@@ -218,30 +218,39 @@ class MultiLabelWaveformDataset(torchdata.Dataset):
         all_tp_events = self.tp.query(query_string)
 
         label = np.zeros(N_CLASSES, dtype=np.float32)
+        songtype_label = np.zeros(N_CLASSES + 2, dtype=np.float32)
 
         n_points = len(y)
         n_frames = int(n_points / self.hop_length) + 1
         strong_label = np.zeros((n_frames, N_CLASSES), dtype=np.float32)
+        songtype_strong_label = np.zeros((n_frames, N_CLASSES + 2), dtype=np.float32)
 
         for species_id in all_tp_events["species_id"].unique():
             label[int(species_id)] = 1.0
+
+        for species_id_song_id in all_tp_events["species_id_song_id"].unique():
+            songtype_label[CLASS_MAP[species_id_song_id]] = 1.0
 
         for _, row in all_tp_events.iterrows():
             t_min = row.t_min
             t_max = row.t_max
             species_id = row.species_id
+            species_id_song_id = row.species_id_song_id
 
             start_index = int(((t_min - offset) * self.sampling_rate) / self.hop_length) + 1
             end_index = int(((t_max - offset) * self.sampling_rate) / self.hop_length) + 1
 
             strong_label[start_index:end_index, species_id] = 1.0
+            songtype_strong_label[start_index:end_index, CLASS_MAP[species_id_song_id]] = 1.0
 
         return {
             "recording_id": flac_id,
             "waveform": y,
             "targets": {
                 "weak": label,
-                "strong": strong_label
+                "strong": strong_label,
+                "weak_songtype": songtype_label,
+                "strong_songtype": songtype_strong_label
             },
             "index": index
         }
