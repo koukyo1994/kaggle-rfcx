@@ -28,7 +28,7 @@ def search_averaging_weights(predictions: list, target: np.ndarray, trials=1000)
         if score > best_score:
             best_score = score
             best_weights = weights
-    return {"best_loss": best_score, "best_weights": best_weights}
+    return {"best_score": best_score, "best_weights": best_weights}
 
 
 if __name__ == "__main__":
@@ -95,14 +95,15 @@ if __name__ == "__main__":
         result_dict = search_averaging_weights(predictions, target)
 
         logger.info(
-            f"Best Loss: {result_dict['best_loss']}, Best Weights{result_dict['best_weights']}")
+            f"Best score {result_dict['best_score']}, Best Weights{result_dict['best_weights']}")
         weights_dict[class_] = result_dict["best_weights"]
 
     blended = np.zeros((len(oofs[0]), 24))
     for class_ in weights_dict:
         index = classes.index(class_)
-        for weight, oof in zip(weights_dict[class_], oofs):
-            blended[index] += weight * oof[class_].values
+        weights = weights_dict[class_]
+        for weight, oof in zip(weights, oofs):
+            blended[:, index] += weight * oof[class_].values
 
     score_class, weight = lwlrap(ground_truth_df[classes].values, blended)
     score = (score_class * weight).sum()
@@ -117,7 +118,7 @@ if __name__ == "__main__":
     for class_ in weights_dict:
         index = classes.index(class_)
         for weight, sub in zip(weights_dict[class_], submissions):
-            blended_sub[index] += weight * sub[class_].values
+            blended_sub[:, index] += weight * sub[class_].values
 
     sub = pd.concat([
         pd.DataFrame({"recording_id": submissions[0]["recording_id"]}),
