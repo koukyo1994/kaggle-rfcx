@@ -6,7 +6,8 @@ import transforms
 from pathlib import Path
 
 from .fp_sample import SampleFPSpectrogramDataset
-from .spectrogram import SpectrogramDataset, SpectrogramTestDataset, MultiLabelSpectrogramDataset, TorchAudioMLDataset
+from .spectrogram import (SpectrogramDataset, SpectrogramTestDataset, MultiLabelSpectrogramDataset, TorchAudioMLDataset,
+                          TorchAudioMLTestDataset)
 from .waveform import (WaveformDataset, WaveformValidDataset, WaveformTestDataset,
                        MultiLabelWaveformDataset)
 
@@ -17,6 +18,7 @@ __DATASETS__ = {
     "SpectrogramTestDataset": SpectrogramTestDataset,
     "MultiLabelSpectrogramDataset": MultiLabelSpectrogramDataset,
     "TorchAudioMLDataset": TorchAudioMLDataset,
+    "TorchAudioMLTestDataset": TorchAudioMLTestDataset,
     "WaveformDataset": WaveformDataset,
     "WaveformValidDataset": WaveformValidDataset,
     "WaveformTestDataset": WaveformTestDataset,
@@ -111,7 +113,7 @@ def get_test_loader(df: pd.DataFrame,
 
         dataset = __DATASETS__[dataset_config["test"]["name"]](
             df, datadir, transform, **params)
-    elif dataset_config["test"]["name"] == "SpectrogramTestDataset":
+    elif dataset_config["test"]["name"] in ["SpectrogramTestDataset", "TorchAudioMLTestDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, "test")
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, "test")
         params = dataset_config["test"]["params"]

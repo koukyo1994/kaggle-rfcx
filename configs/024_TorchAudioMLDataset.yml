@@ -50,14 +50,14 @@ dataset:
         eps: 0.000001
       centering: True
   test:
-    name: SpectrogramTestDataset
+    name: TorchAudioMLTestDataset
     params:
       sampling_rate: 32000
       duration: 15
       melspectrogram_parameters:
         n_mels: 128
-        fmin: 20
-        fmax: 16000
+        f_min: 20
+        f_max: 16000
       pcen_parameters:
         gain: 0.98
         bias: 2
