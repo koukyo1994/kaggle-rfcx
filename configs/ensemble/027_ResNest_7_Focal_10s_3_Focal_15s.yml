@@ -3,7 +3,7 @@ results:
     oof: out/015_ResNest_strong_focal_5fold/submission/oof_weak.csv
     name: 015_focal
   - submission: out/025_ResNest_Focal_15s_5fold/submission/weak.csv
-    oof: out/025_ResNest_Focal_15s_5fold/oof_weak.csv
+    oof: out/025_ResNest_Focal_15s_5fold/submission/oof_weak.csv
     name: 025_focal
 
 data:
