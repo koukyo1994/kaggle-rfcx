@@ -347,7 +347,7 @@ class TorchAudioMLDataset(torchdata.Dataset):
         self.centering = centering
         self.resampler = torchaudio.transforms.Resample(
             orig_freq=DEFAULT_SR, new_freq=sampling_rate)
-        self.melspectrogram_converter = torchaudio.transforms.Melspectrogram(
+        self.melspectrogram_converter = torchaudio.transforms.MelSpectrogram(
             sample_rate=sampling_rate,
             n_fft=2048,
             hop_length=512,
