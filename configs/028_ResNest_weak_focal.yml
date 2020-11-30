@@ -22,7 +22,7 @@ dataset:
     name: FasterMLSpectrogramDataset
     params:
       sampling_rate: 32000
-      duration: 15
+      duration: 10
       melspectrogram_parameters:
         n_mels: 128
         fmin: 20
@@ -37,7 +37,7 @@ dataset:
     name: FasterMLSpectrogramDataset
     params:
       sampling_rate: 32000
-      duration: 15
+      duration: 10
       melspectrogram_parameters:
         n_mels: 128
         fmin: 20
@@ -53,7 +53,7 @@ dataset:
     name: FasterSpectrogramTestDataset
     params:
       sampling_rate: 32000
-      duration: 15
+      duration: 10
       melspectrogram_parameters:
         n_mels: 128
         fmin: 20
@@ -111,15 +111,15 @@ model:
 
 loader:
   train:
-    batch_size: 24
+    batch_size: 32
     shuffle: True
     num_workers: 10
   valid:
-    batch_size: 24
+    batch_size: 32
     shuffle: False
     num_workers: 10
   test:
-    batch_size: 24
+    batch_size: 32
     shuffle: False
     num_workers: 10
 
