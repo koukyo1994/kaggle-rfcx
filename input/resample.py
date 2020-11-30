@@ -35,7 +35,7 @@ if __name__ == "__main__":
         audio_path, save_dir, target_sr) for audio_path in audio_paths)
 
     audio_dir = Path("./test")
-    save_dir = Path(f"./test_{int(target_sr)}k")
+    save_dir = Path(f"./test_{int(target_sr / 1000)}k")
     save_dir.mkdir(parents=True, exist_ok=True)
 
     audio_paths = list(audio_dir.glob("*.flac"))
