@@ -1,3 +1,5 @@
+import warnings
+
 import callbacks as clb
 import criterions
 import datasets
@@ -11,6 +13,8 @@ from catalyst.dl import SupervisedRunner
 
 
 if __name__ == "__main__":
+    warnings.filterwarnings("ignore")
+
     ##################################################
     #  Basic configuration #
     ##################################################
