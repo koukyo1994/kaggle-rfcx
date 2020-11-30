@@ -1,0 +1,467 @@
+{
+  "best": {
+    "epoch_lwlrap": 0.844619674695178,
+    "lwlrap": 0.8425563879726354,
+    "loss": 0.3029159723033368
+  },
+  "last": {
+    "epoch_lwlrap": 0.8366251570949558,
+    "lwlrap": 0.8356395756043643,
+    "loss": 0.35870005757036344
+  },
+  "train.27": {
+    "epoch_lwlrap": 0.844619674695178,
+    "lwlrap": 0.8425563879726354,
+    "loss": 0.3029159723033368
+  },
+  "epoch_0": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.1.pth",
+    0.17343319064099047,
+    {
+      "epoch_lwlrap": 0.17343319064099047,
+      "lwlrap": 0.17343858870082543,
+      "loss": 0.7502245852645014
+    }
+  ],
+  "epoch_1": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.2.pth",
+    0.2733393212248354,
+    {
+      "epoch_lwlrap": 0.2733393212248354,
+      "lwlrap": 0.2711594799688768,
+      "loss": 0.6302600956298936
+    }
+  ],
+  "epoch_2": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.3.pth",
+    0.3673979253621624,
+    {
+      "epoch_lwlrap": 0.3673979253621624,
+      "lwlrap": 0.36187479712540954,
+      "loss": 0.5868992410914999
+    }
+  ],
+  "epoch_3": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.4.pth",
+    0.39690658961429526,
+    {
+      "epoch_lwlrap": 0.39690658961429526,
+      "lwlrap": 0.3957393264841865,
+      "loss": 0.5737440015228702
+    }
+  ],
+  "epoch_4": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.5.pth",
+    0.5045207057494858,
+    {
+      "epoch_lwlrap": 0.5045207057494858,
+      "lwlrap": 0.5028161502941744,
+      "loss": 0.5290137697273576
+    }
+  ],
+  "epoch_5": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.6.pth",
+    0.6081809828873588,
+    {
+      "epoch_lwlrap": 0.6081809828873588,
+      "lwlrap": 0.605644237692779,
+      "loss": 0.46390498020279586
+    }
+  ],
+  "epoch_6": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.7.pth",
+    0.675148444024283,
+    {
+      "epoch_lwlrap": 0.675148444024283,
+      "lwlrap": 0.6747565870302288,
+      "loss": 0.425808160237863
+    }
+  ],
+  "epoch_7": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.8.pth",
+    0.7061344818100381,
+    {
+      "epoch_lwlrap": 0.7061344818100381,
+      "lwlrap": 0.7033848248425184,
+      "loss": 0.39338566971496797
+    }
+  ],
+  "epoch_8": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.9.pth",
+    0.7529039938435911,
+    {
+      "epoch_lwlrap": 0.7529039938435911,
+      "lwlrap": 0.7515710298532231,
+      "loss": 0.35094962573387256
+    }
+  ],
+  "epoch_9": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.10.pth",
+    0.7517854256109289,
+    {
+      "epoch_lwlrap": 0.7517854256109289,
+      "lwlrap": 0.7501863942004786,
+      "loss": 0.34681455770009
+    }
+  ],
+  "epoch_10": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.11.pth",
+    0.751605776773562,
+    {
+      "epoch_lwlrap": 0.751605776773562,
+      "lwlrap": 0.7499940200644426,
+      "loss": 0.34996988823716063
+    }
+  ],
+  "epoch_11": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.12.pth",
+    0.75222260960516,
+    {
+      "epoch_lwlrap": 0.75222260960516,
+      "lwlrap": 0.7502366653020576,
+      "loss": 0.34905388825376266
+    }
+  ],
+  "epoch_12": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.13.pth",
+    0.7611165586836728,
+    {
+      "epoch_lwlrap": 0.7611165586836728,
+      "lwlrap": 0.76002185691572,
+      "loss": 0.3492886793445533
+    }
+  ],
+  "epoch_13": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.14.pth",
+    0.7347796405682312,
+    {
+      "epoch_lwlrap": 0.7347796405682312,
+      "lwlrap": 0.7336458994280926,
+      "loss": 0.3493520818965536
+    }
+  ],
+  "epoch_14": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.15.pth",
+    0.6763559021800237,
+    {
+      "epoch_lwlrap": 0.6763559021800237,
+      "lwlrap": 0.6767931646667864,
+      "loss": 0.42515339649898903
+    }
+  ],
+  "epoch_15": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.16.pth",
+    0.6869152749082414,
+    {
+      "epoch_lwlrap": 0.6869152749082414,
+      "lwlrap": 0.6842631469024891,
+      "loss": 0.4071044837924796
+    }
+  ],
+  "epoch_16": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.17.pth",
+    0.690135923426488,
+    {
+      "epoch_lwlrap": 0.690135923426488,
+      "lwlrap": 0.6891816594000283,
+      "loss": 0.42741548343443536
+    }
+  ],
+  "epoch_17": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.18.pth",
+    0.6935630592485114,
+    {
+      "epoch_lwlrap": 0.6935630592485114,
+      "lwlrap": 0.6937500426152928,
+      "loss": 0.39767470997823795
+    }
+  ],
+  "epoch_18": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.19.pth",
+    0.6352631568655058,
+    {
+      "epoch_lwlrap": 0.6352631568655058,
+      "lwlrap": 0.6310778416475097,
+      "loss": 0.469968447383021
+    }
+  ],
+  "epoch_19": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.20.pth",
+    0.6836875959063089,
+    {
+      "epoch_lwlrap": 0.6836875959063089,
+      "lwlrap": 0.6820650496647657,
+      "loss": 0.43896281257481645
+    }
+  ],
+  "epoch_20": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.21.pth",
+    0.7494443522547549,
+    {
+      "epoch_lwlrap": 0.7494443522547549,
+      "lwlrap": 0.7485100084634793,
+      "loss": 0.3590455886343835
+    }
+  ],
+  "epoch_21": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.22.pth",
+    0.6516809373895833,
+    {
+      "epoch_lwlrap": 0.6516809373895833,
+      "lwlrap": 0.6511928366999973,
+      "loss": 0.4659489997675721
+    }
+  ],
+  "epoch_22": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.23.pth",
+    0.7843327454337128,
+    {
+      "epoch_lwlrap": 0.7843327454337128,
+      "lwlrap": 0.7848498596227618,
+      "loss": 0.3557206614756248
+    }
+  ],
+  "epoch_23": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.24.pth",
+    0.7733938507428441,
+    {
+      "epoch_lwlrap": 0.7733938507428441,
+      "lwlrap": 0.7740478509027302,
+      "loss": 0.36699942090141935
+    }
+  ],
+  "epoch_24": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.25.pth",
+    0.820506187018228,
+    {
+      "epoch_lwlrap": 0.820506187018228,
+      "lwlrap": 0.8197459098712205,
+      "loss": 0.33426270938255415
+    }
+  ],
+  "epoch_25": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.26.pth",
+    0.8140300842728794,
+    {
+      "epoch_lwlrap": 0.8140300842728794,
+      "lwlrap": 0.812395826464799,
+      "loss": 0.3479187996454642
+    }
+  ],
+  "epoch_26": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.27.pth",
+    0.844619674695178,
+    {
+      "epoch_lwlrap": 0.844619674695178,
+      "lwlrap": 0.8425563879726354,
+      "loss": 0.3029159723033368
+    }
+  ],
+  "epoch_27": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.28.pth",
+    0.8397504527538086,
+    {
+      "epoch_lwlrap": 0.8397504527538086,
+      "lwlrap": 0.8379605625204216,
+      "loss": 0.31064240571478724
+    }
+  ],
+  "epoch_28": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.29.pth",
+    0.8350287389716919,
+    {
+      "epoch_lwlrap": 0.8350287389716919,
+      "lwlrap": 0.8320980760241323,
+      "loss": 0.31867378614318204
+    }
+  ],
+  "epoch_29": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.30.pth",
+    0.8438173683140127,
+    {
+      "epoch_lwlrap": 0.8438173683140127,
+      "lwlrap": 0.8415295385365809,
+      "loss": 0.31832710370211537
+    }
+  ],
+  "epoch_30": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.31.pth",
+    0.838180038641448,
+    {
+      "epoch_lwlrap": 0.838180038641448,
+      "lwlrap": 0.8358930681994061,
+      "loss": 0.3192682690183881
+    }
+  ],
+  "epoch_31": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.32.pth",
+    0.8359741954540613,
+    {
+      "epoch_lwlrap": 0.8359741954540613,
+      "lwlrap": 0.8340823565546904,
+      "loss": 0.31587976133319695
+    }
+  ],
+  "epoch_32": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.33.pth",
+    0.8441509413405386,
+    {
+      "epoch_lwlrap": 0.8441509413405386,
+      "lwlrap": 0.8417810475909067,
+      "loss": 0.3152635332564233
+    }
+  ],
+  "epoch_33": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.34.pth",
+    0.8334046965338913,
+    {
+      "epoch_lwlrap": 0.8334046965338913,
+      "lwlrap": 0.83151496390933,
+      "loss": 0.329338400716513
+    }
+  ],
+  "epoch_34": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.35.pth",
+    0.7945760411828056,
+    {
+      "epoch_lwlrap": 0.7945760411828056,
+      "lwlrap": 0.7951250660734537,
+      "loss": 0.3724922525211119
+    }
+  ],
+  "epoch_35": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.36.pth",
+    0.8135955208102859,
+    {
+      "epoch_lwlrap": 0.8135955208102859,
+      "lwlrap": 0.8127347417840375,
+      "loss": 0.3613827358668959
+    }
+  ],
+  "epoch_36": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.37.pth",
+    0.7784928560979427,
+    {
+      "epoch_lwlrap": 0.7784928560979427,
+      "lwlrap": 0.7759684106561423,
+      "loss": 0.3543992831673421
+    }
+  ],
+  "epoch_37": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.38.pth",
+    0.7651570958321847,
+    {
+      "epoch_lwlrap": 0.7651570958321847,
+      "lwlrap": 0.7655759798912833,
+      "loss": 0.37242124492013956
+    }
+  ],
+  "epoch_38": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.39.pth",
+    0.757817788103023,
+    {
+      "epoch_lwlrap": 0.757817788103023,
+      "lwlrap": 0.7574158473429098,
+      "loss": 0.3897364861528638
+    }
+  ],
+  "epoch_39": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.40.pth",
+    0.7899541919676147,
+    {
+      "epoch_lwlrap": 0.7899541919676147,
+      "lwlrap": 0.7878144938004092,
+      "loss": 0.4093240251843358
+    }
+  ],
+  "epoch_40": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.41.pth",
+    0.7629373436691833,
+    {
+      "epoch_lwlrap": 0.7629373436691833,
+      "lwlrap": 0.7639436182562587,
+      "loss": 0.3981338949270651
+    }
+  ],
+  "epoch_41": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.42.pth",
+    0.7925184512177509,
+    {
+      "epoch_lwlrap": 0.7925184512177509,
+      "lwlrap": 0.7921385871319166,
+      "loss": 0.3788984161867222
+    }
+  ],
+  "epoch_42": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.43.pth",
+    0.752311237170229,
+    {
+      "epoch_lwlrap": 0.752311237170229,
+      "lwlrap": 0.7520512028197527,
+      "loss": 0.4060070812702179
+    }
+  ],
+  "epoch_43": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.44.pth",
+    0.7521605212460917,
+    {
+      "epoch_lwlrap": 0.7521605212460917,
+      "lwlrap": 0.7502851713176161,
+      "loss": 0.4062442368185017
+    }
+  ],
+  "epoch_44": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.45.pth",
+    0.7430525198142648,
+    {
+      "epoch_lwlrap": 0.7430525198142648,
+      "lwlrap": 0.7443381833346621,
+      "loss": 0.46416500420637535
+    }
+  ],
+  "epoch_45": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.46.pth",
+    0.8175668538412922,
+    {
+      "epoch_lwlrap": 0.8175668538412922,
+      "lwlrap": 0.8166501547204241,
+      "loss": 0.35567784519262713
+    }
+  ],
+  "epoch_46": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.47.pth",
+    0.8407277007109222,
+    {
+      "epoch_lwlrap": 0.8407277007109222,
+      "lwlrap": 0.8400168493478352,
+      "loss": 0.3547263355322287
+    }
+  ],
+  "epoch_47": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.48.pth",
+    0.8417314741559708,
+    {
+      "epoch_lwlrap": 0.8417314741559708,
+      "lwlrap": 0.841346326934858,
+      "loss": 0.3582740329520803
+    }
+  ],
+  "epoch_48": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.49.pth",
+    0.8398220720368371,
+    {
+      "epoch_lwlrap": 0.8398220720368371,
+      "lwlrap": 0.8386038648362593,
+      "loss": 0.3606751263141632
+    }
+  ],
+  "epoch_49": [
+    "out/024_TorchAudioMLDataset/fold0/checkpoints/train.50.pth",
+    0.8366251570949558,
+    {
+      "epoch_lwlrap": 0.8366251570949558,
+      "lwlrap": 0.8356395756043643,
+      "loss": 0.35870005757036344
+    }
+  ]
+}

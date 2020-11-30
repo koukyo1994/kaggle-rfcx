@@ -1,0 +1,135 @@
+{
+  "best": {
+    "epoch_lwlrap": 0.7310521822809958,
+    "lwlrap": 0.7300434793590603,
+    "loss": 0.3680986787231875
+  },
+  "last": {
+    "epoch_lwlrap": 0.7271211899875907,
+    "lwlrap": 0.7256694972384699,
+    "loss": 0.3752048842503991
+  },
+  "train.9": {
+    "epoch_lwlrap": 0.7310521822809958,
+    "lwlrap": 0.7300434793590603,
+    "loss": 0.3680986787231875
+  },
+  "epoch_0": [
+    "out/023_ResNest_pretrained_Focal/fold0/checkpoints/train.1.pth",
+    0.4789840576018084,
+    {
+      "epoch_lwlrap": 0.4789840576018084,
+      "lwlrap": 0.4777636047879879,
+      "loss": 0.9120111406688958
+    }
+  ],
+  "epoch_1": [
+    "out/023_ResNest_pretrained_Focal/fold0/checkpoints/train.2.pth",
+    0.6013133034020373,
+    {
+      "epoch_lwlrap": 0.6013133034020373,
+      "lwlrap": 0.5994855159767304,
+      "loss": 0.9288213714747363
+    }
+  ],
+  "epoch_2": [
+    "out/023_ResNest_pretrained_Focal/fold0/checkpoints/train.3.pth",
+    0.641072773392787,
+    {
+      "epoch_lwlrap": 0.641072773392787,
+      "lwlrap": 0.6390258335576573,
+      "loss": 0.5955086543526448
+    }
+  ],
+  "epoch_3": [
+    "out/023_ResNest_pretrained_Focal/fold0/checkpoints/train.4.pth",
+    0.6578244191520666,
+    {
+      "epoch_lwlrap": 0.6578244191520666,
+      "lwlrap": 0.65644355794695,
+      "loss": 0.4563664458167385
+    }
+  ],
+  "epoch_4": [
+    "out/023_ResNest_pretrained_Focal/fold0/checkpoints/train.5.pth",
+    0.6826270605673701,
+    {
+      "epoch_lwlrap": 0.6826270605673701,
+      "lwlrap": 0.6814401973882909,
+      "loss": 0.41084415056336093
+    }
+  ],
+  "epoch_5": [
+    "out/023_ResNest_pretrained_Focal/fold0/checkpoints/train.6.pth",
+    0.7021309857750536,
+    {
+      "epoch_lwlrap": 0.7021309857750536,
+      "lwlrap": 0.700806378141011,
+      "loss": 0.3970139467380416
+    }
+  ],
+  "epoch_6": [
+    "out/023_ResNest_pretrained_Focal/fold0/checkpoints/train.7.pth",
+    0.7188267053097561,
+    {
+      "epoch_lwlrap": 0.7188267053097561,
+      "lwlrap": 0.7177430880678491,
+      "loss": 0.38160473653967947
+    }
+  ],
+  "epoch_7": [
+    "out/023_ResNest_pretrained_Focal/fold0/checkpoints/train.8.pth",
+    0.7236238290899307,
+    {
+      "epoch_lwlrap": 0.7236238290899307,
+      "lwlrap": 0.7227909673347928,
+      "loss": 0.37116779407984773
+    }
+  ],
+  "epoch_8": [
+    "out/023_ResNest_pretrained_Focal/fold0/checkpoints/train.9.pth",
+    0.7310521822809958,
+    {
+      "epoch_lwlrap": 0.7310521822809958,
+      "lwlrap": 0.7300434793590603,
+      "loss": 0.3680986787231875
+    }
+  ],
+  "epoch_9": [
+    "out/023_ResNest_pretrained_Focal/fold0/checkpoints/train.10.pth",
+    0.7282383670942993,
+    {
+      "epoch_lwlrap": 0.7282383670942993,
+      "lwlrap": 0.7271449054871465,
+      "loss": 0.3675967203059667
+    }
+  ],
+  "epoch_10": [
+    "out/023_ResNest_pretrained_Focal/fold0/checkpoints/train.11.pth",
+    0.7278016992423771,
+    {
+      "epoch_lwlrap": 0.7278016992423771,
+      "lwlrap": 0.7265765701923274,
+      "loss": 0.36738064255512937
+    }
+  ],
+  "epoch_11": [
+    "out/023_ResNest_pretrained_Focal/fold0/checkpoints/train.12.pth",
+    0.7304339506732328,
+    {
+      "epoch_lwlrap": 0.7304339506732328,
+      "lwlrap": 0.7294886608790621,
+      "loss": 0.3672072014338534
+    }
+  ],
+  "epoch_12": [
+    "out/023_ResNest_pretrained_Focal/fold0/checkpoints/train.13.pth",
+    0.7271211899875907,
+    {
+      "epoch_lwlrap": 0.7271211899875907,
+      "lwlrap": 0.7256694972384699,
+      "loss": 0.3752048842503991
+    }
+  ],
+  "train.14.exception_KeyboardInterrupt": {}
+}
