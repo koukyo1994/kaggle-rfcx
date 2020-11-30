@@ -17,8 +17,8 @@ globals:
 data:
   train_tp_path: input/train_tp.csv
   train_fp_path: input/train_fp.csv
-  train_audio_path: input/train
-  test_audio_path: input/test
+  train_audio_path: input/train_32k
+  test_audio_path: input/test_32k
   sample_submission_path: input/sample_submission.csv
 
 dataset:
