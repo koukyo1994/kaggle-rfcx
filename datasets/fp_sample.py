@@ -53,6 +53,7 @@ class SampleFPSpectrogramDataset(torchdata.Dataset):
                     break
 
         flac_id = sample["recording_id"]
+        index = sample["index"]
 
         t_min = sample["t_min"]
         t_max = sample["t_max"]
@@ -126,5 +127,6 @@ class SampleFPSpectrogramDataset(torchdata.Dataset):
             "targets": {
                 "weak": label,
                 "strong": strong_label
-            }
+            },
+            "index": index
         }
