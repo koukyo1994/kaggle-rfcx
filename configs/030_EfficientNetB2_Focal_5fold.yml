@@ -38,7 +38,7 @@ dataset:
         time_constant: 0.4
         eps: 0.000001
   valid:
-    name: FaterMLSpectrogramDataset
+    name: FasterMLSpectrogramDataset
     params:
       sampling_rate: 32000
       duration: 10
