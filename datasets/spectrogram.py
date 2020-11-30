@@ -444,3 +444,76 @@ class TorchAudioMLDataset(torchdata.Dataset):
             },
             "index": index
         }
+
+
+class TorchAudioMLTestDataset(torchdata.Dataset):
+    def __init__(self, df: pd.DataFrame, datadir: Path,
+                 waveform_transforms=None, spectrogram_transforms=None,
+                 melspectrogram_parameters={},
+                 pcen_parameters={},
+                 sampling_rate=32000,
+                 img_size=224,
+                 duration=10):
+        self.df = df
+        self.datadir = datadir
+        self.waveform_transforms = waveform_transforms
+        self.spectrogram_transforms = spectrogram_transforms
+        self.melspectrogram_parameters = melspectrogram_parameters
+        self.pcen_parameters = pcen_parameters
+        self.sampling_rate = sampling_rate
+        self.duration = duration
+        self.img_size = img_size
+        self.resampler = torchaudio.transforms.Resample(
+            orig_freq=DEFAULT_SR, new_freq=sampling_rate)
+        self.melspectrogram_converter = torchaudio.transforms.MelSpectrogram(
+            sample_rate=sampling_rate,
+            n_fft=2048,
+            hop_length=512,
+            normalized=True,
+            **self.melspectrogram_parameters)
+
+    def __len__(self):
+        return len(self.df) * (CLIP_DURATION // self.duration)
+
+    def __getitem__(self, idx_: int):
+        n_chunk_per_clip = CLIP_DURATION // self.duration
+        idx = idx_ // n_chunk_per_clip
+        segment_id = idx_ % n_chunk_per_clip
+
+        sample = self.df.loc[idx, :]
+        flac_id = sample["recording_id"]
+
+        offset = segment_id * self.duration
+        y, _ = torchaudio.load(self.datadir / f"{flac_id}.flac",
+                               offset=int(offset * DEFAULT_SR),
+                               num_frames=int(self.duration * DEFAULT_SR))
+        y = self.resampler(y[0]).numpy().astype(np.float32)
+        if self.waveform_transforms:
+            y = self.waveform_transforms(y).astype(np.float32)
+
+        melspec = self.melspectrogram_converter(torch.from_numpy(y)).numpy()
+        pcen = librosa.pcen(melspec, sr=self.sampling_rate, **self.pcen_parameters)
+        clean_mel = librosa.power_to_db(melspec ** 1.5)
+        melspec = librosa.power_to_db(melspec)
+
+        if self.spectrogram_transforms:
+            melspec = self.spectrogram_transforms(image=melspec)["image"]
+            pcen = self.spectrogram_transforms(image=pcen)["image"]
+            clean_mel = self.spectrogram_transforms(image=clean_mel)["image"]
+        else:
+            pass
+
+        norm_melspec = normalize_melspec(melspec)
+        norm_pcen = normalize_melspec(pcen)
+        norm_clean_mel = normalize_melspec(clean_mel)
+        image = np.stack([norm_melspec, norm_pcen, norm_clean_mel], axis=-1)
+
+        height, width, _ = image.shape
+        image = cv2.resize(image, (int(width * self.img_size / height), self.img_size))
+        image = np.moveaxis(image, 2, 0)
+        image = (image / 255.0).astype(np.float32)
+
+        return {
+            "recording_id": flac_id,
+            "image": image
+        }
