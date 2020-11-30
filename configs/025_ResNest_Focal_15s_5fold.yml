@@ -17,13 +17,13 @@ globals:
 data:
   train_tp_path: input/train_tp.csv
   train_fp_path: input/train_fp.csv
-  train_audio_path: input/train
-  test_audio_path: input/test
+  train_audio_path: input/train_32k
+  test_audio_path: input/test_32k
   sample_submission_path: input/sample_submission.csv
 
 dataset:
   train:
-    name: MultiLabelSpectrogramDataset
+    name: FasterMLSpectrogramDataset
     params:
       sampling_rate: 32000
       duration: 15
@@ -38,7 +38,7 @@ dataset:
         time_constant: 0.4
         eps: 0.000001
   valid:
-    name: MultiLabelSpectrogramDataset
+    name: FasterMLSpectrogramDataset
     params:
       sampling_rate: 32000
       duration: 15
@@ -54,7 +54,7 @@ dataset:
         eps: 0.000001
       centering: True
   test:
-    name: SpectrogramTestDataset
+    name: FasterSpectrogramTestDataset
     params:
       sampling_rate: 32000
       duration: 15
