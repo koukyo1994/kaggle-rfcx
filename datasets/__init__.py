@@ -7,7 +7,7 @@ from pathlib import Path
 
 from .fp_sample import SampleFPSpectrogramDataset
 from .spectrogram import (SpectrogramDataset, SpectrogramTestDataset, MultiLabelSpectrogramDataset, TorchAudioMLDataset,
-                          TorchAudioMLTestDataset)
+                          TorchAudioMLTestDataset, FasterMLSpectrogramDataset, FasterSpectrogramTestDataset)
 from .waveform import (WaveformDataset, WaveformValidDataset, WaveformTestDataset,
                        MultiLabelWaveformDataset)
 
@@ -17,6 +17,8 @@ __DATASETS__ = {
     "SpectrogramDataset": SpectrogramDataset,
     "SpectrogramTestDataset": SpectrogramTestDataset,
     "MultiLabelSpectrogramDataset": MultiLabelSpectrogramDataset,
+    "FasterMLSpectrogramDataset": FasterMLSpectrogramDataset,
+    "FasterSpectrogramTestDataset": FasterSpectrogramTestDataset,
     "TorchAudioMLDataset": TorchAudioMLDataset,
     "TorchAudioMLTestDataset": TorchAudioMLTestDataset,
     "WaveformDataset": WaveformDataset,
@@ -34,13 +36,21 @@ def get_metadata(config: dict):
     train_audio = Path(data_config["train_audio_path"])
     test_audio = Path(data_config["test_audio_path"])
 
-    train_flacs = [flac.name.replace(".flac", "") for flac in train_audio.glob("*.flac")]
-    test_flacs = [flac.name.replace(".flac", "") for flac in test_audio.glob("*.flac")]
+    train_audios = list(train_audio.glob("*.flac"))
+    if len(train_audios) == 0:
+        train_audios = list(train_audio.glob("*.wav"))
+
+    test_audios = list(test_audio.glob("*.flac"))
+    if len(test_audios) == 0:
+        test_audios = list(test_audio.glob("*.wav"))
+
+    train_audio_lists = [audio.name.replace(".flac", "").replace(".wav", "") for audio in train_audios]
+    test_audio_lists = [audio.name.replace(".flac", "").replace(".wav", "") for audio in test_audios]
     train_all = pd.DataFrame({
-        "recording_id": train_flacs
+        "recording_id": train_audio_lists
     })
     test_all = pd.DataFrame({
-        "recording_id": test_flacs
+        "recording_id": test_audio_lists
     })
     clip_level_tp = tp.groupby("recording_id")["species_id"].apply(list)
     clip_level_fp = fp.groupby("recording_id")["species_id"].apply(list)
@@ -86,7 +96,8 @@ def get_train_loader(df: pd.DataFrame,
         dataset = __DATASETS__[dataset_config[phase]["name"]](
             df, tp, fp, datadir, transform, **params)
     elif dataset_config[phase]["name"] in ["SpectrogramDataset", "MultiLabelSpectrogramDataset",
-                                           "SampleFPSpectrogramDataset", "TorchAudioMLDataset"]:
+                                           "SampleFPSpectrogramDataset", "TorchAudioMLDataset",
+                                           "FasterMLSpectrogramDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, phase)
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, phase)
         params = dataset_config[phase]["params"]
@@ -113,7 +124,8 @@ def get_test_loader(df: pd.DataFrame,
 
         dataset = __DATASETS__[dataset_config["test"]["name"]](
             df, datadir, transform, **params)
-    elif dataset_config["test"]["name"] in ["SpectrogramTestDataset", "TorchAudioMLTestDataset"]:
+    elif dataset_config["test"]["name"] in ["SpectrogramTestDataset", "TorchAudioMLTestDataset",
+                                            "FasterSpectrogramTestDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, "test")
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, "test")
         params = dataset_config["test"]["params"]
