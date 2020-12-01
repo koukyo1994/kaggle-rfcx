@@ -6,6 +6,7 @@ import transforms
 from pathlib import Path
 
 from .fp_sample import SampleFPSpectrogramDataset
+from .mixup import LogmelMixupDataset
 from .spectrogram import (SpectrogramDataset, SpectrogramTestDataset, MultiLabelSpectrogramDataset, TorchAudioMLDataset,
                           TorchAudioMLTestDataset, FasterMLSpectrogramDataset, FasterSpectrogramTestDataset)
 from .waveform import (WaveformDataset, WaveformValidDataset, WaveformTestDataset,
@@ -14,6 +15,7 @@ from .waveform import (WaveformDataset, WaveformValidDataset, WaveformTestDatase
 
 __DATASETS__ = {
     "SampleFPSpectrogramDataset": SampleFPSpectrogramDataset,
+    "LogmelMixupDataset": LogmelMixupDataset,
     "SpectrogramDataset": SpectrogramDataset,
     "SpectrogramTestDataset": SpectrogramTestDataset,
     "MultiLabelSpectrogramDataset": MultiLabelSpectrogramDataset,
@@ -97,7 +99,7 @@ def get_train_loader(df: pd.DataFrame,
             df, tp, fp, datadir, transform, **params)
     elif dataset_config[phase]["name"] in ["SpectrogramDataset", "MultiLabelSpectrogramDataset",
                                            "SampleFPSpectrogramDataset", "TorchAudioMLDataset",
-                                           "FasterMLSpectrogramDataset"]:
+                                           "FasterMLSpectrogramDataset", "LogmelMixupDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, phase)
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, phase)
         params = dataset_config[phase]["params"]
