@@ -1,0 +1,467 @@
+{
+  "best": {
+    "epoch_lwlrap": 0.8339863694203882,
+    "lwlrap": 0.8339863694203882,
+    "loss": 0.8176711911121302
+  },
+  "last": {
+    "epoch_lwlrap": 0.8248701498364831,
+    "lwlrap": 0.824870149836483,
+    "loss": 1.0095103203887696
+  },
+  "train.33": {
+    "epoch_lwlrap": 0.8339863694203882,
+    "lwlrap": 0.8339863694203882,
+    "loss": 0.8176711911121302
+  },
+  "epoch_0": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.1.pth",
+    0.2785806544200833,
+    {
+      "epoch_lwlrap": 0.2785806544200833,
+      "lwlrap": 0.27858065442008334,
+      "loss": 2.0195557480364776
+    }
+  ],
+  "epoch_1": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.2.pth",
+    0.29832246808067764,
+    {
+      "epoch_lwlrap": 0.29832246808067764,
+      "lwlrap": 0.29832246808067764,
+      "loss": 1.6408861601247198
+    }
+  ],
+  "epoch_2": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.3.pth",
+    0.3088286574152625,
+    {
+      "epoch_lwlrap": 0.3088286574152625,
+      "lwlrap": 0.30882865741526244,
+      "loss": 1.5806330980452816
+    }
+  ],
+  "epoch_3": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.4.pth",
+    0.3861145730029124,
+    {
+      "epoch_lwlrap": 0.3861145730029124,
+      "lwlrap": 0.3861145730029124,
+      "loss": 1.4573009942485167
+    }
+  ],
+  "epoch_4": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.5.pth",
+    0.3640865392513368,
+    {
+      "epoch_lwlrap": 0.3640865392513368,
+      "lwlrap": 0.3640865392513368,
+      "loss": 1.4907957990612604
+    }
+  ],
+  "epoch_5": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.6.pth",
+    0.48742560291232856,
+    {
+      "epoch_lwlrap": 0.48742560291232856,
+      "lwlrap": 0.4874256029123285,
+      "loss": 1.2557355112734092
+    }
+  ],
+  "epoch_6": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.7.pth",
+    0.5439185507216481,
+    {
+      "epoch_lwlrap": 0.5439185507216481,
+      "lwlrap": 0.5439185507216481,
+      "loss": 1.1710718332138736
+    }
+  ],
+  "epoch_7": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.8.pth",
+    0.5521847353210885,
+    {
+      "epoch_lwlrap": 0.5521847353210885,
+      "lwlrap": 0.5521847353210885,
+      "loss": 1.1320692859919723
+    }
+  ],
+  "epoch_8": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.9.pth",
+    0.5906734300955718,
+    {
+      "epoch_lwlrap": 0.5906734300955718,
+      "lwlrap": 0.5906734300955718,
+      "loss": 1.086128633634179
+    }
+  ],
+  "epoch_9": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.10.pth",
+    0.6222984567922101,
+    {
+      "epoch_lwlrap": 0.6222984567922101,
+      "lwlrap": 0.6222984567922101,
+      "loss": 1.0612729761452802
+    }
+  ],
+  "epoch_10": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.11.pth",
+    0.6236069665689313,
+    {
+      "epoch_lwlrap": 0.6236069665689313,
+      "lwlrap": 0.6236069665689312,
+      "loss": 1.057469498267216
+    }
+  ],
+  "epoch_11": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.12.pth",
+    0.6146770524203811,
+    {
+      "epoch_lwlrap": 0.6146770524203811,
+      "lwlrap": 0.614677052420381,
+      "loss": 1.0499821284175974
+    }
+  ],
+  "epoch_12": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.13.pth",
+    0.6044780765824493,
+    {
+      "epoch_lwlrap": 0.6044780765824493,
+      "lwlrap": 0.6044780765824492,
+      "loss": 1.0326875168665322
+    }
+  ],
+  "epoch_13": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.14.pth",
+    0.5926172463229985,
+    {
+      "epoch_lwlrap": 0.5926172463229985,
+      "lwlrap": 0.5926172463229984,
+      "loss": 1.073881200984516
+    }
+  ],
+  "epoch_14": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.15.pth",
+    0.6689172860079939,
+    {
+      "epoch_lwlrap": 0.6689172860079939,
+      "lwlrap": 0.6689172860079939,
+      "loss": 1.0258885078725561
+    }
+  ],
+  "epoch_15": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.16.pth",
+    0.5478868958683474,
+    {
+      "epoch_lwlrap": 0.5478868958683474,
+      "lwlrap": 0.5478868958683475,
+      "loss": 1.223919776688635
+    }
+  ],
+  "epoch_16": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.17.pth",
+    0.6405006967723397,
+    {
+      "epoch_lwlrap": 0.6405006967723397,
+      "lwlrap": 0.6405006967723397,
+      "loss": 1.04643860327459
+    }
+  ],
+  "epoch_17": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.18.pth",
+    0.48926073841119155,
+    {
+      "epoch_lwlrap": 0.48926073841119155,
+      "lwlrap": 0.4892607384111916,
+      "loss": 1.6148787246341199
+    }
+  ],
+  "epoch_18": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.19.pth",
+    0.5522867716614464,
+    {
+      "epoch_lwlrap": 0.5522867716614464,
+      "lwlrap": 0.5522867716614461,
+      "loss": 1.351128456866847
+    }
+  ],
+  "epoch_19": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.20.pth",
+    0.6473996360827834,
+    {
+      "epoch_lwlrap": 0.6473996360827834,
+      "lwlrap": 0.6473996360827834,
+      "loss": 1.0279027882930452
+    }
+  ],
+  "epoch_20": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.21.pth",
+    0.6543609291396901,
+    {
+      "epoch_lwlrap": 0.6543609291396901,
+      "lwlrap": 0.6543609291396902,
+      "loss": 1.1500266964456678
+    }
+  ],
+  "epoch_21": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.22.pth",
+    0.6736276462851163,
+    {
+      "epoch_lwlrap": 0.6736276462851163,
+      "lwlrap": 0.6736276462851163,
+      "loss": 1.1127475705821959
+    }
+  ],
+  "epoch_22": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.23.pth",
+    0.5827072987688316,
+    {
+      "epoch_lwlrap": 0.5827072987688316,
+      "lwlrap": 0.5827072987688318,
+      "loss": 1.5575918412841525
+    }
+  ],
+  "epoch_23": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.24.pth",
+    0.75872236125291,
+    {
+      "epoch_lwlrap": 0.75872236125291,
+      "lwlrap": 0.75872236125291,
+      "loss": 0.8527206947647892
+    }
+  ],
+  "epoch_24": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.25.pth",
+    0.7917730044552013,
+    {
+      "epoch_lwlrap": 0.7917730044552013,
+      "lwlrap": 0.7917730044552012,
+      "loss": 0.8109397972579552
+    }
+  ],
+  "epoch_25": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.26.pth",
+    0.8165549091492268,
+    {
+      "epoch_lwlrap": 0.8165549091492268,
+      "lwlrap": 0.8165549091492268,
+      "loss": 0.8359873483402539
+    }
+  ],
+  "epoch_26": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.27.pth",
+    0.8099288389469286,
+    {
+      "epoch_lwlrap": 0.8099288389469286,
+      "lwlrap": 0.8099288389469285,
+      "loss": 0.7979141306296915
+    }
+  ],
+  "epoch_27": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.28.pth",
+    0.8297412966465543,
+    {
+      "epoch_lwlrap": 0.8297412966465543,
+      "lwlrap": 0.8297412966465543,
+      "loss": 0.8173116540486833
+    }
+  ],
+  "epoch_28": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.29.pth",
+    0.8207427651011721,
+    {
+      "epoch_lwlrap": 0.8207427651011721,
+      "lwlrap": 0.8207427651011723,
+      "loss": 0.8432432547607254
+    }
+  ],
+  "epoch_29": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.30.pth",
+    0.8247333397439207,
+    {
+      "epoch_lwlrap": 0.8247333397439207,
+      "lwlrap": 0.8247333397439207,
+      "loss": 0.8260617179680715
+    }
+  ],
+  "epoch_30": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.31.pth",
+    0.825780180979296,
+    {
+      "epoch_lwlrap": 0.825780180979296,
+      "lwlrap": 0.825780180979296,
+      "loss": 0.8301165175121443
+    }
+  ],
+  "epoch_31": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.32.pth",
+    0.8256891031780413,
+    {
+      "epoch_lwlrap": 0.8256891031780413,
+      "lwlrap": 0.8256891031780412,
+      "loss": 0.8415234894615359
+    }
+  ],
+  "epoch_32": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.33.pth",
+    0.8339863694203882,
+    {
+      "epoch_lwlrap": 0.8339863694203882,
+      "lwlrap": 0.8339863694203882,
+      "loss": 0.8176711911121302
+    }
+  ],
+  "epoch_33": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.34.pth",
+    0.8076406487574244,
+    {
+      "epoch_lwlrap": 0.8076406487574244,
+      "lwlrap": 0.8076406487574245,
+      "loss": 0.9886733040345453
+    }
+  ],
+  "epoch_34": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.35.pth",
+    0.7687846218071361,
+    {
+      "epoch_lwlrap": 0.7687846218071361,
+      "lwlrap": 0.768784621807136,
+      "loss": 0.9154901093086312
+    }
+  ],
+  "epoch_35": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.36.pth",
+    0.7546110657146234,
+    {
+      "epoch_lwlrap": 0.7546110657146234,
+      "lwlrap": 0.7546110657146233,
+      "loss": 1.0220537676220445
+    }
+  ],
+  "epoch_36": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.37.pth",
+    0.7789745319055681,
+    {
+      "epoch_lwlrap": 0.7789745319055681,
+      "lwlrap": 0.7789745319055681,
+      "loss": 0.9540231301721218
+    }
+  ],
+  "epoch_37": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.38.pth",
+    0.6668593566707883,
+    {
+      "epoch_lwlrap": 0.6668593566707883,
+      "lwlrap": 0.6668593566707882,
+      "loss": 1.1018550984099904
+    }
+  ],
+  "epoch_38": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.39.pth",
+    0.7126281321550371,
+    {
+      "epoch_lwlrap": 0.7126281321550371,
+      "lwlrap": 0.7126281321550368,
+      "loss": 1.0337261288566926
+    }
+  ],
+  "epoch_39": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.40.pth",
+    0.6249269792943934,
+    {
+      "epoch_lwlrap": 0.6249269792943934,
+      "lwlrap": 0.6249269792943934,
+      "loss": 1.849853694570803
+    }
+  ],
+  "epoch_40": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.41.pth",
+    0.7438092219997875,
+    {
+      "epoch_lwlrap": 0.7438092219997875,
+      "lwlrap": 0.7438092219997874,
+      "loss": 0.9291195927468021
+    }
+  ],
+  "epoch_41": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.42.pth",
+    0.743638346978574,
+    {
+      "epoch_lwlrap": 0.743638346978574,
+      "lwlrap": 0.7436383469785739,
+      "loss": 1.0079883133943102
+    }
+  ],
+  "epoch_42": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.43.pth",
+    0.6688412085340769,
+    {
+      "epoch_lwlrap": 0.6688412085340769,
+      "lwlrap": 0.6688412085340767,
+      "loss": 1.1435965178287135
+    }
+  ],
+  "epoch_43": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.44.pth",
+    0.7942490479905888,
+    {
+      "epoch_lwlrap": 0.7942490479905888,
+      "lwlrap": 0.7942490479905888,
+      "loss": 0.8629014207198558
+    }
+  ],
+  "epoch_44": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.45.pth",
+    0.8047325520244968,
+    {
+      "epoch_lwlrap": 0.8047325520244968,
+      "lwlrap": 0.8047325520244968,
+      "loss": 0.9112040271273757
+    }
+  ],
+  "epoch_45": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.46.pth",
+    0.7961782558990702,
+    {
+      "epoch_lwlrap": 0.7961782558990702,
+      "lwlrap": 0.7961782558990701,
+      "loss": 0.9105904026913036
+    }
+  ],
+  "epoch_46": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.47.pth",
+    0.8138461052452517,
+    {
+      "epoch_lwlrap": 0.8138461052452517,
+      "lwlrap": 0.8138461052452517,
+      "loss": 0.8557533647337582
+    }
+  ],
+  "epoch_47": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.48.pth",
+    0.816037199228862,
+    {
+      "epoch_lwlrap": 0.816037199228862,
+      "lwlrap": 0.816037199228862,
+      "loss": 0.923900031344553
+    }
+  ],
+  "epoch_48": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.49.pth",
+    0.8133594997196383,
+    {
+      "epoch_lwlrap": 0.8133594997196383,
+      "lwlrap": 0.8133594997196383,
+      "loss": 1.0047620982261358
+    }
+  ],
+  "epoch_49": [
+    "out/028_ResNest_weak_focal/fold0/checkpoints/train.50.pth",
+    0.8248701498364831,
+    {
+      "epoch_lwlrap": 0.8248701498364831,
+      "lwlrap": 0.824870149836483,
+      "loss": 1.0095103203887696
+    }
+  ]
+}
