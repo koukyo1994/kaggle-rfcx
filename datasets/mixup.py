@@ -83,7 +83,7 @@ class LogmelMixupDataset(torchdata.Dataset):
         if np.random.rand() < self.mixup_prob:
             use_mixup = True
             while True:
-                mixup_sample = self.tp.sample(1)
+                mixup_sample = self.tp.sample(1).reset_index(drop=True).loc[0]
                 if mixup_sample["index"] != index:
                     break
             mixup_flac_id = mixup_sample["recording_id"]
