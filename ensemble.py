@@ -39,10 +39,11 @@ def search_averaging_weights(predictions: list, target: np.ndarray, trials=1000)
     for i in tqdm(range(trials)):
         dice = np.random.rand(len(predictions))
         weights = dice / dice.sum()
-        blended = np.zeros(len(predictions[0]))
+        blended = np.zeros_like(predictions[0], dtype=np.float32)
         for weight, pred in zip(weights, predictions):
             blended += weight * pred
-        score = lwlrap(truth=target, scores=blended)
+        score_class, class_weight = lwlrap(truth=target, scores=blended)
+        score = (score_class * class_weight).sum()
         if score > best_score:
             best_score = score
             best_weights = weights
