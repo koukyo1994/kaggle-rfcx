@@ -1,0 +1,21 @@
+results:
+  - submission: out/015_ResNest_strong_focal_5fold/submission/weak.csv
+    oof: out/015_ResNest_strong_focal_5fold/submission/oof_weak.csv
+    name: 015_focal
+  - submission: out/016_ResNestSED_strong_5fold/submission/weak.csv
+    oof: out/016_ResNestSED_strong_5fold/submission/oof_weak.csv
+    name: 016_strong
+  - submission: out/035_ResNest_5s_focal_5fold/submission/weak.csv
+    oof: out/035_ResNest_5s_focal_5fold/submission/oof_weak.csv
+    name: 035_focal_5s
+
+data:
+  data:
+  train_tp_path: input/train_tp.csv
+  train_fp_path: input/train_fp.csv
+  train_audio_path: input/train
+  test_audio_path: input/test
+  sample_submission_path: input/sample_submission.csv
+
+strategy:
+  name: rank_search
