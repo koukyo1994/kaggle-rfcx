@@ -428,12 +428,20 @@ class FasterMLSpectrogramDataset(torchdata.Dataset):
         t_max = sample["t_max"]
 
         if not self.centering:
-            offset = np.random.choice(np.arange(max(t_max - self.duration, 0), t_min, 0.1))
-            offset = min(CLIP_DURATION - self.duration, offset)
+            call_duration = t_max - t_min
+            if call_duration > self.duration:
+                offset = np.random.choice(np.arange(t_min - call_duration / 2, t_min + call_duration / 2, 0.1))
+                offset = min(CLIP_DURATION - self.duration, offset)
+            else:
+                offset = np.random.choice(np.arange(max(t_max - self.duration, 0), t_min, 0.1))
+                offset = min(CLIP_DURATION - self.duration, offset)
         else:
             call_duration = t_max - t_min
-            relative_offset = (self.duration - call_duration) / 2
-            offset = min(max(0, t_min - relative_offset), CLIP_DURATION - self.duration)
+            if call_duration > self.duration:
+                offset = (t_max + t_min) / 2 - self.duration / 2
+            else:
+                relative_offset = (self.duration - call_duration) / 2
+                offset = min(max(0, t_min - relative_offset), CLIP_DURATION - self.duration)
         y, sr = librosa.load(self.datadir / f"{flac_id}.wav",
                              sr=self.sampling_rate,
                              mono=True,
