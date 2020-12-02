@@ -13,7 +13,7 @@ from sklearn.metrics import average_precision_score
 from callbacks import lwlrap
 
 
-def search_averaging_weights(predictions: list, target: np.ndarray, trials=1000):
+def search_averaging_weights_per_column(predictions: list, target: np.ndarray, trials=1000):
     best_score = -np.inf
     best_weights = np.zeros(len(predictions))
     utils.set_seed(1213)
@@ -29,6 +29,28 @@ def search_averaging_weights(predictions: list, target: np.ndarray, trials=1000)
             best_score = score
             best_weights = weights
     return {"best_score": best_score, "best_weights": best_weights}
+
+
+def search_averaging_weights(predictions: list, target: np.ndarray, trials=1000):
+    best_score = -np.inf
+    best_weights = np.zeros(len(predictions))
+    utils.set_seed(1213)
+
+    for i in tqdm(range(trials)):
+        dice = np.random.rand(len(predictions))
+        weights = dice / dice.sum()
+        blended = np.zeros(len(predictions[0]))
+        for weight, pred in zip(weights, predictions):
+            blended += weight * pred
+        score = lwlrap(truth=target, scores=blended)
+        if score > best_score:
+            best_score = score
+            best_weights = weights
+    return {"best_score": best_score, "best_weights": best_weights}
+
+
+def to_rank(df: pd.DataFrame):
+    return df.rank(axis=1, pct=True)
 
 
 if __name__ == "__main__":
@@ -93,10 +115,34 @@ if __name__ == "__main__":
             for oof in oofs:
                 predictions.append(oof[class_].values)
             target = ground_truth_df[class_].values
-            result_dict = search_averaging_weights(predictions, target)
+            result_dict = search_averaging_weights_per_column(predictions, target)
 
             logger.info(
                 f"Best score {result_dict['best_score']}, Best Weights{result_dict['best_weights']}")
+            weights_dict[class_] = result_dict["best_weights"]
+    elif config["strategy"]["name"] == "overall_search":
+        target = ground_truth_df[classes].values
+        predictions = []
+        for oof in oofs:
+            predictions.append(oof[classes].values)
+        result_dict = search_averaging_weights(predictions, target)
+        logger.info(
+            f"Best score {result_dict['best_score']}, Best Weights{result_dict['best_weights']}")
+        for class_ in classes:
+            weights_dict[class_] = result_dict["best_weights"]
+    elif config["strategy"]["name"] == "rank_search":
+        target = ground_truth_df[classes].values
+        predictions = []
+        for i in range(len(oofs)):
+            oofs[i] = pd.concat([oofs[i][["index", "recording_id"]], oofs[i][classes].rank(axis=1, pct=True)], axis=1)
+            submissions[i] = pd.concat([submissions[i][["recording_id"]], submissions[i][classes].rank(axis=1, pct=True)], axis=1)
+
+        for oof in oofs:
+            predictions.append(oof[classes].values)
+        result_dict = search_averaging_weights(predictions, target)
+        logger.info(
+            f"Best score {result_dict['best_score']}, Best Weights{result_dict['best_weights']}")
+        for class_ in classes:
             weights_dict[class_] = result_dict["best_weights"]
     else:
         for class_ in classes:
