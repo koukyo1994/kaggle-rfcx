@@ -11,8 +11,8 @@ results:
   - submission: out/029_EfficientNetB2_5fold/submission/weak.csv
     oof: out/029_EfficientNetB2_5fold/submission/oof_weak.csv
     name: 029_efficientnetb2_bce
-  - submission: out/030_EfficientNetB2_Focal/submission/weak.csv
-    oof: out/030_EfficientNetB2_Focal/submission/oof_weak.csv
+  - submission: out/030_EfficientNetB2_Focal_5fold/submission/weak.csv
+    oof: out/030_EfficientNetB2_Focal_5fold/submission/oof_weak.csv
     name: 030_efficientnetb2_focal
 
 data:
