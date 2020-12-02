@@ -160,12 +160,15 @@ if __name__ == "__main__":
     score_class, weight = lwlrap(ground_truth_df[classes].values, blended)
     score = (score_class * weight).sum()
     logger.info(f"Blended LWLRAP: {score:5f}")
+    class_level_score["blend_score"] = score
+    class_level_score["blend_weight"] = weights_dict
     class_level_score["blend"] = score_class
 
     for oof, name in zip(oofs, names):
         score_class, weight = lwlrap(ground_truth_df[classes].values, oof[classes].values)
         score = (score_class * weight).sum()
         logger.info(f"Name: {name} LWLRAP: {score:5f}")
+        class_level_score[f"{name}_score"] = score
         class_level_score[name] = score_class
 
     blended_sub = np.zeros((len(submissions[0]), 24))
