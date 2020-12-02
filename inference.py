@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
         offset = min(max(0, t_min - relative_offset), 60 - duration)
         tail = offset + duration
-        
+
         query_string = f"recording_id == '{flac_id}' & "
         query_string += f"t_min < {tail} & t_max > {offset}"
         all_tp_events = tp.query(query_string)
@@ -74,6 +74,43 @@ if __name__ == "__main__":
         pd.DataFrame({"index": tp["index"], "recording_id": tp["recording_id"]}),
         labels_df
     ], axis=1)
+
+    # soft prediction
+    if config["inference"].get("soft_prediction", False):
+        soft_inference_config = {
+            "dataset": {
+                "valid": {
+                    "name": "SampleWiseSpectrogramDataset",
+                    "params": config["dataset"]["valid"]["params"]
+                },
+                "test": {
+                    "name": "SampleWiseSpectrogramTestDataset",
+                    "params": config["dataset"]["test"]["params"]
+                }
+            },
+            "loader": {
+                "valid": {
+                    "batch_size": 1,
+                    "shuffle": False,
+                    "num_workers": 10
+                },
+                "test": {
+                    "batch_size": 1,
+                    "shuffle": False,
+                    "num_workers": 10
+                }
+            }
+        }
+        soft_test_loader = datasets.get_test_loader(
+            test_all, test_audio, soft_inference_config)
+
+        soft_oof_dir = expdir / "soft_oof"
+        soft_oof_dir.mkdir(exist_ok=True, parents=True)
+
+        soft_prediction_dir = expdir / "soft_prediction"
+        soft_prediction_dir.mkdir(exist_ok=True, parents=True)
+
+        soft_predictions = {}
 
     # validation
     splitter = training.get_split(config)
@@ -98,6 +135,34 @@ if __name__ == "__main__":
         model = models.get_model(config)
         model = models.prepare_for_inference(
             model, expdir / f"fold{i}/checkpoints/best.pth").to(device)
+
+        if config["inference"].get("soft_prediction", False):
+            soft_val_loader = datasets.get_train_loader(
+                val_df, tp, fp, train_audio, soft_inference_config, phase="valid")
+
+            logger.info("*" * 20)
+            logger.info(f"Soft OOF prediction for fold{i}")
+            logger.info("*" * 20)
+            for batch in tqdm(soft_val_loader, desc="soft oof"):
+                input_ = batch[global_params["input_key"]].squeeze(0).to(device)
+                with torch.no_grad():
+                    output = model(input_)
+                framewise_output = output["framewise_output"].detach().cpu().numpy()
+                clip_prediction = np.vstack(framewise_output).astype(np.float16)
+                recording_id = batch["recording_id"][0]
+                np.savez_compressed(soft_oof_dir / recording_id, clip_prediction)
+
+            logger.info("*" * 20)
+            logger.info("Soft prediction for test")
+            logger.info("*" * 20)
+            for batch in tqdm(soft_test_loader, desc="soft test"):
+                input_ = batch[global_params["input_key"]].squeeze(0).to(device)
+                with torch.no_grad():
+                    output = model(input_)
+                framewise_output = output["framewise_output"].detach().cpu().numpy()
+                clip_prediction = np.vstack(framewise_output).astype(np.float16)
+                recording_id = batch["recording_id"][0]
+                soft_predictions[recording_id] = clip_prediction / len(global_params["folds"])
 
         if config["inference"]["prediction_type"] == "strong":
             ##################################################
@@ -244,3 +309,7 @@ if __name__ == "__main__":
         "prediction doesn't have enough recording_id"
 
     folds_prediction_df.to_csv(submission_file_dir / submission_name, index=False)
+
+    if config["inference"].get("soft_prediction", False):
+        for key in soft_predictions:
+            np.savez_compressed(soft_prediction_dir / key, soft_predictions[key])
