@@ -430,7 +430,7 @@ class FasterMLSpectrogramDataset(torchdata.Dataset):
         if not self.centering:
             call_duration = t_max - t_min
             if call_duration > self.duration:
-                offset = np.random.choice(np.arange(t_min - call_duration / 2, t_min + call_duration / 2, 0.1))
+                offset = np.random.choice(np.arange(max(t_min - call_duration / 2, 0), t_min + call_duration / 2, 0.1))
                 offset = min(CLIP_DURATION - self.duration, offset)
             else:
                 offset = np.random.choice(np.arange(max(t_max - self.duration, 0), t_min, 0.1))
