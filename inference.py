@@ -14,6 +14,8 @@ from pathlib import Path
 
 from tqdm import tqdm
 
+from callbacks import lwlrap
+
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
@@ -44,6 +46,35 @@ if __name__ == "__main__":
     # data
     tp, fp, train_all, test_all, train_audio, test_audio = datasets.get_metadata(config)
     submission = pd.read_csv(config["data"]["sample_submission_path"])
+
+    # labels
+    labels = []
+    duration = config["dataset"]["valid"]["params"]["duration"]
+    for _, sample in tp.iterrows():
+        t_min = sample["t_min"]
+        t_max = sample["t_max"]
+        flac_id = sample["recording_id"]
+        call_duration = t_max - t_min
+        relative_offset = (duration - call_duration) / 2
+
+        offset = min(max(0, t_min - relative_offset), 60 - duration)
+        tail = offset + duration
+        
+        query_string = f"recording_id == '{flac_id}' & "
+        query_string += f"t_min < {tail} & t_max > {offset}"
+        all_tp_events = tp.query(query_string)
+
+        label = np.zeros(24, dtype=np.float32)
+        for species_id in all_tp_events["species_id"].unique():
+            label[int(species_id)] = 1.0
+        labels.append(label)
+
+    labels_df = pd.DataFrame(np.asarray(labels), columns=[f"s{i}" for i in range(24)])
+    ground_truth_df = pd.concat([
+        pd.DataFrame({"index": tp["index"], "recording_id": tp["recording_id"]}),
+        labels_df
+    ], axis=1)
+
     # validation
     splitter = training.get_split(config)
 
@@ -188,6 +219,15 @@ if __name__ == "__main__":
             submission_name = "weak.csv"
 
     oof_df = pd.concat(oof_predictions, axis=0).reset_index(drop=True)
+
+    oof_indices = oof_df[["index"]]
+    ground_truth = oof_indices.merge(ground_truth_df, on="index", how="left")
+    columns = [f"s{i}" for i in range(24)]
+    score_class, weight = lwlrap(ground_truth[columns].values, oof_df[columns].values)
+    score = (score_class * weight).sum()
+    logger.info(f"Valid LWLRAP: {score:.5f}")
+    class_level_score = {config_name: score_class}
+    utils.save_json(class_level_score, submission_file_dir / "class_level_results.json")
 
     oof_df.to_csv(submission_file_dir / oof_name, index=False)
 
