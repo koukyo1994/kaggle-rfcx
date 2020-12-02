@@ -35,7 +35,8 @@ class SampleWiseSpectrogramDataset(torchdata.Dataset):
                  pcen_parameters={},
                  sampling_rate=32000,
                  img_size=224,
-                 duration=10):
+                 duration=10,
+                 **kwargs):
         unique_recording_id = df.recording_id.unique().tolist()
         unique_tp_recordin_id = tp.recording_id.unique().tolist()
         intersection = set(unique_recording_id).intersection(unique_tp_recordin_id)
@@ -113,7 +114,8 @@ class SampleWiseSpectrogramTestDataset(torchdata.Dataset):
                  pcen_parameters={},
                  sampling_rate=32000,
                  img_size=224,
-                 duration=10):
+                 duration=10,
+                 **kwargs):
         self.df = df
         self.datadir = datadir
         self.waveform_transforms = waveform_transforms
