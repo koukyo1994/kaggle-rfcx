@@ -234,20 +234,15 @@ class LogmelMixupWithFPDataset(torchdata.Dataset):
 
         melspec = librosa.feature.melspectrogram(y, sr=sr, **self.melspectrogram_parameters)
 
-        use_mixup = False
         if np.random.rand() < self.mixup_prob:
-            use_mixup = True
             while True:
                 mixup_sample = self.fp.sample(1).reset_index(drop=True).loc[0]
                 if mixup_sample["index"] != index:
                     break
             mixup_flac_id = mixup_sample["recording_id"]
-            mixup_t_min = mixup_sample["t_min"]
-            mixup_t_max = mixup_sample["t_max"]
 
             mixup_offset = np.random.choice(np.arange(
-                max(mixup_t_max - self.duration, 0), mixup_t_min, 0.1))
-            mixup_offset = min(CLIP_DURATION - self.duration, mixup_offset)
+                0, CLIP_DURATION - self.duration, 0.1))
 
             y_mixup, _ = librosa.load(self.datadir / f"{mixup_flac_id}.wav",
                                       sr=self.sampling_rate,
@@ -287,15 +282,6 @@ class LogmelMixupWithFPDataset(torchdata.Dataset):
         query_string = f"recording_id == '{flac_id}' & "
         query_string += f"t_min < {tail} & t_max > {offset}"
         all_tp_events = self.tp.query(query_string)
-
-        if use_mixup:
-            mixup_tail = mixup_offset + self.duration
-            query_string = f"recording_id == '{mixup_flac_id}' & "
-            query_string += f"t_min < {mixup_tail} & t_max > {mixup_offset}"
-            mixup_tp_events = self.tp.query(query_string)
-            all_tp_events = pd.concat([
-                all_tp_events, mixup_tp_events
-            ], axis=0)
 
         label = np.zeros(N_CLASSES, dtype=np.float32)
         songtype_label = np.zeros(N_CLASSES + 2, dtype=np.float32)
