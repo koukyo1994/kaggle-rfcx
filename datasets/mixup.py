@@ -66,8 +66,13 @@ class LogmelMixupDataset(torchdata.Dataset):
         t_min = sample["t_min"]
         t_max = sample["t_max"]
 
-        offset = np.random.choice(np.arange(max(t_max - self.duration, 0), t_min, 0.1))
-        offset = min(CLIP_DURATION - self.duration, offset)
+        call_duration = t_max - t_min
+        if call_duration > self.duration:
+            offset = np.random.choice(np.arange(max(t_min - call_duration / 2, 0), t_min + call_duration / 2, 0.1))
+            offset = min(CLIP_DURATION - self.duration, offset)
+        else:
+            offset = np.random.choice(np.arange(max(t_max - self.duration, 0), t_min, 0.1))
+            offset = min(CLIP_DURATION - self.duration, offset)
 
         y, sr = librosa.load(self.datadir / f"{flac_id}.wav",
                              sr=self.sampling_rate,
