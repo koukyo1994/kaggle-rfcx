@@ -8,6 +8,7 @@ from pathlib import Path
 from .fp_sample import SampleFPSpectrogramDataset
 from .mixup import LogmelMixupDataset, LogmelMixupWithFPDataset
 from .samplewise import SampleWiseSpectrogramDataset, SampleWiseSpectrogramTestDataset
+from .sequential import SequentialValidationDataset
 from .spectrogram import (SpectrogramDataset, SpectrogramTestDataset, MultiLabelSpectrogramDataset, TorchAudioMLDataset,
                           TorchAudioMLTestDataset, FasterMLSpectrogramDataset, FasterSpectrogramTestDataset)
 from .waveform import (WaveformDataset, WaveformValidDataset, WaveformTestDataset,
@@ -30,7 +31,8 @@ __DATASETS__ = {
     "WaveformTestDataset": WaveformTestDataset,
     "MultiLabelWaveformDataset": MultiLabelWaveformDataset,
     "SampleWiseSpectrogramDataset": SampleWiseSpectrogramDataset,
-    "SampleWiseSpectrogramTestDataset": SampleWiseSpectrogramTestDataset
+    "SampleWiseSpectrogramTestDataset": SampleWiseSpectrogramTestDataset,
+    "SequentialValidationDataset": SequentialValidationDataset
 }
 
 
@@ -104,7 +106,8 @@ def get_train_loader(df: pd.DataFrame,
     elif dataset_config[phase]["name"] in ["SpectrogramDataset", "MultiLabelSpectrogramDataset",
                                            "SampleFPSpectrogramDataset", "TorchAudioMLDataset",
                                            "FasterMLSpectrogramDataset", "LogmelMixupDataset",
-                                           "SampleWiseSpectrogramDataset", "LogmelMixupWithFPDataset"]:
+                                           "SampleWiseSpectrogramDataset", "LogmelMixupWithFPDataset",
+                                           "SequentialValidationDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, phase)
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, phase)
         params = dataset_config[phase]["params"]
