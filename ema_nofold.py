@@ -174,7 +174,7 @@ if __name__ == "__main__":
 
     # data
     tp, fp, train_all, test_all, train_audio, test_audio = datasets.get_metadata(config)
-    submission = pd.DataFrame(config["data"]["sample_submission_path"])
+    submission = pd.read_csv(config["data"]["sample_submission_path"])
 
     ##################################################
     # Main Loop #
@@ -198,7 +198,7 @@ if __name__ == "__main__":
     ema_model = AveragedModel(
         model,
         device=device,
-        avg_fun=lambda averaged_model_parameter, model_parameter, num_averaged:
+        avg_fn=lambda averaged_model_parameter, model_parameter, num_averaged:
             0.1 * averaged_model_parameter + 0.9 * model_parameter)
 
     _metrics = {}
