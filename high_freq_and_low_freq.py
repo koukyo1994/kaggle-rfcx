@@ -150,10 +150,12 @@ def eval_one_epoch(model,
         oof_targ_df
     ], axis=1)
 
-    oof_pred_df = oof_pred_df.groupby("recording_id").max().reset_index(drop=True)
-    oof_targ_df = oof_targ_df.groupby("recording_id").max().reset_index(drop=True)
+    oof_pred_df = oof_pred_df.groupby("recording_id").max().reset_index(drop=False)
+    oof_targ_df = oof_targ_df.groupby("recording_id").max().reset_index(drop=False)
 
-    score_class, weight = clb.lwlrap(oof_targ_df.values, oof_pred_df.values)
+    columns = [f"s{i}" for i in range(24)]
+
+    score_class, weight = clb.lwlrap(oof_targ_df[columns].values, oof_pred_df[columns].values)
     score = (score_class * weight).sum()
 
     writer.add_scalar(tag="loss/epoch", scalar_value=loss_meter.avg, global_step=epoch + 1)
