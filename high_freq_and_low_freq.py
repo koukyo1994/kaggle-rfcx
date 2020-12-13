@@ -478,6 +478,26 @@ if __name__ == "__main__":
             folds_prediction_df[species_id] = 0.5 * folds_prediction_high[species_id] + 0.5 * folds_prediction_low[species_id]
             oof_targets_df[species_id] = 0.5 * oof_target_high[species_id] + 0.5 * oof_target_low[species_id]
 
+    folds_prediction_df = folds_prediction_df.groupby("recording_id").mean().reset_index(drop=False)
+
+    oof_df_high.to_csv(submission_file_dir / "oof_high.csv", index=False)
+    oof_target_high.to_csv(submission_file_dir / "oof_target_high.csv", index=False)
+    oof_df_low.to_csv(submission_file_dir / "oof_low.csv", index=False)
+    oof_target_low.to_csv(submission_file_dir / "oof_target_low.csv", index=False)
+    oof_df.to_csv(submission_file_dir / "oof.csv", index=False)
+    oof_targets_df.to_csv(submission_file_dir / "oof_target.csv", index=False)
+
+    assert len(folds_prediction_df) == len(submission), \
+        "prediction length does not match sample submission length"
+    assert folds_prediction_df.shape[1] == submission.shape[1], \
+        "number of classes in prediction does not match that of sample submission"
+    assert len(set(folds_prediction_df["recording_id"]) - set(submission["recording_id"])) == 0, \
+        "recording_id in prediction has unknown value"
+    assert len(set(submission["recording_id"]) - set(folds_prediction_df["recording_id"])) == 0, \
+        "prediction doesn't have enough recording_id"
+
+    folds_prediction_df.to_csv(submission_file_dir / "submission.csv", index=False)
+
     summary = {}
 
     columns = [f"s{i}" for i in range(24)]
@@ -512,22 +532,3 @@ if __name__ == "__main__":
     }
 
     utils.save_json(summary, submission_file_dir / "results.json")
-
-    oof_df_high.to_csv(submission_file_dir / "oof_high.csv", index=False)
-    oof_target_high.to_csv(submission_file_dir / "oof_target_high.csv", index=False)
-    oof_df_low.to_csv(submission_file_dir / "oof_low.csv", index=False)
-    oof_target_low.to_csv(submission_file_dir / "oof_target_low.csv", index=False)
-    oof_df.to_csv(submission_file_dir / "oof.csv", index=False)
-    oof_targets_df.to_csv(submission_file_dir / "oof_target.csv", index=False)
-
-    folds_prediction_df = folds_prediction_df.groupby("recording_id").mean().reset_index(drop=False)
-    assert len(folds_prediction_df) == len(submission), \
-        "prediction length does not match sample submission length"
-    assert folds_prediction_df.shape[1] == submission.shape[1], \
-        "number of classes in prediction does not match that of sample submission"
-    assert len(set(folds_prediction_df["recording_id"]) - set(submission["recording_id"])) == 0, \
-        "recording_id in prediction has unknown value"
-    assert len(set(submission["recording_id"]) - set(folds_prediction_df["recording_id"])) == 0, \
-        "prediction doesn't have enough recording_id"
-
-    folds_prediction_df.to_csv(submission_file_dir / "submission.csv", index=False)
