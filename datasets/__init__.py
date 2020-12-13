@@ -6,6 +6,8 @@ import transforms
 from pathlib import Path
 
 from .fp_sample import SampleFPSpectrogramDataset
+from .freq_limit_input import (LimitedFrequencySpectrogramDataset, LimitedFrequencySequentialValidationDataset,
+                               LimitedFrequencySpectrogramTestDataset, SPECIES_RANGE_MAP)
 from .mixup import LogmelMixupDataset, LogmelMixupWithFPDataset
 from .samplewise import SampleWiseSpectrogramDataset, SampleWiseSpectrogramTestDataset
 from .sequential import SequentialValidationDataset
@@ -17,6 +19,9 @@ from .waveform import (WaveformDataset, WaveformValidDataset, WaveformTestDatase
 
 __DATASETS__ = {
     "SampleFPSpectrogramDataset": SampleFPSpectrogramDataset,
+    "LimitedFrequencySpectrogramDataset": LimitedFrequencySpectrogramDataset,
+    "LimitedFrequencySequentialValidationDataset": LimitedFrequencySequentialValidationDataset,
+    "LimitedFrequencySpectrogramTestDataset": LimitedFrequencySpectrogramTestDataset,
     "LogmelMixupDataset": LogmelMixupDataset,
     "LogmelMixupWithFPDataset": LogmelMixupWithFPDataset,
     "SpectrogramDataset": SpectrogramDataset,
@@ -107,7 +112,8 @@ def get_train_loader(df: pd.DataFrame,
                                            "SampleFPSpectrogramDataset", "TorchAudioMLDataset",
                                            "FasterMLSpectrogramDataset", "LogmelMixupDataset",
                                            "SampleWiseSpectrogramDataset", "LogmelMixupWithFPDataset",
-                                           "SequentialValidationDataset"]:
+                                           "SequentialValidationDataset", "LimitedFrequencySpectrogramDataset",
+                                           "LimitedFrequencySequentialValidationDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, phase)
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, phase)
         params = dataset_config[phase]["params"]
@@ -135,7 +141,8 @@ def get_test_loader(df: pd.DataFrame,
         dataset = __DATASETS__[dataset_config["test"]["name"]](
             df, datadir, transform, **params)
     elif dataset_config["test"]["name"] in ["SpectrogramTestDataset", "TorchAudioMLTestDataset",
-                                            "FasterSpectrogramTestDataset", "SampleWiseSpectrogramTestDataset"]:
+                                            "FasterSpectrogramTestDataset", "SampleWiseSpectrogramTestDataset",
+                                            "LimitedFrequencySpectrogramTestDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, "test")
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, "test")
         params = dataset_config["test"]["params"]
