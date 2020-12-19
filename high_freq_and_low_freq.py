@@ -190,6 +190,23 @@ def get_inference(model,
     return fold_prediction_df
 
 
+def get_soft_inference(model,
+                       loader,
+                       device: torch.device,
+                       input_key: str,
+                       input_target_key: str):
+    soft_prediction = {}
+    for batch in tqdm(loader, leave=True, desc="soft inference"):
+        recording_id = batch["recording_id"][0]
+        input_ = batch[input_key].squeeze(0).to(device)
+        with torch.no_grad():
+            output = model(input_)
+        framewise_output = output["framewise_output"].detach().cpu().numpy()
+        clip_prediction = np.vstack(framewise_output)
+        soft_prediction[recording_id] = clip_prediction
+    return soft_prediction
+
+
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
 
