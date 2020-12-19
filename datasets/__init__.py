@@ -7,7 +7,8 @@ from pathlib import Path
 
 from .fp_sample import SampleFPSpectrogramDataset
 from .freq_limit_input import (LimitedFrequencySpectrogramDataset, LimitedFrequencySequentialValidationDataset,
-                               LimitedFrequencySpectrogramTestDataset, SPECIES_RANGE_MAP)
+                               LimitedFrequencySpectrogramTestDataset, SPECIES_RANGE_MAP,
+                               LimitedFrequencySampleWiseSpectrogramTestDataset)
 from .mixup import LogmelMixupDataset, LogmelMixupWithFPDataset
 from .samplewise import SampleWiseSpectrogramDataset, SampleWiseSpectrogramTestDataset
 from .sequential import SequentialValidationDataset
@@ -22,6 +23,7 @@ __DATASETS__ = {
     "LimitedFrequencySpectrogramDataset": LimitedFrequencySpectrogramDataset,
     "LimitedFrequencySequentialValidationDataset": LimitedFrequencySequentialValidationDataset,
     "LimitedFrequencySpectrogramTestDataset": LimitedFrequencySpectrogramTestDataset,
+    "LimitedFrequencySampleWiseSpectrogramTestDataset": LimitedFrequencySampleWiseSpectrogramTestDataset,
     "LogmelMixupDataset": LogmelMixupDataset,
     "LogmelMixupWithFPDataset": LogmelMixupWithFPDataset,
     "SpectrogramDataset": SpectrogramDataset,
@@ -142,7 +144,8 @@ def get_test_loader(df: pd.DataFrame,
             df, datadir, transform, **params)
     elif dataset_config["test"]["name"] in ["SpectrogramTestDataset", "TorchAudioMLTestDataset",
                                             "FasterSpectrogramTestDataset", "SampleWiseSpectrogramTestDataset",
-                                            "LimitedFrequencySpectrogramTestDataset"]:
+                                            "LimitedFrequencySpectrogramTestDataset",
+                                            "LimitedFrequencySampleWiseSpectrogramTestDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, "test")
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, "test")
         params = dataset_config["test"]["params"]

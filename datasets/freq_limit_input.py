@@ -364,3 +364,88 @@ class LimitedFrequencySpectrogramTestDataset(torchdata.Dataset):
             "recording_id": flac_id,
             "image": image
         }
+
+
+class LimitedFrequencySampleWiseSpectrogramTestDataset(torchdata.Dataset):
+    def __init__(self, df: pd.DataFrame, datadir: Path,
+                 waveform_transforms=None, spectrogram_transforms=None,
+                 melspectrogram_parameters={},
+                 pcen_parameters={},
+                 sampling_rate=32000,
+                 img_size=224,
+                 duration=10,
+                 frequency_range="high",
+                 **kwargs):
+        self.df = df
+        self.datadir = datadir
+        self.waveform_transforms = waveform_transforms
+        self.spectrogram_transforms = spectrogram_transforms
+        self.melspectrogram_parameters = melspectrogram_parameters
+        self.pcen_parameters = pcen_parameters
+        self.sampling_rate = sampling_rate
+        self.img_size = img_size
+        self.duration = duration
+        self.frequency_range = frequency_range
+
+        all_flacs = list(self.datadir.glob("*.flac"))
+        if len(all_flacs) > 0:
+            self.format = "flac"
+        else:
+            self.format = "wav"
+
+    def __len__(self):
+        return len(self.df)
+
+    def __getitem__(self, idx: int):
+        sample = self.df.loc[idx, :]
+        flac_id = sample["recording_id"]
+
+        y, sr = librosa.load(self.datadir / f"{flac_id}.{self.format}",
+                             sr=self.sampling_rate,
+                             mono=True,
+                             res_type="kaiser_fast")
+        if self.waveform_transforms:
+            y = self.waveform_transforms(y).astype(np.float32)
+
+        if self.frequency_range == "high":
+            self.melspectrogram_parameters["fmin"] = 6000
+            self.melspectrogram_parameters["fmax"] = 16000
+            self.melspectrogram_parameters["n_mels"] = 96
+        else:
+            self.melspectrogram_parameters["fmin"] = 0
+            self.melspectrogram_parameters["fmax"] = 6000
+            self.melspectrogram_parameters["n_mels"] = 96
+
+        images = []
+        n_images = CLIP_DURATION // self.duration
+        for i in range(n_images):
+            y_patch = y[i * self.duration * sr:(i + 1) * self.duration * sr]
+
+            melspec = librosa.feature.melspectrogram(y_patch, sr=sr, **self.melspectrogram_parameters)
+            pcen = librosa.pcen(melspec, sr=sr, **self.pcen_parameters)
+            clean_mel = librosa.power_to_db(melspec ** 1.5)
+            melspec = librosa.power_to_db(melspec)
+
+            if self.spectrogram_transforms:
+                melspec = self.spectrogram_transforms(image=melspec)["image"]
+                pcen = self.spectrogram_transforms(image=pcen)["image"]
+                clean_mel = self.spectrogram_transforms(image=clean_mel)["image"]
+            else:
+                pass
+
+            norm_melspec = normalize_melspec(melspec)
+            norm_pcen = normalize_melspec(pcen)
+            norm_clean_mel = normalize_melspec(clean_mel)
+            image = np.stack([norm_melspec, norm_pcen, norm_clean_mel], axis=-1)
+
+            height, width, _ = image.shape
+            image = cv2.resize(image, (int(width * self.img_size / height), self.img_size))
+            image = np.moveaxis(image, 2, 0)
+            image = (image / 255.0).astype(np.float32)
+
+            images.append(image)
+
+        return {
+            "recording_id": flac_id,
+            "image": np.asarray(images)
+        }
