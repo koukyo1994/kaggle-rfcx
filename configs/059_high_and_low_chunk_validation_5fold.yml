@@ -1,7 +1,7 @@
 globals:
   seed: 1213
   device: cuda
-  num_epochs: 1
+  num_epochs: 50
   main_metric: epoch_lwlrap
   minimize_metric: False
   input_key: image
