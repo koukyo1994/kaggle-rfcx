@@ -9,6 +9,10 @@ globals:
   weights:
   folds:
     - 0
+    - 1
+    - 2
+    - 3
+    - 4
 
 data:
   train_tp_path: input/train_tp.csv
