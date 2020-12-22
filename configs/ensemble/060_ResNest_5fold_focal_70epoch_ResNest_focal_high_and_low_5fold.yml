@@ -3,8 +3,8 @@ results:
     oof: out/050_ResNest_focal_70_epoch_new_validation/submission/oof_weak.csv
     name: 050_resnest_focal_70epoch
   - submission: out/059_high_and_low_chunk_validation_5fold/submission/submission.csv
-    oof: out/057_high_and_low_chunk_validation_5fold/submission/oof.csv
-    name: 057_high_and_low
+    oof: out/059_high_and_low_chunk_validation_5fold/submission/oof.csv
+    name: 059_high_and_low
 
 data:
   data:
