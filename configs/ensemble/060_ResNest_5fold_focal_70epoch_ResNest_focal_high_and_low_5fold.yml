@@ -1,0 +1,18 @@
+results:
+  - submission: out/050_ResNest_focal_70_epoch_new_validation/submission/weak.csv
+    oof: out/050_ResNest_focal_70_epoch_new_validation/submission/oof_weak.csv
+    name: 050_resnest_focal_70epoch
+  - submission: out/059_high_and_low_chunk_validation_5fold/submission/submission.csv
+    oof: out/057_high_and_low_chunk_validation_5fold/submission/oof.csv
+    name: 057_high_and_low
+
+data:
+  data:
+  train_tp_path: input/train_tp.csv
+  train_fp_path: input/train_fp.csv
+  train_audio_path: input/train
+  test_audio_path: input/test
+  sample_submission_path: input/sample_submission.csv
+
+strategy:
+  name: rank_search
