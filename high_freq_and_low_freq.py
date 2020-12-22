@@ -91,7 +91,8 @@ def eval_one_epoch(model,
                    input_key: str,
                    input_target_key: str,
                    epoch: int,
-                   writer: SummaryWriter):
+                   writer: SummaryWriter,
+                   aggregate_by_recording=True):
     loss_meter = utils.AverageMeter()
     lwlrap_meter = utils.AverageMeter()
 
@@ -100,10 +101,16 @@ def eval_one_epoch(model,
     preds = []
     targs = []
     recording_ids = []
+    indices = []
     progress_bar = tqdm(loader, desc="valid")
     for step, batch in enumerate(progress_bar):
         with torch.no_grad():
             recording_ids.extend(batch["recording_id"])
+            if batch.get("index") is not None:
+                with_index = True
+                indices.extend(batch["index"].numpy())
+            else:
+                with_index = False
             x = batch[input_key].to(device)
             y = batch[input_target_key]
 
@@ -139,19 +146,30 @@ def eval_one_epoch(model,
     y_true = np.concatenate(targs, axis=0)
 
     oof_pred_df = pd.DataFrame(y_pred, columns=[f"s{i}" for i in range(y_pred.shape[1])])
+    if with_index:
+        rec_df = pd.DataFrame({
+            "recording_id": recording_ids,
+            "index": indices
+        })
+    else:
+        rec_df = pd.DataFrame({
+            "recording_id": recording_ids,
+            "index": indices
+        })
     oof_pred_df = pd.concat([
-        pd.DataFrame({"recording_id": recording_ids}),
+        rec_df,
         oof_pred_df
     ], axis=1)
 
     oof_targ_df = pd.DataFrame(y_true, columns=[f"s{i}" for i in range(y_pred.shape[1])])
     oof_targ_df = pd.concat([
-        pd.DataFrame({"recording_id": recording_ids}),
+        rec_df,
         oof_targ_df
     ], axis=1)
 
-    oof_pred_df = oof_pred_df.groupby("recording_id").max().reset_index(drop=False)
-    oof_targ_df = oof_targ_df.groupby("recording_id").max().reset_index(drop=False)
+    if aggregate_by_recording:
+        oof_pred_df = oof_pred_df.groupby("recording_id").max().reset_index(drop=False)
+        oof_targ_df = oof_targ_df.groupby("recording_id").max().reset_index(drop=False)
 
     columns = [f"s{i}" for i in range(24)]
 
@@ -334,6 +352,7 @@ if __name__ == "__main__":
             f"Best epoch: {_metrics['best']['epoch']} lwlrap: {_metrics['best']['lwlrap']} loss: {_metrics['best']['loss']}")
 
         model = models.prepare_for_inference(model, checkpoints_dir / "best.pth").to(device)
+        aggregate_by_recording = config["dataset"]["valid"]["name"] == "LimitedFrequencySequentialValidationDataset"
         _, _, oof_pred_df, oof_targ_df = eval_one_epoch(
             model,
             loaders["valid"],
@@ -342,7 +361,8 @@ if __name__ == "__main__":
             input_key=global_params["input_key"],
             input_target_key=global_params["input_target_key"],
             epoch=epoch + 1,
-            writer=valid_writer)
+            writer=valid_writer,
+            aggregate_by_recording=aggregate_by_recording)
 
         oof_predictions["high"].append(oof_pred_df)
         oof_targets["high"].append(oof_targ_df)
@@ -433,6 +453,7 @@ if __name__ == "__main__":
             f"Best epoch: {_metrics['best']['epoch']} lwlrap: {_metrics['best']['lwlrap']} loss: {_metrics['best']['loss']}")
 
         model = models.prepare_for_inference(model, checkpoints_dir / "best.pth").to(device)
+        aggregate_by_recording = config["dataset"]["valid"]["name"] == "LimitedFrequencySequentialValidationDataset"
         _, _, oof_pred_df, oof_targ_df = eval_one_epoch(
             model,
             loaders["valid"],
@@ -441,7 +462,8 @@ if __name__ == "__main__":
             input_key=global_params["input_key"],
             input_target_key=global_params["input_target_key"],
             epoch=epoch + 1,
-            writer=valid_writer)
+            writer=valid_writer,
+            aggregate_by_recording=aggregate_by_recording)
 
         oof_predictions["low"].append(oof_pred_df)
         oof_targets["low"].append(oof_targ_df)
@@ -462,15 +484,22 @@ if __name__ == "__main__":
     oof_df_low = pd.concat(oof_predictions["low"], axis=0).reset_index(drop=True)
     oof_target_low = pd.concat(oof_targets["low"], axis=0).reset_index(drop=True)
 
+    if "index" in oof_df_high.columns:
+        with_index = True
+        rec_df = oof_df_high[["recording_id", "index"]]
+    else:
+        with_index = False
+        rec_df = oof_df_high[["recording_id"]]
+
     oof_df = pd.concat([
-        oof_df_high[["recording_id"]],
+        rec_df,
         pd.DataFrame(np.zeros((len(oof_df_high), 24)), columns=[f"s{i}" for i in range(24)])
-    ])
+    ], axis=1)
 
     oof_targets_df = pd.concat([
-        oof_target_high[["recording_id"]],
+        rec_df,
         pd.DataFrame(np.zeros((len(oof_df_high), 24)), columns=[f"s{i}" for i in range(24)])
-    ])
+    ], axis=1)
 
     folds_prediction_high = pd.concat(fold_predictions["high"], axis=0).reset_index(drop=True)
     folds_prediction_low = pd.concat(fold_predictions["low"], axis=0).reset_index(drop=True)
@@ -478,7 +507,7 @@ if __name__ == "__main__":
     folds_prediction_df = pd.concat([
         folds_prediction_high[["recording_id"]],
         pd.DataFrame(np.zeros((len(folds_prediction_high), 24)), columns=[f"s{i}" for i in range(24)])
-    ])
+    ], axis=1)
 
     for i in range(24):
         species_id = f"s{i}"
