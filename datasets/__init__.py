@@ -7,7 +7,7 @@ from pathlib import Path
 
 from .fp_sample import SampleFPSpectrogramDataset
 from .freq_limit_input import (LimitedFrequencySpectrogramDataset, LimitedFrequencySequentialValidationDataset,
-                               LimitedFrequencySpectrogramTestDataset, SPECIES_RANGE_MAP,
+                               LimitedFrequencySpectrogramTestDataset, SPECIES_RANGE_MAP, RANGE_SPECIES_MAP,
                                LimitedFrequencySampleWiseSpectrogramTestDataset)
 from .mixup import LogmelMixupDataset, LogmelMixupWithFPDataset
 from .samplewise import SampleWiseSpectrogramDataset, SampleWiseSpectrogramTestDataset

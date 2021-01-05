@@ -244,6 +244,12 @@ if __name__ == "__main__":
     submission_file_dir = logdir / "submission"
     submission_file_dir.mkdir(exist_ok=True, parents=True)
 
+    soft_oof_dir = logdir / "soft_oof"
+    soft_oof_dir.mkdir(exist_ok=True, parents=True)
+
+    soft_pred_dir = logdir / "soft_pred"
+    soft_pred_dir.mkdir(exist_ok=True, parents=True)
+
     logger = utils.get_logger(logdir / "output.log")
 
     # environment
@@ -263,6 +269,8 @@ if __name__ == "__main__":
     fold_predictions: dict = {"low": [], "high": []}
     oof_predictions: dict = {"low": [], "high": []}
     oof_targets: dict = {"low": [], "high": []}
+    soft_oofs: dict = {}
+    soft_preds: dict = {}
     for i, (trn_idx, val_idx) in enumerate(splitter.split(train_all)):
         if i not in global_params["folds"]:
             continue
@@ -275,6 +283,26 @@ if __name__ == "__main__":
 
         trn_df = train_all.loc[trn_idx, :].reset_index(drop=True)
         val_df = train_all.loc[val_idx, :].reset_index(drop=True)
+
+        soft_inference_config = {
+            "loader": {
+                "test": {
+                    "batch_size": 1,
+                    "shuffle": False,
+                    "num_workers": config["loader"]["test"]["num_workers"]
+                }
+            },
+            "dataset": {
+                "test": {
+                    "name": "LimitedFrequencySampleWiseSpectrogramTestDataset",
+                    "params": config["dataset"]["test"]["params"]
+                }
+            },
+            "transforms": None
+        }
+
+        val_soft_loader = datasets.get_test_loader(val_df, train_audio, soft_inference_config)
+        test_soft_loader = datasets.get_test_loader(test_all, test_audio, soft_inference_config)
 
         ##################################################
         # High Frequency Classes #
@@ -373,6 +401,32 @@ if __name__ == "__main__":
             input_target_key=global_params["input_target_key"])
 
         fold_predictions["high"].append(fold_prediction)
+
+        soft_oof = get_soft_inference(
+            model,
+            loader=val_soft_loader,
+            device=device,
+            input_key=global_params["input_key"],
+            input_target_key=global_params["input_target_key"])
+        high_freq_keys = datasets.RANGE_SPECIES_MAP["high"]
+        for key in soft_oof.keys():
+            soft_oofs[key] = {}
+            soft_oof_pred = soft_oof[key]
+            for high_freq_key in high_freq_keys:
+                soft_oofs[key][high_freq_key] = soft_oof_pred[:, high_freq_key]
+
+        soft_pred = get_soft_inference(
+            model,
+            loader=test_soft_loader,
+            device=device,
+            input_key=global_params["input_key"],
+            input_target_key=global_params["input_target_key"])
+        soft_preds[f"fold{i}"] = {}
+        for key in soft_pred.keys():
+            soft_preds[f"fold{i}"][key] = {}
+            soft_test_pred = soft_pred[key]
+            for high_freq_key in high_freq_keys:
+                soft_preds[f"fold{i}"][key][high_freq_key] = soft_test_pred[:, high_freq_key]
 
         train_writer.close()
         valid_writer.close()
@@ -475,8 +529,47 @@ if __name__ == "__main__":
 
         fold_predictions["low"].append(fold_prediction)
 
+        soft_oof = get_soft_inference(
+            model,
+            loader=val_soft_loader,
+            device=device,
+            input_key=global_params["input_key"],
+            input_target_key=global_params["input_target_key"])
+        low_freq_keys = datasets.RANGE_SPECIES_MAP["high"]
+        for key in soft_oof.keys():
+            soft_oof_pred = soft_oof[key]
+            for low_freq_key in low_freq_keys:
+                if soft_oofs[key].get(low_freq_key) is not None:
+                    soft_oofs[key][low_freq_key] = (soft_oofs[key][low_freq_key] + soft_oof_pred[:, low_freq_key]) / 2
+                else:
+                    soft_oofs[key][low_freq_key] = soft_oof_pred[:, low_freq_key]
+
+        soft_pred = get_soft_inference(
+            model,
+            loader=test_soft_loader,
+            device=device,
+            input_key=global_params["input_key"],
+            input_target_key=global_params["input_target_key"])
+        for key in soft_pred.keys():
+            soft_test_pred = soft_pred[key]
+            for low_freq_key in low_freq_keys:
+                if soft_preds[f"fold{i}"][key].get(low_freq_key) is not None:
+                    soft_preds[f"fold{i}"][key][low_freq_key] = (
+                        soft_preds[f"fold{i}"][key][low_freq_key] +
+                        soft_test_pred[:, low_freq_key]
+                    ) / 2
+                else:
+                    soft_preds[f"fold{i}"][key][low_freq_key] = soft_test_pred[:, low_freq_key]
+
         train_writer.close()
         valid_writer.close()
+
+    for key in soft_oofs:
+        np.savez_compressed(soft_oof_dir / key, soft_oofs[key])
+
+    for fold_key in soft_preds:
+        for key in soft_preds[fold_key]:
+            np.savez_compressed(soft_pred_dir / fold_key / key, soft_preds[fold_key][key])
 
     oof_df_high = pd.concat(oof_predictions["high"], axis=0).reset_index(drop=True)
     oof_target_high = pd.concat(oof_targets["high"], axis=0).reset_index(drop=True)
