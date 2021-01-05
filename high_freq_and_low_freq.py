@@ -535,7 +535,7 @@ if __name__ == "__main__":
             device=device,
             input_key=global_params["input_key"],
             input_target_key=global_params["input_target_key"])
-        low_freq_keys = datasets.RANGE_SPECIES_MAP["high"]
+        low_freq_keys = datasets.RANGE_SPECIES_MAP["low"]
         for key in soft_oof.keys():
             soft_oof_pred = soft_oof[key]
             for low_freq_key in low_freq_keys:
@@ -568,6 +568,7 @@ if __name__ == "__main__":
         np.savez_compressed(soft_oof_dir / key, soft_oofs[key])
 
     for fold_key in soft_preds:
+        (soft_pred_dir / fold_key).mkdir(exist_ok=True, parents=True)
         for key in soft_preds[fold_key]:
             np.savez_compressed(soft_pred_dir / fold_key / key, soft_preds[fold_key][key])
 
