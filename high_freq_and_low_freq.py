@@ -284,26 +284,6 @@ if __name__ == "__main__":
         trn_df = train_all.loc[trn_idx, :].reset_index(drop=True)
         val_df = train_all.loc[val_idx, :].reset_index(drop=True)
 
-        soft_inference_config = {
-            "loader": {
-                "test": {
-                    "batch_size": 1,
-                    "shuffle": False,
-                    "num_workers": config["loader"]["test"]["num_workers"]
-                }
-            },
-            "dataset": {
-                "test": {
-                    "name": "LimitedFrequencySampleWiseSpectrogramTestDataset",
-                    "params": config["dataset"]["test"]["params"]
-                }
-            },
-            "transforms": None
-        }
-
-        val_soft_loader = datasets.get_test_loader(val_df, train_audio, soft_inference_config)
-        test_soft_loader = datasets.get_test_loader(test_all, test_audio, soft_inference_config)
-
         ##################################################
         # High Frequency Classes #
         ##################################################
@@ -328,6 +308,26 @@ if __name__ == "__main__":
             for df_, phase in zip([trn_df, val_df], ["train", "valid"])
         }
         test_loader = datasets.get_test_loader(test_all, test_audio, config)
+
+        soft_inference_config = {
+            "loader": {
+                "test": {
+                    "batch_size": 1,
+                    "shuffle": False,
+                    "num_workers": config["loader"]["test"]["num_workers"]
+                }
+            },
+            "dataset": {
+                "test": {
+                    "name": "LimitedFrequencySampleWiseSpectrogramTestDataset",
+                    "params": config["dataset"]["test"]["params"]
+                }
+            },
+            "transforms": None
+        }
+
+        val_soft_loader = datasets.get_test_loader(val_df, train_audio, soft_inference_config)
+        test_soft_loader = datasets.get_test_loader(test_all, test_audio, soft_inference_config)
 
         model = models.get_model(config).to(device)
         criterion = criterions.get_criterion(config)
@@ -455,6 +455,26 @@ if __name__ == "__main__":
             for df_, phase in zip([trn_df, val_df], ["train", "valid"])
         }
         test_loader = datasets.get_test_loader(test_all, test_audio, config)
+
+        soft_inference_config = {
+            "loader": {
+                "test": {
+                    "batch_size": 1,
+                    "shuffle": False,
+                    "num_workers": config["loader"]["test"]["num_workers"]
+                }
+            },
+            "dataset": {
+                "test": {
+                    "name": "LimitedFrequencySampleWiseSpectrogramTestDataset",
+                    "params": config["dataset"]["test"]["params"]
+                }
+            },
+            "transforms": None
+        }
+
+        val_soft_loader = datasets.get_test_loader(val_df, train_audio, soft_inference_config)
+        test_soft_loader = datasets.get_test_loader(test_all, test_audio, soft_inference_config)
 
         model = models.get_model(config).to(device)
         criterion = criterions.get_criterion(config)
