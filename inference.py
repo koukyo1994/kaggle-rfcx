@@ -133,8 +133,12 @@ if __name__ == "__main__":
 
         loader = datasets.get_test_loader(test_all, test_audio, config)
         model = models.get_model(config)
-        model = models.prepare_for_inference(
-            model, expdir / f"fold{i}/checkpoints/best.pth").to(device)
+        if config["inference"].get("last", False):
+            model = models.prepare_for_inference(
+                model, expdir / f"fold{i}/checkpoints/last.pth").to(device)
+        else:
+            model = models.prepare_for_inference(
+                model, expdir / f"fold{i}/checkpoints/best.pth").to(device)
 
         if config["inference"].get("soft_prediction", False):
             soft_val_loader = datasets.get_train_loader(
