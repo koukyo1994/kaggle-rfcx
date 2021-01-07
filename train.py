@@ -56,7 +56,7 @@ if __name__ == "__main__":
             phase: datasets.get_train_loader(df_, tp, fp, train_audio, config, phase)
             for df_, phase in zip([trn_df, val_df], ["train", "valid"])
         }
-        model = models.get_model(config).to(device)
+        model = models.get_model(config, fold=i).to(device)
         criterion = criterions.get_criterion(config)
         optimizer = training.get_optimizer(model, config)
         scheduler = training.get_scheduler(optimizer, config)
