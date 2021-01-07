@@ -329,7 +329,7 @@ if __name__ == "__main__":
         val_soft_loader = datasets.get_test_loader(val_df, train_audio, soft_inference_config)
         test_soft_loader = datasets.get_test_loader(test_all, test_audio, soft_inference_config)
 
-        model = models.get_model(config).to(device)
+        model = models.get_model(config, fold=i).to(device)
         criterion = criterions.get_criterion(config)
         optimizer = training.get_optimizer(model, config)
         scheduler = training.get_scheduler(optimizer, config)
@@ -476,7 +476,7 @@ if __name__ == "__main__":
         val_soft_loader = datasets.get_test_loader(val_df, train_audio, soft_inference_config)
         test_soft_loader = datasets.get_test_loader(test_all, test_audio, soft_inference_config)
 
-        model = models.get_model(config).to(device)
+        model = models.get_model(config, fold=i).to(device)
         criterion = criterions.get_criterion(config)
         optimizer = training.get_optimizer(model, config)
         scheduler = training.get_scheduler(optimizer, config)

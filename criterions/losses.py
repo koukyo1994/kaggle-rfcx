@@ -134,3 +134,15 @@ class Focal2WayStrongLoss(nn.Module):
         aux_loss = self.focal(clipwise_output, clipwise_target)
 
         return self.weights[0] * loss + self.weights[1] * aux_loss
+
+
+class LogitLoss(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.bce = nn.BCEWithLogitsLoss()
+
+    def forward(self, input, target):
+        input_ = input["logit"]
+        target = target["weak"].float()
+        loss = self.bce(input_, target)
+        return loss

@@ -10,7 +10,7 @@ from .resnest import ResNestSED
 from .utils import init_layer
 
 
-def get_model(config: dict):
+def get_model(config: dict, fold=0):
     model_config = config["model"]
     model_name = model_config["name"]
     model_params = model_config["params"]
@@ -44,8 +44,9 @@ def get_model(config: dict):
 
         weights_path = config["globals"].get("weights")
         if weights_path is not None:
-            if Path(weights_path).exists():
-                weights = torch.load(weights_path)["model_state_dict"]
+            weight_path = weights_path[fold]
+            if Path(weight_path).exists():
+                weights = torch.load(weight_path)["model_state_dict"]
                 # to fit for birdcall competition
                 n_classes = weights["att_block.att.weight"].size(0)
                 model.att_block = AttBlock(
@@ -60,22 +61,28 @@ def get_model(config: dict):
 
         weights_path = config["globals"].get("weights")
         if weights_path is not None:
-            if Path(weights_path).exists():
-                weights = torch.load(weights_path)["model_state_dict"]
-                # for loading ema weight
-                model_state_dict = {}
-                for key in weights:
-                    if key == "n_averaged":
-                        continue
-                    new_key = key.replace("module.", "")
-                    model_state_dict[new_key] = weights[key]
-                # to fit for birdcall competition
-                n_classes = model_state_dict["att_block.att.weight"].size(0)
+            weight_path = weights_path[fold]
+            if Path(weight_path).exists():
+                weights = torch.load(weight_path)["model_state_dict"]
+                if "n_averaged" in weights.keys():
+                    # for loading ema weight
+                    model_state_dict = {}
+                    for key in weights:
+                        if key == "n_averaged":
+                            continue
+                        new_key = key.replace("module.", "")
+                        model_state_dict[new_key] = weights[key]
+                    # to fit for birdcall competition
+                    n_classes = model_state_dict["att_block.att.weight"].size(0)
+                else:
+                    model_state_dict = weights
+                    n_classes = model_state_dict["att_block.att.weight"].size(0)
                 model.att_block = AttBlockV2(  # type: ignore
-                    2048, n_classes, activation="sigmoid")
+                    model.att_block.att.in_channels, n_classes, activation="sigmoid")
                 model.load_state_dict(model_state_dict)
                 model.att_block = AttBlockV2(  # type: ignore
-                    2048, model_params["num_classes"], activation="sigmoid")
+                    model.att_block.att.in_channels,
+                    model_params["num_classes"], activation="sigmoid")
                 model.att_block.init_weights()
         return model
     elif model_name == "EfficientNetSED":
@@ -83,22 +90,27 @@ def get_model(config: dict):
 
         weights_path = config["globals"].get("weights")
         if weights_path is not None:
-            if Path(weights_path).exists():
-                weights = torch.load(weights_path)["model_state_dict"]
-                # for loading ema weight
-                model_state_dict = {}
-                for key in weights:
-                    if key == "n_averaged":
-                        continue
-                    new_key = key.replace("module.", "")
-                    model_state_dict[new_key] = weights[key]
-                # to fit for birdcall competition
-                n_classes = model_state_dict["att_block.att.weight"].size(0)
+            weight_path = weights_path[fold]
+            if Path(weight_path).exists():
+                weights = torch.load(weight_path)["model_state_dict"]
+                if "n_averaged" in weights.keys():
+                    # for loading ema weight
+                    model_state_dict = {}
+                    for key in weights:
+                        if key == "n_averaged":
+                            continue
+                        new_key = key.replace("module.", "")
+                        model_state_dict[new_key] = weights[key]
+                    # to fit for birdcall competition
+                    n_classes = model_state_dict["att_block.att.weight"].size(0)
+                else:
+                    model_state_dict = weights
+                    n_classes = model_state_dict["att_block.att.weight"].size(0)
                 model.att_block = AttBlockV2(  # type: ignore
-                    2048, n_classes, activation="sigmoid")
+                    model.att_block.att.in_channels, n_classes, activation="sigmoid")
                 model.load_state_dict(model_state_dict)
                 model.att_block = AttBlockV2(  # type: ignore
-                    2048, model_params["num_classes"], activation="sigmoid")
+                    model.att_block.att.in_channels, model_params["num_classes"], activation="sigmoid")
                 model.att_block.init_weights()
         return model
     elif model_name == "TimmEfficientNetSED":
@@ -106,22 +118,27 @@ def get_model(config: dict):
 
         weights_path = config["globals"].get("weights")
         if weights_path is not None:
-            if Path(weights_path).exists():
-                weights = torch.load(weights_path)["model_state_dict"]
-                # for loading ema weight
-                model_state_dict = {}
-                for key in weights:
-                    if key == "n_averaged":
-                        continue
-                    new_key = key.replace("module.", "")
-                    model_state_dict[new_key] = weights[key]
-                # to fit for birdcall competition
-                n_classes = model_state_dict["att_block.att.weight"].size(0)
+            weight_path = weights_path[fold]
+            if Path(weight_path).exists():
+                weights = torch.load(weight_path)["model_state_dict"]
+                if "n_averaged" in weights.keys():
+                    # for loading ema weight
+                    model_state_dict = {}
+                    for key in weights:
+                        if key == "n_averaged":
+                            continue
+                        new_key = key.replace("module.", "")
+                        model_state_dict[new_key] = weights[key]
+                    # to fit for birdcall competition
+                    n_classes = model_state_dict["att_block.att.weight"].size(0)
+                else:
+                    model_state_dict = weights
+                    n_classes = model_state_dict["att_block.att.weight"].size(0)
                 model.att_block = AttBlockV2(  # type: ignore
-                    2048, n_classes, activation="sigmoid")
+                    model.att_block.att.in_channels, n_classes, activation="sigmoid")
                 model.load_state_dict(model_state_dict)
                 model.att_block = AttBlockV2(  # type: ignore
-                    2048, model_params["num_classes"], activation="sigmoid")
+                    model.att_block.att.in_channels, model_params["num_classes"], activation="sigmoid")
                 model.att_block.init_weights()
         return model
     else:
