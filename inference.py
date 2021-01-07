@@ -136,9 +136,11 @@ if __name__ == "__main__":
         if config["inference"].get("last", False):
             model = models.prepare_for_inference(
                 model, expdir / f"fold{i}/checkpoints/last.pth").to(device)
+            last = True
         else:
             model = models.prepare_for_inference(
                 model, expdir / f"fold{i}/checkpoints/best.pth").to(device)
+            last = False
 
         if config["inference"].get("soft_prediction", False):
             soft_val_loader = datasets.get_train_loader(
@@ -197,7 +199,10 @@ if __name__ == "__main__":
             ], axis=1)
 
             oof_predictions.append(oof_prediction_df)
-            oof_name = "oof_strong.csv"
+            if last:
+                oof_name = "oof_strong_last.csv"
+            else:
+                oof_name = "oof_strong.csv"
 
             ##################################################
             # Prediction #
@@ -228,7 +233,10 @@ if __name__ == "__main__":
             fold_prediction_df = fold_prediction_df.groupby(
                 "recording_id").max().reset_index(drop=False)
             fold_predictions.append(fold_prediction_df)
-            submission_name = "strong.csv"
+            if last:
+                submission_name = "strong_last.csv"
+            else:
+                submission_name = "strong.csv"
         else:
             ##################################################
             # OOF #
@@ -256,7 +264,10 @@ if __name__ == "__main__":
             ], axis=1)
 
             oof_predictions.append(oof_prediction_df)
-            oof_name = "oof_weak.csv"
+            if last:
+                oof_name = "oof_weak_last.csv"
+            else:
+                oof_name = "oof_weak.csv"
 
             ##################################################
             # Prediction #
@@ -285,7 +296,10 @@ if __name__ == "__main__":
             fold_prediction_df = fold_prediction_df.groupby(
                 "recording_id").max().reset_index(drop=False)
             fold_predictions.append(fold_prediction_df)
-            submission_name = "weak.csv"
+            if last:
+                submission_name = "weak_last.csv"
+            else:
+                submission_name = "weak.csv"
 
     oof_df = pd.concat(oof_predictions, axis=0).reset_index(drop=True)
 
