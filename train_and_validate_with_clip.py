@@ -91,7 +91,8 @@ def eval_one_epoch(model,
                    input_key: str,
                    input_target_key: str,
                    epoch: int,
-                   writer: SummaryWriter):
+                   writer: SummaryWriter,
+                   strong=False):
     loss_meter = utils.AverageMeter()
     lwlrap_meter = utils.AverageMeter()
 
@@ -115,7 +116,10 @@ def eval_one_epoch(model,
 
         loss_meter.update(loss.item(), n=len(loader))
 
-        clipwise_output = output["clipwise_output"].detach().cpu().numpy()
+        if strong:
+            clipwise_output = output["framewise_output"].detach().cpu().numpy().max(axis=1)
+        else:
+            clipwise_output = output["clipwise_output"].detach().cpu().numpy()
         target = y["weak"].detach().cpu().numpy()
 
         preds.append(clipwise_output)
@@ -235,6 +239,7 @@ if __name__ == "__main__":
                 input_target_key=global_params["input_target_key"],
                 writer=train_writer)
 
+            strong = config["inference"]["prediction_type"] == "strong"
             valid_loss, valid_score = eval_one_epoch(
                 model,
                 loaders["valid"],
@@ -243,7 +248,8 @@ if __name__ == "__main__":
                 input_key=global_params["input_key"],
                 input_target_key=global_params["input_target_key"],
                 epoch=epoch,
-                writer=valid_writer)
+                writer=valid_writer,
+                strong=strong)
 
             best_score, updated = utils.save_best_model(
                 model, checkpoints_dir, valid_score, prev_metric=best_score)
