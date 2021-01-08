@@ -72,78 +72,152 @@ if __name__ == "__main__":
         model = models.prepare_for_inference(
             model, expdir / f"fold{i}/checkpoints/best.pth").to(device)
 
-        ##################################################
-        # OOF #
-        ##################################################
-        logger.info("*" * 20)
-        logger.info(f"OOF prediction for fold{i}")
-        logger.info("*" * 20)
-        recording_ids = []
-        batch_predictions = []
-        batch_targets = []
-        for batch in tqdm(val_loader, leave=True):
-            recording_ids.extend(batch["recording_id"])
-            input_ = batch[global_params["input_key"]].to(device)
-            targets = batch[global_params["input_target_key"]]["weak"].cpu().numpy()
-            with torch.no_grad():
-                output = model(input_)
-            batch_predictions.append(
-                output["clipwise_output"].cpu().numpy())
-            batch_targets.append(targets)
-        oof_prediction = np.concatenate(batch_predictions, axis=0)
-        oof_targets = np.concatenate(batch_targets, axis=0)
+        if config["inference"]["prediction_type"] == "weak":
+            ##################################################
+            # OOF #
+            ##################################################
+            logger.info("*" * 20)
+            logger.info(f"OOF prediction for fold{i}")
+            logger.info("*" * 20)
+            recording_ids = []
+            batch_predictions = []
+            batch_targets = []
+            for batch in tqdm(val_loader, leave=True):
+                recording_ids.extend(batch["recording_id"])
+                input_ = batch[global_params["input_key"]].to(device)
+                targets = batch[global_params["input_target_key"]]["weak"].cpu().numpy()
+                with torch.no_grad():
+                    output = model(input_)
+                batch_predictions.append(
+                    output["clipwise_output"].cpu().numpy())
+                batch_targets.append(targets)
+            oof_prediction = np.concatenate(batch_predictions, axis=0)
+            oof_targets = np.concatenate(batch_targets, axis=0)
 
-        oof_prediction_df = pd.DataFrame(
-            oof_prediction, columns=[f"s{i}" for i in range(oof_prediction.shape[1])])
-        oof_prediction_df = pd.concat([
-            pd.DataFrame({"recording_id": recording_ids}),
-            oof_prediction_df
-        ], axis=1)
+            oof_prediction_df = pd.DataFrame(
+                oof_prediction, columns=[f"s{i}" for i in range(oof_prediction.shape[1])])
+            oof_prediction_df = pd.concat([
+                pd.DataFrame({"recording_id": recording_ids}),
+                oof_prediction_df
+            ], axis=1)
 
-        oof_targets_df = pd.DataFrame(
-            oof_targets, columns=[f"s{i}" for i in range(oof_targets.shape[1])])
-        oof_targets_df = pd.concat([
-            pd.DataFrame({"recording_id": recording_ids}),
-            oof_targets_df
-        ], axis=1)
+            oof_targets_df = pd.DataFrame(
+                oof_targets, columns=[f"s{i}" for i in range(oof_targets.shape[1])])
+            oof_targets_df = pd.concat([
+                pd.DataFrame({"recording_id": recording_ids}),
+                oof_targets_df
+            ], axis=1)
 
-        oof_prediction_df = oof_prediction_df.groupby(
-            "recording_id").max().reset_index(drop=False)
-        oof_targets_df = oof_targets_df.groupby(
-            "recording_id").max().reset_index(drop=False)
+            oof_prediction_df = oof_prediction_df.groupby(
+                "recording_id").max().reset_index(drop=False)
+            oof_targets_df = oof_targets_df.groupby(
+                "recording_id").max().reset_index(drop=False)
 
-        oof_predictions.append(oof_prediction_df)
-        oof_targets_list.append(oof_targets_df)
-        oof_name = "oof_weak.csv"
+            oof_predictions.append(oof_prediction_df)
+            oof_targets_list.append(oof_targets_df)
+            oof_name = "oof_weak.csv"
 
-        ##################################################
-        # Prediction #
-        ##################################################
-        logger.info("*" * 20)
-        logger.info(f"Prediction on test for fold{i}")
-        logger.info("*" * 20)
-        recording_ids = []
-        batch_predictions = []
-        for batch in tqdm(loader, leave=True):
-            recording_ids.extend(batch["recording_id"])
-            input_ = batch[global_params["input_key"]].to(device)
-            with torch.no_grad():
-                output = model(input_)
-            batch_predictions.append(
-                output["clipwise_output"].detach().cpu().numpy())
-        fold_prediction = np.concatenate(batch_predictions, axis=0)
+            ##################################################
+            # Prediction #
+            ##################################################
+            logger.info("*" * 20)
+            logger.info(f"Prediction on test for fold{i}")
+            logger.info("*" * 20)
+            recording_ids = []
+            batch_predictions = []
+            for batch in tqdm(loader, leave=True):
+                recording_ids.extend(batch["recording_id"])
+                input_ = batch[global_params["input_key"]].to(device)
+                with torch.no_grad():
+                    output = model(input_)
+                batch_predictions.append(
+                    output["clipwise_output"].detach().cpu().numpy())
+            fold_prediction = np.concatenate(batch_predictions, axis=0)
 
-        fold_prediction_df = pd.DataFrame(
-            fold_prediction, columns=[f"s{i}" for i in range(fold_prediction.shape[1])])
-        fold_prediction_df = pd.concat([
-            pd.DataFrame({"recording_id": recording_ids}),
-            fold_prediction_df
-        ], axis=1)
+            fold_prediction_df = pd.DataFrame(
+                fold_prediction, columns=[f"s{i}" for i in range(fold_prediction.shape[1])])
+            fold_prediction_df = pd.concat([
+                pd.DataFrame({"recording_id": recording_ids}),
+                fold_prediction_df
+            ], axis=1)
 
-        fold_prediction_df = fold_prediction_df.groupby(
-            "recording_id").max().reset_index(drop=False)
-        fold_predictions.append(fold_prediction_df)
-        submission_name = "weak.csv"
+            fold_prediction_df = fold_prediction_df.groupby(
+                "recording_id").max().reset_index(drop=False)
+            fold_predictions.append(fold_prediction_df)
+            submission_name = "weak.csv"
+        else:
+            ##################################################
+            # OOF #
+            ##################################################
+            logger.info("*" * 20)
+            logger.info(f"OOF prediction for fold{i}")
+            logger.info("*" * 20)
+            recording_ids = []
+            batch_predictions = []
+            batch_targets = []
+            for batch in tqdm(val_loader, leave=True):
+                recording_ids.extend(batch["recording_id"])
+                input_ = batch[global_params["input_key"]].to(device)
+                targets = batch[global_params["input_target_key"]]["weak"].cpu().numpy()
+                with torch.no_grad():
+                    output = model(input_)
+                batch_predictions.append(
+                    output["framewise_output"].cpu().numpy().max(axis=1))
+                batch_targets.append(targets)
+            oof_prediction = np.concatenate(batch_predictions, axis=0)
+            oof_targets = np.concatenate(batch_targets, axis=0)
+
+            oof_prediction_df = pd.DataFrame(
+                oof_prediction, columns=[f"s{i}" for i in range(oof_prediction.shape[1])])
+            oof_prediction_df = pd.concat([
+                pd.DataFrame({"recording_id": recording_ids}),
+                oof_prediction_df
+            ], axis=1)
+
+            oof_targets_df = pd.DataFrame(
+                oof_targets, columns=[f"s{i}" for i in range(oof_targets.shape[1])])
+            oof_targets_df = pd.concat([
+                pd.DataFrame({"recording_id": recording_ids}),
+                oof_targets_df
+            ], axis=1)
+
+            oof_prediction_df = oof_prediction_df.groupby(
+                "recording_id").max().reset_index(drop=False)
+            oof_targets_df = oof_targets_df.groupby(
+                "recording_id").max().reset_index(drop=False)
+
+            oof_predictions.append(oof_prediction_df)
+            oof_targets_list.append(oof_targets_df)
+            oof_name = "oof_strong.csv"
+
+            ##################################################
+            # Prediction #
+            ##################################################
+            logger.info("*" * 20)
+            logger.info(f"Prediction on test for fold{i}")
+            logger.info("*" * 20)
+            recording_ids = []
+            batch_predictions = []
+            for batch in tqdm(loader, leave=True):
+                recording_ids.extend(batch["recording_id"])
+                input_ = batch[global_params["input_key"]].to(device)
+                with torch.no_grad():
+                    output = model(input_)
+                batch_predictions.append(
+                    output["framewise_output"].detach().cpu().numpy().max(axis=1))
+            fold_prediction = np.concatenate(batch_predictions, axis=0)
+
+            fold_prediction_df = pd.DataFrame(
+                fold_prediction, columns=[f"s{i}" for i in range(fold_prediction.shape[1])])
+            fold_prediction_df = pd.concat([
+                pd.DataFrame({"recording_id": recording_ids}),
+                fold_prediction_df
+            ], axis=1)
+
+            fold_prediction_df = fold_prediction_df.groupby(
+                "recording_id").max().reset_index(drop=False)
+            fold_predictions.append(fold_prediction_df)
+            submission_name = "strong.csv"
 
     oof_df = pd.concat(oof_predictions, axis=0).reset_index(drop=True)
     oof_target_df = pd.concat(oof_targets_list, axis=0).reset_index(drop=True)
