@@ -92,7 +92,8 @@ def eval_one_epoch(model,
                    input_target_key: str,
                    epoch: int,
                    writer: SummaryWriter,
-                   aggregate_by_recording=True):
+                   aggregate_by_recording=True,
+                   strong=False):
     loss_meter = utils.AverageMeter()
     lwlrap_meter = utils.AverageMeter()
 
@@ -122,7 +123,10 @@ def eval_one_epoch(model,
 
         loss_meter.update(loss.item(), n=len(loader))
 
-        clipwise_output = output["clipwise_output"].detach().cpu().numpy()
+        if strong:
+            clipwise_output = output["framewise_output"].detach().cpu().numpy().max(axis=1)
+        else:
+            clipwise_output = output["clipwise_output"].detach().cpu().numpy()
         target = y["weak"].detach().cpu().numpy()
 
         preds.append(clipwise_output)
@@ -185,7 +189,8 @@ def get_inference(model,
                   loader,
                   device: torch.device,
                   input_key: str,
-                  input_target_key: str):
+                  input_target_key: str,
+                  strong=False):
     recording_ids = []
     batch_predictions = []
     for batch in tqdm(loader, leave=True, desc="inference"):
@@ -193,8 +198,13 @@ def get_inference(model,
         input_ = batch[global_params["input_key"]].to(device)
         with torch.no_grad():
             output = model(input_)
-        batch_predictions.append(
-            output["clipwise_output"].detach().cpu().numpy())
+        if strong:
+            batch_predictions.append(
+                output["framewise_output"].detach().cpu().numpy().max(axis=1))
+        else:
+            batch_predictions.append(
+                output["clipwise_output"].detach().cpu().numpy())
+
     fold_prediction = np.concatenate(batch_predictions, axis=0)
 
     fold_prediction_df = pd.DataFrame(
@@ -329,6 +339,8 @@ if __name__ == "__main__":
         val_soft_loader = datasets.get_test_loader(val_df, train_audio, soft_inference_config)
         test_soft_loader = datasets.get_test_loader(test_all, test_audio, soft_inference_config)
 
+        strong = config["inference"]["prediction_type"] == "strong"
+
         model = models.get_model(config, fold=i).to(device)
         criterion = criterions.get_criterion(config)
         optimizer = training.get_optimizer(model, config)
@@ -358,7 +370,8 @@ if __name__ == "__main__":
                 input_key=global_params["input_key"],
                 input_target_key=global_params["input_target_key"],
                 epoch=epoch,
-                writer=valid_writer)
+                writer=valid_writer,
+                strong=strong)
 
             best_score, updated = utils.save_best_model(
                 model, checkpoints_dir, valid_score, prev_metric=best_score)
@@ -390,7 +403,8 @@ if __name__ == "__main__":
             input_target_key=global_params["input_target_key"],
             epoch=epoch + 1,
             writer=valid_writer,
-            aggregate_by_recording=aggregate_by_recording)
+            aggregate_by_recording=aggregate_by_recording,
+            strong=strong)
 
         oof_predictions["high"].append(oof_pred_df)
         oof_targets["high"].append(oof_targ_df)
@@ -398,7 +412,8 @@ if __name__ == "__main__":
         fold_prediction = get_inference(
             model, test_loader, device,
             input_key=global_params["input_key"],
-            input_target_key=global_params["input_target_key"])
+            input_target_key=global_params["input_target_key"],
+            strong=strong)
 
         fold_predictions["high"].append(fold_prediction)
 
@@ -476,6 +491,7 @@ if __name__ == "__main__":
         val_soft_loader = datasets.get_test_loader(val_df, train_audio, soft_inference_config)
         test_soft_loader = datasets.get_test_loader(test_all, test_audio, soft_inference_config)
 
+        strong = config["inference"]["prediction_type"] == "strong"
         model = models.get_model(config, fold=i).to(device)
         criterion = criterions.get_criterion(config)
         optimizer = training.get_optimizer(model, config)
@@ -505,7 +521,8 @@ if __name__ == "__main__":
                 input_key=global_params["input_key"],
                 input_target_key=global_params["input_target_key"],
                 epoch=epoch,
-                writer=valid_writer)
+                writer=valid_writer,
+                strong=strong)
 
             best_score, updated = utils.save_best_model(
                 model, checkpoints_dir, valid_score, prev_metric=best_score)
@@ -537,7 +554,8 @@ if __name__ == "__main__":
             input_target_key=global_params["input_target_key"],
             epoch=epoch + 1,
             writer=valid_writer,
-            aggregate_by_recording=aggregate_by_recording)
+            aggregate_by_recording=aggregate_by_recording,
+            strong=strong)
 
         oof_predictions["low"].append(oof_pred_df)
         oof_targets["low"].append(oof_targ_df)
@@ -545,7 +563,8 @@ if __name__ == "__main__":
         fold_prediction = get_inference(
             model, test_loader, device,
             input_key=global_params["input_key"],
-            input_target_key=global_params["input_target_key"])
+            input_target_key=global_params["input_target_key"],
+            strong=strong)
 
         fold_predictions["low"].append(fold_prediction)
 
