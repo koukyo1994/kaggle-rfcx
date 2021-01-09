@@ -39,7 +39,7 @@ dataset:
     name: LimitedFrequencySequentialValidationDataset
     params:
       sampling_rate: 32000
-      duration: 60
+      duration: 30
       melspectrogram_parameters:
         n_mels: 96
       pcen_parameters:
@@ -53,7 +53,7 @@ dataset:
     name: LimitedFrequencySpectrogramTestDataset
     params:
       sampling_rate: 32000
-      duration: 60
+      duration: 30
       melspectrogram_parameters:
         n_mels: 96
       pcen_parameters:
