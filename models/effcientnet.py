@@ -53,12 +53,14 @@ class TimmEfficientNetSED(nn.Module):
         segmentwise_logit = self.att_block.cla(x).transpose(1, 2)
         segmentwise_output = segmentwise_output.transpose(1, 2)
 
+        interpolate_ratio = frames_num // segmentwise_output.size(1)
+
         # Get framewise output
         framewise_output = interpolate(segmentwise_output,
-                                       self.interpolate_ratio)
+                                       interpolate_ratio)
         framewise_output = pad_framewise_output(framewise_output, frames_num)
 
-        framewise_logit = interpolate(segmentwise_logit, self.interpolate_ratio)
+        framewise_logit = interpolate(segmentwise_logit, interpolate_ratio)
         framewise_logit = pad_framewise_output(framewise_logit, frames_num)
 
         output_dict = {
@@ -116,12 +118,14 @@ class EfficientNetSED(nn.Module):
         segmentwise_logit = self.att_block.cla(x).transpose(1, 2)
         segmentwise_output = segmentwise_output.transpose(1, 2)
 
+        interpolate_ratio = frames_num // segmentwise_output.size(1)
+
         # Get framewise output
         framewise_output = interpolate(segmentwise_output,
-                                       self.interpolate_ratio)
+                                       interpolate_ratio)
         framewise_output = pad_framewise_output(framewise_output, frames_num)
 
-        framewise_logit = interpolate(segmentwise_logit, self.interpolate_ratio)
+        framewise_logit = interpolate(segmentwise_logit, interpolate_ratio)
         framewise_logit = pad_framewise_output(framewise_logit, frames_num)
 
         output_dict = {
