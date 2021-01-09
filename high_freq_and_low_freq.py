@@ -157,8 +157,7 @@ def eval_one_epoch(model,
         })
     else:
         rec_df = pd.DataFrame({
-            "recording_id": recording_ids,
-            "index": indices
+            "recording_id": recording_ids
         })
     oof_pred_df = pd.concat([
         rec_df,
