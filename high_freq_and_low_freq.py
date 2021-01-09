@@ -347,49 +347,50 @@ if __name__ == "__main__":
 
         best_score = 0.0
         _metrics = {}
-        for epoch in range(global_params["num_epochs"]):
-            logger.info(f"Epoch: [{epoch+1}/{global_params['num_epochs']}]")
-            train_loss, train_score = train_one_epoch(
-                model,
-                loaders["train"],
-                optimizer,
-                scheduler,
-                criterion,
-                device,
-                epoch=epoch,
-                input_key=global_params["input_key"],
-                input_target_key=global_params["input_target_key"],
-                writer=train_writer)
+        if not args.skip_train:
+            for epoch in range(global_params["num_epochs"]):
+                logger.info(f"Epoch: [{epoch+1}/{global_params['num_epochs']}]")
+                train_loss, train_score = train_one_epoch(
+                    model,
+                    loaders["train"],
+                    optimizer,
+                    scheduler,
+                    criterion,
+                    device,
+                    epoch=epoch,
+                    input_key=global_params["input_key"],
+                    input_target_key=global_params["input_target_key"],
+                    writer=train_writer)
 
-            valid_loss, valid_score, _, _ = eval_one_epoch(
-                model,
-                loaders["valid"],
-                criterion,
-                device,
-                input_key=global_params["input_key"],
-                input_target_key=global_params["input_target_key"],
-                epoch=epoch,
-                writer=valid_writer,
-                strong=strong)
+                valid_loss, valid_score, _, _ = eval_one_epoch(
+                    model,
+                    loaders["valid"],
+                    criterion,
+                    device,
+                    input_key=global_params["input_key"],
+                    input_target_key=global_params["input_target_key"],
+                    epoch=epoch,
+                    writer=valid_writer,
+                    strong=strong)
 
-            best_score, updated = utils.save_best_model(
-                model, checkpoints_dir, valid_score, prev_metric=best_score)
+                best_score, updated = utils.save_best_model(
+                    model, checkpoints_dir, valid_score, prev_metric=best_score)
 
-            if updated:
-                _metrics["best"] = {"lwlrap": best_score, "loss": valid_loss, "epoch": epoch + 1}
-            _metrics["last"] = {"lwlrap": valid_score, "loss": valid_loss, "epoch": epoch + 1}
-            _metrics[f"epoch_{epoch + 1}"] = {"lwlrap": valid_score, "loss": valid_loss}
+                if updated:
+                    _metrics["best"] = {"lwlrap": best_score, "loss": valid_loss, "epoch": epoch + 1}
+                _metrics["last"] = {"lwlrap": valid_score, "loss": valid_loss, "epoch": epoch + 1}
+                _metrics[f"epoch_{epoch + 1}"] = {"lwlrap": valid_score, "loss": valid_loss}
 
-            utils.save_json(_metrics, checkpoints_dir / "_metrics.json")
+                utils.save_json(_metrics, checkpoints_dir / "_metrics.json")
 
+                logger.info(
+                    f"{epoch + 1}/{global_params['num_epochs']} * Epoch {epoch + 1} "
+                    f"(train): lwlrap={train_score:.4f} | loss={train_loss:.4f}")
+                logger.info(
+                    f"{epoch + 1}/{global_params['num_epochs']} * Epoch {epoch + 1} "
+                    f"(valid): lwlrap={valid_score:.4f} | loss={valid_loss:.4f}")
             logger.info(
-                f"{epoch + 1}/{global_params['num_epochs']} * Epoch {epoch + 1} "
-                f"(train): lwlrap={train_score:.4f} | loss={train_loss:.4f}")
-            logger.info(
-                f"{epoch + 1}/{global_params['num_epochs']} * Epoch {epoch + 1} "
-                f"(valid): lwlrap={valid_score:.4f} | loss={valid_loss:.4f}")
-        logger.info(
-            f"Best epoch: {_metrics['best']['epoch']} lwlrap: {_metrics['best']['lwlrap']} loss: {_metrics['best']['loss']}")
+                f"Best epoch: {_metrics['best']['epoch']} lwlrap: {_metrics['best']['lwlrap']} loss: {_metrics['best']['loss']}")
 
         model = models.prepare_for_inference(model, checkpoints_dir / "best.pth").to(device)
         aggregate_by_recording = config["dataset"]["valid"]["name"] == "LimitedFrequencySequentialValidationDataset"
@@ -498,49 +499,50 @@ if __name__ == "__main__":
 
         best_score = 0.0
         _metrics = {}
-        for epoch in range(global_params["num_epochs"]):
-            logger.info(f"Epoch: [{epoch+1}/{global_params['num_epochs']}]")
-            train_loss, train_score = train_one_epoch(
-                model,
-                loaders["train"],
-                optimizer,
-                scheduler,
-                criterion,
-                device,
-                epoch=epoch,
-                input_key=global_params["input_key"],
-                input_target_key=global_params["input_target_key"],
-                writer=train_writer)
+        if not args.skip_train:
+            for epoch in range(global_params["num_epochs"]):
+                logger.info(f"Epoch: [{epoch+1}/{global_params['num_epochs']}]")
+                train_loss, train_score = train_one_epoch(
+                    model,
+                    loaders["train"],
+                    optimizer,
+                    scheduler,
+                    criterion,
+                    device,
+                    epoch=epoch,
+                    input_key=global_params["input_key"],
+                    input_target_key=global_params["input_target_key"],
+                    writer=train_writer)
 
-            valid_loss, valid_score, _, _ = eval_one_epoch(
-                model,
-                loaders["valid"],
-                criterion,
-                device,
-                input_key=global_params["input_key"],
-                input_target_key=global_params["input_target_key"],
-                epoch=epoch,
-                writer=valid_writer,
-                strong=strong)
+                valid_loss, valid_score, _, _ = eval_one_epoch(
+                    model,
+                    loaders["valid"],
+                    criterion,
+                    device,
+                    input_key=global_params["input_key"],
+                    input_target_key=global_params["input_target_key"],
+                    epoch=epoch,
+                    writer=valid_writer,
+                    strong=strong)
 
-            best_score, updated = utils.save_best_model(
-                model, checkpoints_dir, valid_score, prev_metric=best_score)
+                best_score, updated = utils.save_best_model(
+                    model, checkpoints_dir, valid_score, prev_metric=best_score)
 
-            if updated:
-                _metrics["best"] = {"lwlrap": best_score, "loss": valid_loss, "epoch": epoch + 1}
-            _metrics["last"] = {"lwlrap": valid_score, "loss": valid_loss, "epoch": epoch + 1}
-            _metrics[f"epoch_{epoch + 1}"] = {"lwlrap": valid_score, "loss": valid_loss}
+                if updated:
+                    _metrics["best"] = {"lwlrap": best_score, "loss": valid_loss, "epoch": epoch + 1}
+                _metrics["last"] = {"lwlrap": valid_score, "loss": valid_loss, "epoch": epoch + 1}
+                _metrics[f"epoch_{epoch + 1}"] = {"lwlrap": valid_score, "loss": valid_loss}
 
-            utils.save_json(_metrics, checkpoints_dir / "_metrics.json")
+                utils.save_json(_metrics, checkpoints_dir / "_metrics.json")
 
+                logger.info(
+                    f"{epoch + 1}/{global_params['num_epochs']} * Epoch {epoch + 1} "
+                    f"(train): lwlrap={train_score:.4f} | loss={train_loss:.4f}")
+                logger.info(
+                    f"{epoch + 1}/{global_params['num_epochs']} * Epoch {epoch + 1} "
+                    f"(valid): lwlrap={valid_score:.4f} | loss={valid_loss:.4f}")
             logger.info(
-                f"{epoch + 1}/{global_params['num_epochs']} * Epoch {epoch + 1} "
-                f"(train): lwlrap={train_score:.4f} | loss={train_loss:.4f}")
-            logger.info(
-                f"{epoch + 1}/{global_params['num_epochs']} * Epoch {epoch + 1} "
-                f"(valid): lwlrap={valid_score:.4f} | loss={valid_loss:.4f}")
-        logger.info(
-            f"Best epoch: {_metrics['best']['epoch']} lwlrap: {_metrics['best']['lwlrap']} loss: {_metrics['best']['loss']}")
+                f"Best epoch: {_metrics['best']['epoch']} lwlrap: {_metrics['best']['lwlrap']} loss: {_metrics['best']['loss']}")
 
         model = models.prepare_for_inference(model, checkpoints_dir / "best.pth").to(device)
         aggregate_by_recording = config["dataset"]["valid"]["name"] == "LimitedFrequencySequentialValidationDataset"
