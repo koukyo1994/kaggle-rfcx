@@ -394,6 +394,8 @@ if __name__ == "__main__":
 
         model = models.prepare_for_inference(model, checkpoints_dir / "best.pth").to(device)
         aggregate_by_recording = config["dataset"]["valid"]["name"] == "LimitedFrequencySequentialValidationDataset"
+        if args.skip_train:
+            epoch = 0
         _, _, oof_pred_df, oof_targ_df = eval_one_epoch(
             model,
             loaders["valid"],
@@ -546,6 +548,8 @@ if __name__ == "__main__":
 
         model = models.prepare_for_inference(model, checkpoints_dir / "best.pth").to(device)
         aggregate_by_recording = config["dataset"]["valid"]["name"] == "LimitedFrequencySequentialValidationDataset"
+        if args.skip_train:
+            epoch = 1
         _, _, oof_pred_df, oof_targ_df = eval_one_epoch(
             model,
             loaders["valid"],
