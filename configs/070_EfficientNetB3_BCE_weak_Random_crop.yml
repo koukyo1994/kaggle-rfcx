@@ -41,7 +41,7 @@ dataset:
     name: SequentialValidationDataset
     params:
       sampling_rate: 32000
-      duration: 10
+      duration: 30
       melspectrogram_parameters:
         n_mels: 128
         fmin: 20
@@ -57,7 +57,7 @@ dataset:
     name: FasterSpectrogramTestDataset
     params:
       sampling_rate: 32000
-      duration: 10
+      duration: 30
       melspectrogram_parameters:
         n_mels: 128
         fmin: 20
@@ -135,4 +135,4 @@ callbacks:
       prefix: lwlrap
 
 inference:
-  prediction_type: weak
+  prediction_type: strong
