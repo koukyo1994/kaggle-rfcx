@@ -1,7 +1,7 @@
 globals:
   seed: 1213
   device: cuda
-  num_epochs: 55
+  num_epochs: 75
   main_metric: epoch_lwlrap
   minimize_metric: False
   input_key: image
@@ -37,6 +37,7 @@ dataset:
         power: 0.5
         time_constant: 0.4
         eps: 0.000001
+      mixup_prob: 0.8
   valid:
     name: SequentialValidationDataset
     params:
