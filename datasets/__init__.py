@@ -16,6 +16,7 @@ from .spectrogram import (SpectrogramDataset, SpectrogramTestDataset, MultiLabel
                           TorchAudioMLTestDataset, FasterMLSpectrogramDataset, FasterSpectrogramTestDataset)
 from .waveform import (WaveformDataset, WaveformValidDataset, WaveformTestDataset,
                        MultiLabelWaveformDataset)
+from .random_crop import RandomFasterMLSpectrogramDataset
 
 
 __DATASETS__ = {
@@ -39,7 +40,8 @@ __DATASETS__ = {
     "MultiLabelWaveformDataset": MultiLabelWaveformDataset,
     "SampleWiseSpectrogramDataset": SampleWiseSpectrogramDataset,
     "SampleWiseSpectrogramTestDataset": SampleWiseSpectrogramTestDataset,
-    "SequentialValidationDataset": SequentialValidationDataset
+    "SequentialValidationDataset": SequentialValidationDataset,
+    "RandomFasterMLSpectrogramDataset": RandomFasterMLSpectrogramDataset
 }
 
 
@@ -115,7 +117,8 @@ def get_train_loader(df: pd.DataFrame,
                                            "FasterMLSpectrogramDataset", "LogmelMixupDataset",
                                            "SampleWiseSpectrogramDataset", "LogmelMixupWithFPDataset",
                                            "SequentialValidationDataset", "LimitedFrequencySpectrogramDataset",
-                                           "LimitedFrequencySequentialValidationDataset"]:
+                                           "LimitedFrequencySequentialValidationDataset",
+                                           "RandomFasterMLSpectrogramDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, phase)
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, phase)
         params = dataset_config[phase]["params"]
