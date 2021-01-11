@@ -239,14 +239,11 @@ class RandomCropMixupDataset(torchdata.Dataset):
         strong_label = np.zeros((n_frames, N_CLASSES), dtype=np.float32)
 
         for species_id in all_tp_events["species_id"].unique():
-            if use_mixup:
-                label[int(species_id)] = lam
-            else:
-                label[int(species_id)] = 1.0
+            label[int(species_id)] = 1.0
 
         if use_mixup:
             for species_id in mixup_tp_events["species_id"].unique():
-                label[int(species_id)] = 1.0 - lam
+                label[int(species_id)] = 1.0
 
         for _, row in all_tp_events.iterrows():
             t_min = row.t_min
@@ -256,10 +253,7 @@ class RandomCropMixupDataset(torchdata.Dataset):
             start_index = int((t_min - offset) / seconds_per_frame)
             end_index = int((t_max - offset) / seconds_per_frame)
 
-            if use_mixup:
-                strong_label[start_index:end_index, species_id] = lam
-            else:
-                strong_label[start_index:end_index, species_id] = 1.0
+            strong_label[start_index:end_index, species_id] = 1.0
 
         if use_mixup:
             for _, row in mixup_tp_events.iterrows():
@@ -270,7 +264,7 @@ class RandomCropMixupDataset(torchdata.Dataset):
                 start_index = int((t_min - mixup_offset) / seconds_per_frame)
                 end_index = int((t_max - mixup_offset) / seconds_per_frame)
 
-                strong_label[start_index:end_index, species_id] = 1.0 - lam
+                strong_label[start_index:end_index, species_id] = 1.0
 
         return {
             "recording_id": flac_id,
