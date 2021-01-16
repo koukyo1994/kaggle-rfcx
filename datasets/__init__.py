@@ -54,6 +54,16 @@ def get_metadata(config: dict):
     train_audio = Path(data_config["train_audio_path"])
     test_audio = Path(data_config["test_audio_path"])
 
+    if data_config.get("tp_additional_labels_path") is not None:
+        tp_additional_labels = pd.read_csv(data_config["tp_additional_labels_path"])
+        tp_additional_labels["songtype_id"] = 1
+
+        tp = tp.drop(["f_min", "f_max"], axis=1)
+        columns = tp.columns
+        tp_additional_labels = tp_additional_labels[columns]
+
+        tp = pd.concat([tp, tp_additional_labels], axis=0).reset_index(drop=True)
+
     train_audios = list(train_audio.glob("*.flac"))
     if len(train_audios) == 0:
         train_audios = list(train_audio.glob("*.wav"))
