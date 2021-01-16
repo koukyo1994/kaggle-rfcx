@@ -57,6 +57,7 @@ def get_metadata(config: dict):
     if data_config.get("tp_additional_labels_path") is not None:
         tp_additional_labels = pd.read_csv(data_config["tp_additional_labels_path"])
         tp_additional_labels["songtype_id"] = 1
+        tp_additional_labels.loc[tp_additional_labels["species_id"] == 16, "songtype_id"] = 4
 
         tp = tp.drop(["f_min", "f_max"], axis=1)
         columns = tp.columns
