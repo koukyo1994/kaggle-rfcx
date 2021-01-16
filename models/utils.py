@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 def init_layer(layer):
@@ -94,11 +95,10 @@ def pad_framewise_output(framewise_output: torch.Tensor, frames_num: int):
     Outputs:
       output: (batch_size, frames_num, classes_num)
     """
-    pad = framewise_output[:, -1:, :].repeat(
-        1, frames_num - framewise_output.shape[1], 1)
-    """tensor for padding"""
-
-    output = torch.cat((framewise_output, pad), dim=1)
-    """(batch_size, frames_num, classes_num)"""
+    output = F.interpolate(
+      framewise_output.unsqueeze(1),
+      size=(frames_num, framewise_output.size(2)),
+      align_corners=True,
+      mode="bilinear").squeeze(1)
 
     return output
