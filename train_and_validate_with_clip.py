@@ -1,3 +1,4 @@
+import gc
 import warnings
 
 import numpy as np
@@ -272,3 +273,7 @@ if __name__ == "__main__":
 
         train_writer.close()
         valid_writer.close()
+
+        del model, optimizer
+        gc.collect()
+        torch.cuda.empty_cache()
