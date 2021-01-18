@@ -6,5 +6,8 @@ class SchedulerCallback(Callback):
         super().__init__(CallbackOrder.Scheduler)
 
     def on_loader_end(self, state: IRunner):
+        lr = state.scheduler.get_last_lr()
+        import pdb
+        pdb.set_trace()
         state.scheduler.step()
-        state.epoch_metrics["lr"] = state.scheduler.get_last_lr()
+        print(f"LR changed from {lr}")
