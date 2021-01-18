@@ -5,11 +5,12 @@ import torch.optim as optim
 from iterstrat.ml_stratifiers import MultilabelStratifiedKFold
 from sklearn import model_selection
 
-from .optimizers import AdaBelief
+from .optimizers import AdaBelief, SAM
 
 
 __OPTIMIZERS__ = {
-    "AdaBelief": AdaBelief
+    "AdaBelief": AdaBelief,
+    "SAM": SAM
 }
 
 
@@ -23,6 +24,14 @@ def get_device(device: str):
 def get_optimizer(model: nn.Module, config: dict):
     optimizer_config = config["optimizer"]
     optimizer_name = optimizer_config.get("name")
+    if optimizer_name == "SAM":
+        base_optimizer_name = optimizer_config.get("base_optimizer")
+        if __OPTIMIZERS__.get(base_optimizer_name) is not None:
+            base_optimizer = __OPTIMIZERS__[base_optimizer_name]
+        else:
+            base_optimizer = optim.__getattribute__(base_optimizer_name)
+        return SAM(model.parameters(), base_optimizer, **optimizer_config["params"])
+
     if __OPTIMIZERS__.get(optimizer_name) is not None:
         return __OPTIMIZERS__[optimizer_name](model.parameters(),
                                               **optimizer_config["params"])
