@@ -80,7 +80,8 @@ transforms:
         mode: sine
     - name: PitchShift
       params:
-        max_range: 3
+        max_steps: 3
+        sr: 32000
   valid:
   test:
 
