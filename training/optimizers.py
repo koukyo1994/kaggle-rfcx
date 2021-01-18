@@ -171,11 +171,7 @@ class AdaBelief(Optimizer):
         return loss
 
 
-class SAM(Optimizer):
-    """
-    Implementation from https://github.com/davda54/sam
-    """
-
+class SAM(torch.optim.Optimizer):
     def __init__(self, params, base_optimizer, rho=0.05, **kwargs):
         assert rho >= 0.0, f"Invalid rho, should be non-negative: {rho}"
 
@@ -195,7 +191,7 @@ class SAM(Optimizer):
                 if p.grad is None:
                     continue
                 e_w = p.grad * scale.to(p)
-                p.add_(e_w)
+                p.add_(e_w)  # climb to the local maximum "w + e(w)"
                 self.state[p]["e_w"] = e_w
 
         if zero_grad:
@@ -207,29 +203,30 @@ class SAM(Optimizer):
             for p in group["params"]:
                 if p.grad is None:
                     continue
-                p.sum_(self.state[p]["e_w"])
+                p.sub_(self.state[p]["e_w"])  # get back to "w" from "w + e(w)"
 
-        self.base_optimizer.step()
+        self.base_optimizer.step()  # do the actual "sharpness-aware" update
 
         if zero_grad:
             self.zero_grad()
 
     @torch.no_grad()
     def step(self, closure=None):
-        assert closure is not None, "Sharpness Aware Mnimization requires closure, but it was not provided"
-        closure = torch.enable_grad()(closure)
+        assert closure is not None, "Sharpness Aware Minimization requires closure, but it was not provided"
+        closure = torch.enable_grad()(closure)  # the closure should do a full forward-backward pass
 
         self.first_step(zero_grad=True)
         closure()
         self.second_step()
 
     def _grad_norm(self):
-        shared_device = self.param_groups[0]["params"][0].device
+        shared_device = self.param_groups[0]["params"][0].device  # put everything on the same device, in case of model parallelism
         norm = torch.norm(
-            torch.stack([
-                p.grad.norm(p=2).to(shared_device)
-                for group in self.param_groups for p in group["params"]
-                if p.grad is not None
-            ]),
-            p=2)
+                    torch.stack([
+                        p.grad.norm(p=2).to(shared_device)
+                        for group in self.param_groups for p in group["params"]
+                        if p.grad is not None
+                    ]),
+                    p=2
+               )
         return norm
