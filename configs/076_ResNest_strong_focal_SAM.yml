@@ -90,7 +90,7 @@ loss:
 
 optimizer:
   name: SAM
-  base_optimizer_name: Adam
+  base_optimizer: Adam
   params:
     lr: 0.001
 
