@@ -7,3 +7,4 @@ class SchedulerCallback(Callback):
 
     def on_loader_end(self, state: IRunner):
         state.scheduler.step()
+        state.epoch_metrics["lr"] = state.scheduler.get_last_lr()
