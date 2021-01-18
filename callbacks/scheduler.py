@@ -8,4 +8,5 @@ class SchedulerCallback(Callback):
     def on_loader_end(self, state: IRunner):
         lr = state.scheduler.get_last_lr()
         state.epoch_metrics["lr"] = lr[0]
-        state.scheduler.step()
+        if state.is_train_loader:
+            state.scheduler.step()
