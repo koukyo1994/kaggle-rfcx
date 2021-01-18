@@ -17,6 +17,8 @@ def get_callbacks(config: dict):
     for callback_conf in required_callbacks:
         name = callback_conf["name"]
         params = callback_conf["params"]
+        if params is None:
+            params = {}
         callback_cls = __CALLBACKS__.get(name)
 
         if callback_cls is not None:
