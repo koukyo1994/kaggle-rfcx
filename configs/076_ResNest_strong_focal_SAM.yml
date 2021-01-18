@@ -92,7 +92,7 @@ optimizer:
   name: SAM
   base_optimizer: Adam
   params:
-    lr: 0.01
+    lr: 0.001
 
 scheduler:
   name: CosineAnnealingLR
