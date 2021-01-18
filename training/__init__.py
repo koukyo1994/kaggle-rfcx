@@ -2,10 +2,12 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
+from catalyst.dl import SupervisedRunner
 from iterstrat.ml_stratifiers import MultilabelStratifiedKFold
 from sklearn import model_selection
 
 from .optimizers import AdaBelief, SAM
+from .runners import SAMRunner
 
 
 __OPTIMIZERS__ = {
@@ -59,3 +61,16 @@ def get_split(config: dict):
         return model_selection.__getattribute__(name)(**split_config["params"])
     else:
         return MultilabelStratifiedKFold(**split_config["params"])
+
+
+def get_runner(config: dict, device: torch.device):
+    if config.get("runner") is not None:
+        if config["runner"] == "SAMRunner":
+            return SAMRunner(device=device)
+        else:
+            raise NotImplementedError
+    else:
+        return SupervisedRunner(
+            device=device,
+            input_key=config["globals"]["input_key"],
+            input_target_key=config["globals"]["input_target_key"])

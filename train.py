@@ -9,8 +9,6 @@ import utils
 
 from pathlib import Path
 
-from catalyst.dl import SupervisedRunner
-
 
 if __name__ == "__main__":
     warnings.filterwarnings("ignore")
@@ -62,10 +60,8 @@ if __name__ == "__main__":
         scheduler = training.get_scheduler(optimizer, config)
         callbacks = clb.get_callbacks(config)
 
-        runner = SupervisedRunner(
-            device=device,
-            input_key=global_params["input_key"],
-            input_target_key=global_params["input_target_key"])
+        runner = training.get_runner(config, device)
+
         runner.train(
             model=model,
             criterion=criterion,
