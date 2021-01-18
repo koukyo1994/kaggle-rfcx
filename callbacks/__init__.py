@@ -1,9 +1,11 @@
 from ._metrics import lwlrap
 from .metrics import LWLRAPCallback
+from .scheduler import SchedulerCallback
 
 
 __CALLBACKS__ = {
-    "LWLRAPCallback": LWLRAPCallback
+    "LWLRAPCallback": LWLRAPCallback,
+    "SchedulerCallback": SchedulerCallback
 }
 
 

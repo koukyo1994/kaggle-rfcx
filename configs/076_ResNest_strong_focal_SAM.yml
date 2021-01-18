@@ -136,6 +136,8 @@ callbacks:
       input_key: targets
       output_key: logits
       prefix: lwlrap
+  - name: SchedulerCallback
+    params:
 
 inference:
   prediction_type: weak
