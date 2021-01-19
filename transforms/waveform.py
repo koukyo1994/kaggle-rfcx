@@ -113,6 +113,40 @@ class PitchShift(AudioTransform):
         return augmented
 
 
+class Identity(AudioTransform):
+    def __init__(self, always_apply=False, p=0.5):
+        super().__init__(always_apply=always_apply, p=p)
+
+    def apply(self, y: np.ndarray, **params):
+        return y
+
+
+class PitchUp(AudioTransform):
+    def __init__(self, always_apply=False, p=0.5, max_steps=5, sr=32000):
+        super().__init__(always_apply=always_apply, p=p)
+
+        self.max_steps = max_steps
+        self.sr = sr
+
+    def apply(self, y: np.ndarray, **params):
+        n_steps = np.random.randint(0, self.max_steps)
+        augmented = librosa.effects.pitch_shift(y, sr=self.sr, n_steps=n_steps)
+        return augmented
+
+
+class PitchDown(AudioTransform):
+    def __init__(self, always_apply=False, p=0.5, max_steps=5, sr=32000):
+        super().__init__(always_apply=always_apply, p=p)
+
+        self.max_steps = max_steps
+        self.sr = sr
+
+    def apply(self, y: np.ndarray, **params):
+        n_steps = np.random.randint(-self.max_steps, 0)
+        augmented = librosa.effects.pitch_shift(y, sr=self.sr, n_steps=n_steps)
+        return augmented
+
+
 class TimeStretch(AudioTransform):
     def __init__(self, always_apply=False, p=0.5, max_rate=1.2):
         super().__init__(always_apply, p)

@@ -17,6 +17,7 @@ from .spectrogram import (SpectrogramDataset, SpectrogramTestDataset, MultiLabel
 from .waveform import (WaveformDataset, WaveformValidDataset, WaveformTestDataset,
                        MultiLabelWaveformDataset)
 from .random_crop import RandomFasterMLSpectrogramDataset, RandomCropMixupDataset
+from .tta import SpectrogramTTADataset
 
 
 __DATASETS__ = {
@@ -42,7 +43,8 @@ __DATASETS__ = {
     "SampleWiseSpectrogramTestDataset": SampleWiseSpectrogramTestDataset,
     "SequentialValidationDataset": SequentialValidationDataset,
     "RandomFasterMLSpectrogramDataset": RandomFasterMLSpectrogramDataset,
-    "RandomCropMixupDataset": RandomCropMixupDataset
+    "RandomCropMixupDataset": RandomCropMixupDataset,
+    "SpectrogramTTADataset": SpectrogramTTADataset
 }
 
 
@@ -161,7 +163,8 @@ def get_test_loader(df: pd.DataFrame,
     elif dataset_config["test"]["name"] in ["SpectrogramTestDataset", "TorchAudioMLTestDataset",
                                             "FasterSpectrogramTestDataset", "SampleWiseSpectrogramTestDataset",
                                             "LimitedFrequencySpectrogramTestDataset",
-                                            "LimitedFrequencySampleWiseSpectrogramTestDataset"]:
+                                            "LimitedFrequencySampleWiseSpectrogramTestDataset",
+                                            "SpectrogramTTADataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, "test")
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, "test")
         params = dataset_config["test"]["params"]
