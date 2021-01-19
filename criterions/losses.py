@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -21,11 +22,18 @@ def get_criterion(config: dict):
 
 
 class FocalLoss(nn.Module):
-    def __init__(self, gamma=2):
+    def __init__(self, gamma=2, weights=None):
         super().__init__()
         self.gamma = gamma
+        if weights is None:
+            self.weights = torch.tensor([1] * 24).float()
+        else:
+            self.weights = torch.tensor(weights).float()
+        self.weights.requires_grad = False
 
     def forward(self, logit, target):
+        if self.weights.device == torch.device("cpu"):
+            self.weights = self.weights.to(logit.device)
         target = target.float()
         max_val = (-logit).clamp(min=0)
         loss = logit - logit * target + max_val + \
@@ -34,6 +42,7 @@ class FocalLoss(nn.Module):
         invprobs = F.logsigmoid(-logit * (target * 2.0 - 1.0))
         loss = (invprobs * self.gamma).exp() * loss
         if len(loss.size()) == 2:
+            loss = loss * self.weights
             loss = loss.sum(dim=1)
         return loss.mean()
 
@@ -95,10 +104,10 @@ class BCE2WayStrongLoss(nn.Module):
 
 
 class Focal2WayLoss(nn.Module):
-    def __init__(self, weights=[1, 1]):
+    def __init__(self, weights=[1, 1], class_weights=None):
         super().__init__()
 
-        self.focal = FocalLoss()
+        self.focal = FocalLoss(weights=class_weights)
 
         self.weights = weights
 
@@ -116,10 +125,10 @@ class Focal2WayLoss(nn.Module):
 
 
 class Focal2WayStrongLoss(nn.Module):
-    def __init__(self, weights=[1, 1]):
+    def __init__(self, weights=[1, 1], class_weights=None):
         super().__init__()
 
-        self.focal = FocalLoss()
+        self.focal = FocalLoss(weights=class_weights)
 
         self.weights = weights
 
