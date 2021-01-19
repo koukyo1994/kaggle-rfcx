@@ -1,0 +1,21 @@
+results:
+  - submission: out/078_ResNest_focal_strong_SAM_pitch_shift/submission/weak.csv
+    oof: out/078_ResNest_focal_SAM_pitch_shift/submission/oof_weak.csv
+    name: 078_ResNest_focal_strong_SAM_pitch_shift
+  - submission: out/059_high_and_low_chunk_validation_5fold/submission/submission.csv
+    oof: out/059_high_and_low_chunk_validation_5fold/submission/oof.csv
+    name: 059_high_and_low
+  - submission: out/061_high_and_low_bce_5fold/submission/submission.csv
+    oof: out/061_high_and_low_bce_5fold/submission/oof.csv
+    name: 061_high_and_low_bce
+
+data:
+  data:
+  train_tp_path: input/train_tp.csv
+  train_fp_path: input/train_fp.csv
+  train_audio_path: input/train
+  test_audio_path: input/test
+  sample_submission_path: input/sample_submission.csv
+
+strategy:
+  name: rank_search
