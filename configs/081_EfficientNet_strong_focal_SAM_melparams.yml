@@ -121,7 +121,7 @@ model:
 
 loader:
   train:
-    batch_size: 24
+    batch_size: 18
     shuffle: True
     num_workers: 20
   valid:

@@ -1,4 +1,7 @@
+import gc
 import warnings
+
+import torch
 
 import callbacks as clb
 import criterions
@@ -74,3 +77,7 @@ if __name__ == "__main__":
             callbacks=callbacks,
             main_metric=global_params["main_metric"],
             minimize_metric=global_params["minimize_metric"])
+
+        del model
+        gc.collect()
+        torch.cuda.empty_cache()
