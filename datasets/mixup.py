@@ -79,7 +79,6 @@ class LogmelMixupDataset(torchdata.Dataset):
             offset = np.random.choice(np.arange(max(t_max - self.duration, 0), t_min, 0.1))
             offset = min(CLIP_DURATION - self.duration, offset)
 
-
         y, sr = librosa.load(self.datadir / f"{flac_id}{self.suffix}",
                              sr=self.sampling_rate,
                              mono=True,
@@ -105,7 +104,7 @@ class LogmelMixupDataset(torchdata.Dataset):
                 max(mixup_t_max - self.duration, 0), mixup_t_min, 0.1))
             mixup_offset = min(CLIP_DURATION - self.duration, mixup_offset)
 
-            y_mixup, _ = librosa.load(self.datadir / f"{mixup_flac_id}.wav",
+            y_mixup, _ = librosa.load(self.datadir / f"{mixup_flac_id}{self.suffix}",
                                       sr=self.sampling_rate,
                                       mono=True,
                                       offset=mixup_offset,
