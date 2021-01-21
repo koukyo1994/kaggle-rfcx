@@ -55,6 +55,11 @@ class LogmelMixupDataset(torchdata.Dataset):
         self.mixup_prob = mixup_prob
         self.mixup_alpha = mixup_alpha
 
+        if len(list(datadir.glob("*.flac"))) == 0:
+            self.suffix = ".wav"
+        else:
+            self.suffix = ".flac"
+
     def __len__(self):
         return len(self.tp)
 
@@ -74,7 +79,8 @@ class LogmelMixupDataset(torchdata.Dataset):
             offset = np.random.choice(np.arange(max(t_max - self.duration, 0), t_min, 0.1))
             offset = min(CLIP_DURATION - self.duration, offset)
 
-        y, sr = librosa.load(self.datadir / f"{flac_id}.wav",
+
+        y, sr = librosa.load(self.datadir / f"{flac_id}{self.suffix}",
                              sr=self.sampling_rate,
                              mono=True,
                              offset=offset,
