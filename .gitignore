@@ -140,3 +140,6 @@ dmypy.json
 
 # editor
 .vscode/
+
+# inference log
+!*/*/inference.log
