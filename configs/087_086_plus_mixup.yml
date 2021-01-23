@@ -30,6 +30,8 @@ dataset:
       melspectrogram_parameters:
         n_mels: 128
         fmin: 20
+        n_fft: 1024
+        hop_length: 1024
         fmax: 16000
       pcen_parameters:
         gain: 0.98
@@ -46,6 +48,8 @@ dataset:
       melspectrogram_parameters:
         n_mels: 128
         fmin: 20
+        n_fft: 1024
+        hop_length: 1024
         fmax: 16000
       pcen_parameters:
         gain: 0.98
@@ -62,6 +66,8 @@ dataset:
       melspectrogram_parameters:
         n_mels: 128
         fmin: 20
+        n_fft: 1024
+        hop_length: 1024
         fmax: 16000
       pcen_parameters:
         gain: 0.98
