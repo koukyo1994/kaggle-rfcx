@@ -1,0 +1,13 @@
+2020-12-02 13:52:43,692 - INFO - logger set up
+2020-12-02 13:52:44,006 - INFO - Note: NumExpr detected 20 cores but "NUMEXPR_MAX_THREADS" not set, so enforcing safe limit of 8.
+2020-12-02 13:52:44,007 - INFO - NumExpr defaulting to 8 threads.
+2020-12-02 13:52:46,532 - INFO - ====================
+2020-12-02 13:52:46,532 - INFO - Fold 0
+2020-12-02 13:52:46,532 - INFO - ====================
+2020-12-02 13:52:48,515 - INFO - ********************
+2020-12-02 13:52:48,515 - INFO - OOF prediction for fold0
+2020-12-02 13:52:48,515 - INFO - ********************
+2020-12-02 13:52:55,085 - INFO - ********************
+2020-12-02 13:52:55,085 - INFO - Prediction on test for fold0
+2020-12-02 13:52:55,085 - INFO - ********************
+2020-12-02 14:02:57,964 - INFO - Valid LWLRAP: 0.88519
