@@ -1,0 +1,692 @@
+{
+  "best": {
+    "epoch_lwlrap": 0.8698644211783074,
+    "loss": 0.09663204334933183,
+    "lwlrap": 0.8707648663784566
+  },
+  "last": {
+    "epoch_lwlrap": 0.8664793078185073,
+    "loss": 0.09918692091415669,
+    "lwlrap": 0.8673990581952042
+  },
+  "train.52": {
+    "epoch_lwlrap": 0.8698644211783074,
+    "loss": 0.09663204334933183,
+    "lwlrap": 0.8707648663784566
+  },
+  "epoch_0": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.1.pth",
+    0.22613318228173696,
+    {
+      "epoch_lwlrap": 0.22613318228173696,
+      "loss": 0.2801264390863221,
+      "lwlrap": 0.22578884934792717
+    }
+  ],
+  "epoch_1": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.2.pth",
+    0.3020310367262263,
+    {
+      "epoch_lwlrap": 0.3020310367262263,
+      "loss": 0.25673827323420295,
+      "lwlrap": 0.3023004027630297
+    }
+  ],
+  "epoch_2": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.3.pth",
+    0.29733980743601324,
+    {
+      "epoch_lwlrap": 0.29733980743601324,
+      "loss": 0.24997010570147943,
+      "lwlrap": 0.29827058759645225
+    }
+  ],
+  "epoch_3": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.4.pth",
+    0.31972714407851044,
+    {
+      "epoch_lwlrap": 0.31972714407851044,
+      "loss": 0.2458506021006354,
+      "lwlrap": 0.3179729904542193
+    }
+  ],
+  "epoch_4": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.5.pth",
+    0.34697389280587,
+    {
+      "epoch_lwlrap": 0.34697389280587,
+      "loss": 0.2408661205193092,
+      "lwlrap": 0.3456390907193308
+    }
+  ],
+  "epoch_5": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.6.pth",
+    0.3550172595397583,
+    {
+      "epoch_lwlrap": 0.3550172595397583,
+      "loss": 0.23955516876845526,
+      "lwlrap": 0.35530579174943344
+    }
+  ],
+  "epoch_6": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.7.pth",
+    0.3922755918164915,
+    {
+      "epoch_lwlrap": 0.3922755918164915,
+      "loss": 0.2350610638486928,
+      "lwlrap": 0.39232901692187594
+    }
+  ],
+  "epoch_7": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.8.pth",
+    0.38730502299783987,
+    {
+      "epoch_lwlrap": 0.38730502299783987,
+      "loss": 0.23331254926221123,
+      "lwlrap": 0.3878586687486799
+    }
+  ],
+  "epoch_8": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.9.pth",
+    0.4175060360985686,
+    {
+      "epoch_lwlrap": 0.4175060360985686,
+      "loss": 0.22998421356595797,
+      "lwlrap": 0.41781638242520264
+    }
+  ],
+  "epoch_9": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.10.pth",
+    0.4157069753952484,
+    {
+      "epoch_lwlrap": 0.4157069753952484,
+      "loss": 0.22982048885575657,
+      "lwlrap": 0.41537729909471155
+    }
+  ],
+  "epoch_10": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.11.pth",
+    0.4180177435540156,
+    {
+      "epoch_lwlrap": 0.4180177435540156,
+      "loss": 0.23013655121984153,
+      "lwlrap": 0.4178336650162014
+    }
+  ],
+  "epoch_11": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.12.pth",
+    0.4195837471745921,
+    {
+      "epoch_lwlrap": 0.4195837471745921,
+      "loss": 0.22855892006693215,
+      "lwlrap": 0.4194730646578927
+    }
+  ],
+  "epoch_12": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.13.pth",
+    0.43383698095004747,
+    {
+      "epoch_lwlrap": 0.43383698095004747,
+      "loss": 0.22663342541661755,
+      "lwlrap": 0.4341009714802335
+    }
+  ],
+  "epoch_13": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.14.pth",
+    0.43253519715606703,
+    {
+      "epoch_lwlrap": 0.43253519715606703,
+      "loss": 0.22757971903373456,
+      "lwlrap": 0.4319373660688646
+    }
+  ],
+  "epoch_14": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.15.pth",
+    0.43356405254440944,
+    {
+      "epoch_lwlrap": 0.43356405254440944,
+      "loss": 0.2221411574503471,
+      "lwlrap": 0.43346165783829116
+    }
+  ],
+  "epoch_15": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.16.pth",
+    0.4804743692424185,
+    {
+      "epoch_lwlrap": 0.4804743692424185,
+      "loss": 0.21952451919687205,
+      "lwlrap": 0.4798834086263905
+    }
+  ],
+  "epoch_16": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.17.pth",
+    0.5068035334428778,
+    {
+      "epoch_lwlrap": 0.5068035334428778,
+      "loss": 0.2150550756988854,
+      "lwlrap": 0.5048031970296487
+    }
+  ],
+  "epoch_17": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.18.pth",
+    0.4774711355346284,
+    {
+      "epoch_lwlrap": 0.4774711355346284,
+      "loss": 0.21398702315215407,
+      "lwlrap": 0.47873586647730626
+    }
+  ],
+  "epoch_18": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.19.pth",
+    0.5804786629581711,
+    {
+      "epoch_lwlrap": 0.5804786629581711,
+      "loss": 0.18271734180121588,
+      "lwlrap": 0.5793211871978292
+    }
+  ],
+  "epoch_19": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.20.pth",
+    0.5917475313495548,
+    {
+      "epoch_lwlrap": 0.5917475313495548,
+      "loss": 0.192152411773287,
+      "lwlrap": 0.591694601370732
+    }
+  ],
+  "epoch_20": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.21.pth",
+    0.6206381614476815,
+    {
+      "epoch_lwlrap": 0.6206381614476815,
+      "loss": 0.18234285917775384,
+      "lwlrap": 0.6199902365705587
+    }
+  ],
+  "epoch_21": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.22.pth",
+    0.6477524069737185,
+    {
+      "epoch_lwlrap": 0.6477524069737185,
+      "loss": 0.16184038026579495,
+      "lwlrap": 0.6478332468480251
+    }
+  ],
+  "epoch_22": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.23.pth",
+    0.672606793252285,
+    {
+      "epoch_lwlrap": 0.672606793252285,
+      "loss": 0.15751115669464244,
+      "lwlrap": 0.6732946757372045
+    }
+  ],
+  "epoch_23": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.24.pth",
+    0.626463661678794,
+    {
+      "epoch_lwlrap": 0.626463661678794,
+      "loss": 0.17408604765760488,
+      "lwlrap": 0.6261296752319524
+    }
+  ],
+  "epoch_24": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.25.pth",
+    0.7215262992926927,
+    {
+      "epoch_lwlrap": 0.7215262992926927,
+      "loss": 0.14445765624786244,
+      "lwlrap": 0.7204648081803254
+    }
+  ],
+  "epoch_25": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.26.pth",
+    0.7489480578619923,
+    {
+      "epoch_lwlrap": 0.7489480578619923,
+      "loss": 0.1364546793288198,
+      "lwlrap": 0.7480883811996665
+    }
+  ],
+  "epoch_26": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.27.pth",
+    0.7609193515955811,
+    {
+      "epoch_lwlrap": 0.7609193515955811,
+      "loss": 0.13240595829897914,
+      "lwlrap": 0.7608122974604913
+    }
+  ],
+  "epoch_27": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.28.pth",
+    0.7826291308873277,
+    {
+      "epoch_lwlrap": 0.7826291308873277,
+      "loss": 0.12525153468395103,
+      "lwlrap": 0.7820423895495734
+    }
+  ],
+  "epoch_28": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.29.pth",
+    0.7917740046838407,
+    {
+      "epoch_lwlrap": 0.7917740046838407,
+      "loss": 0.12240869885888593,
+      "lwlrap": 0.7910333493666826
+    }
+  ],
+  "epoch_29": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.30.pth",
+    0.784709211553474,
+    {
+      "epoch_lwlrap": 0.784709211553474,
+      "loss": 0.1227151607644969,
+      "lwlrap": 0.783616730681591
+    }
+  ],
+  "epoch_30": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.31.pth",
+    0.7839708561020036,
+    {
+      "epoch_lwlrap": 0.7839708561020036,
+      "loss": 0.12170454885425239,
+      "lwlrap": 0.7834824020168848
+    }
+  ],
+  "epoch_31": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.32.pth",
+    0.7949502341920375,
+    {
+      "epoch_lwlrap": 0.7949502341920375,
+      "loss": 0.11932554070291848,
+      "lwlrap": 0.794210544138705
+    }
+  ],
+  "epoch_32": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.33.pth",
+    0.7778428311215196,
+    {
+      "epoch_lwlrap": 0.7778428311215196,
+      "loss": 0.11924937752814128,
+      "lwlrap": 0.7774781002613514
+    }
+  ],
+  "epoch_33": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.34.pth",
+    0.7835947294963689,
+    {
+      "epoch_lwlrap": 0.7835947294963689,
+      "loss": 0.12720772572632494,
+      "lwlrap": 0.7833056196207412
+    }
+  ],
+  "epoch_34": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.35.pth",
+    0.7752004216987342,
+    {
+      "epoch_lwlrap": 0.7752004216987342,
+      "loss": 0.12636968596228237,
+      "lwlrap": 0.7749738106376882
+    }
+  ],
+  "epoch_35": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.36.pth",
+    0.781809841422908,
+    {
+      "epoch_lwlrap": 0.781809841422908,
+      "loss": 0.13216214498569226,
+      "lwlrap": 0.7820691497892551
+    }
+  ],
+  "epoch_36": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.37.pth",
+    0.7474583362903036,
+    {
+      "epoch_lwlrap": 0.7474583362903036,
+      "loss": 0.13524113364260773,
+      "lwlrap": 0.7482510839294501
+    }
+  ],
+  "epoch_37": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.38.pth",
+    0.7589192188978362,
+    {
+      "epoch_lwlrap": 0.7589192188978362,
+      "loss": 0.13551824848199712,
+      "lwlrap": 0.7582904908063758
+    }
+  ],
+  "epoch_38": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.39.pth",
+    0.7528644199262252,
+    {
+      "epoch_lwlrap": 0.7528644199262252,
+      "loss": 0.1520616427577775,
+      "lwlrap": 0.7520998542471151
+    }
+  ],
+  "epoch_39": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.40.pth",
+    0.7378143105421311,
+    {
+      "epoch_lwlrap": 0.7378143105421311,
+      "loss": 0.14999864738563012,
+      "lwlrap": 0.7367747267378907
+    }
+  ],
+  "epoch_40": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.41.pth",
+    0.7668814905495234,
+    {
+      "epoch_lwlrap": 0.7668814905495234,
+      "loss": 0.1339156437536766,
+      "lwlrap": 0.7672202972823867
+    }
+  ],
+  "epoch_41": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.42.pth",
+    0.7448759780268623,
+    {
+      "epoch_lwlrap": 0.7448759780268623,
+      "loss": 0.14314580683050485,
+      "lwlrap": 0.7454921515257259
+    }
+  ],
+  "epoch_42": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.43.pth",
+    0.7930950953892864,
+    {
+      "epoch_lwlrap": 0.7930950953892864,
+      "loss": 0.12328927167530718,
+      "lwlrap": 0.7931886344586243
+    }
+  ],
+  "epoch_43": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.44.pth",
+    0.791439440568539,
+    {
+      "epoch_lwlrap": 0.791439440568539,
+      "loss": 0.12388026277566778,
+      "lwlrap": 0.7918184623527772
+    }
+  ],
+  "epoch_44": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.45.pth",
+    0.7902491724945448,
+    {
+      "epoch_lwlrap": 0.7902491724945448,
+      "loss": 0.13136931123404666,
+      "lwlrap": 0.7914424680947144
+    }
+  ],
+  "epoch_45": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.46.pth",
+    0.8099578961479406,
+    {
+      "epoch_lwlrap": 0.8099578961479406,
+      "loss": 0.11938696560160866,
+      "lwlrap": 0.8100439008888933
+    }
+  ],
+  "epoch_46": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.47.pth",
+    0.856094434936648,
+    {
+      "epoch_lwlrap": 0.856094434936648,
+      "loss": 0.1062405718297794,
+      "lwlrap": 0.8565105930946448
+    }
+  ],
+  "epoch_47": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.48.pth",
+    0.8529881377729738,
+    {
+      "epoch_lwlrap": 0.8529881377729738,
+      "loss": 0.10240862775465538,
+      "lwlrap": 0.8535945276785794
+    }
+  ],
+  "epoch_48": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.49.pth",
+    0.8605445478450224,
+    {
+      "epoch_lwlrap": 0.8605445478450224,
+      "loss": 0.10152688853699585,
+      "lwlrap": 0.8613123200067393
+    }
+  ],
+  "epoch_49": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.50.pth",
+    0.8585971820422158,
+    {
+      "epoch_lwlrap": 0.8585971820422158,
+      "loss": 0.09963479278416469,
+      "lwlrap": 0.859153924544391
+    }
+  ],
+  "epoch_50": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.51.pth",
+    0.8670215900567877,
+    {
+      "epoch_lwlrap": 0.8670215900567877,
+      "loss": 0.09808497747470593,
+      "lwlrap": 0.8676906098559243
+    }
+  ],
+  "epoch_51": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.52.pth",
+    0.8698644211783074,
+    {
+      "epoch_lwlrap": 0.8698644211783074,
+      "loss": 0.09663204334933183,
+      "lwlrap": 0.8707648663784566
+    }
+  ],
+  "epoch_52": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.53.pth",
+    0.8579839519207889,
+    {
+      "epoch_lwlrap": 0.8579839519207889,
+      "loss": 0.10095974263446085,
+      "lwlrap": 0.8581934897984593
+    }
+  ],
+  "epoch_53": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.54.pth",
+    0.841019768563163,
+    {
+      "epoch_lwlrap": 0.841019768563163,
+      "loss": 0.10824988011656136,
+      "lwlrap": 0.8411786719215726
+    }
+  ],
+  "epoch_54": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.55.pth",
+    0.8249220838360183,
+    {
+      "epoch_lwlrap": 0.8249220838360183,
+      "loss": 0.10805036307408893,
+      "lwlrap": 0.8247291733577
+    }
+  ],
+  "epoch_55": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.56.pth",
+    0.8017437253092992,
+    {
+      "epoch_lwlrap": 0.8017437253092992,
+      "loss": 0.11823822223934634,
+      "lwlrap": 0.8023435556301936
+    }
+  ],
+  "epoch_56": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.57.pth",
+    0.8029918546365915,
+    {
+      "epoch_lwlrap": 0.8029918546365915,
+      "loss": 0.12414204354943899,
+      "lwlrap": 0.8023965165147863
+    }
+  ],
+  "epoch_57": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.58.pth",
+    0.8439961711698222,
+    {
+      "epoch_lwlrap": 0.8439961711698222,
+      "loss": 0.10877940418391392,
+      "lwlrap": 0.8442321010151066
+    }
+  ],
+  "epoch_58": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.59.pth",
+    0.7983247207686379,
+    {
+      "epoch_lwlrap": 0.7983247207686379,
+      "loss": 0.14181804245915905,
+      "lwlrap": 0.7984176699810809
+    }
+  ],
+  "epoch_59": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.60.pth",
+    0.8146820613491298,
+    {
+      "epoch_lwlrap": 0.8146820613491298,
+      "loss": 0.11687377711822246,
+      "lwlrap": 0.8144948252724984
+    }
+  ],
+  "epoch_60": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.61.pth",
+    0.8327619898316619,
+    {
+      "epoch_lwlrap": 0.8327619898316619,
+      "loss": 0.11104795285340013,
+      "lwlrap": 0.8323266864574336
+    }
+  ],
+  "epoch_61": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.62.pth",
+    0.8077689955763725,
+    {
+      "epoch_lwlrap": 0.8077689955763725,
+      "loss": 0.12993897831645507,
+      "lwlrap": 0.8074736313601256
+    }
+  ],
+  "epoch_62": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.63.pth",
+    0.8128784825394768,
+    {
+      "epoch_lwlrap": 0.8128784825394768,
+      "loss": 0.1288772764904746,
+      "lwlrap": 0.8142438949176206
+    }
+  ],
+  "epoch_63": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.64.pth",
+    0.7843522288121461,
+    {
+      "epoch_lwlrap": 0.7843522288121461,
+      "loss": 0.12736583989242029,
+      "lwlrap": 0.7852511551055738
+    }
+  ],
+  "epoch_64": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.65.pth",
+    0.8291046157849435,
+    {
+      "epoch_lwlrap": 0.8291046157849435,
+      "loss": 0.11171461898705055,
+      "lwlrap": 0.8300855633829772
+    }
+  ],
+  "epoch_65": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.66.pth",
+    0.8279697306336651,
+    {
+      "epoch_lwlrap": 0.8279697306336651,
+      "loss": 0.11343308332665213,
+      "lwlrap": 0.8275845279763775
+    }
+  ],
+  "epoch_66": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.67.pth",
+    0.846186528033201,
+    {
+      "epoch_lwlrap": 0.846186528033201,
+      "loss": 0.11039171907408483,
+      "lwlrap": 0.8465249779144303
+    }
+  ],
+  "epoch_67": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.68.pth",
+    0.8604234676980579,
+    {
+      "epoch_lwlrap": 0.8604234676980579,
+      "loss": 0.10200200101424908,
+      "lwlrap": 0.8606873802210793
+    }
+  ],
+  "epoch_68": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.69.pth",
+    0.8625672101925719,
+    {
+      "epoch_lwlrap": 0.8625672101925719,
+      "loss": 0.09825757968014685,
+      "lwlrap": 0.863566549050829
+    }
+  ],
+  "epoch_69": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.70.pth",
+    0.8646163905204407,
+    {
+      "epoch_lwlrap": 0.8646163905204407,
+      "loss": 0.09884282407061808,
+      "lwlrap": 0.8654064795545525
+    }
+  ],
+  "epoch_70": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.71.pth",
+    0.861462781834045,
+    {
+      "epoch_lwlrap": 0.861462781834045,
+      "loss": 0.09835970710063803,
+      "lwlrap": 0.8620637335393927
+    }
+  ],
+  "epoch_71": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.72.pth",
+    0.8630797174050078,
+    {
+      "epoch_lwlrap": 0.8630797174050078,
+      "loss": 0.10173518981399207,
+      "lwlrap": 0.8637279627523476
+    }
+  ],
+  "epoch_72": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.73.pth",
+    0.8570344875892861,
+    {
+      "epoch_lwlrap": 0.8570344875892861,
+      "loss": 0.10391928512474587,
+      "lwlrap": 0.8581162213647441
+    }
+  ],
+  "epoch_73": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.74.pth",
+    0.8539819430007473,
+    {
+      "epoch_lwlrap": 0.8539819430007473,
+      "loss": 0.10664811396393283,
+      "lwlrap": 0.8548571702199768
+    }
+  ],
+  "epoch_74": [
+    "out/088_087_dataset_change/fold3/checkpoints/train.75.pth",
+    0.8664793078185073,
+    {
+      "epoch_lwlrap": 0.8664793078185073,
+      "loss": 0.09918692091415669,
+      "lwlrap": 0.8673990581952042
+    }
+  ]
+}
