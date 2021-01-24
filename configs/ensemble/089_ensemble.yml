@@ -3,13 +3,13 @@ results:
     oof: out/078_ResNest_focal_strong_SAM_pitch_shift/submission/oof_weak.csv
     name: 078_ResNest_focal_strong_SAM_pitch_shift
   - submission: out/083_ResNest_LogmelMixup/submission/submission.csv
-    oof: out/083_ResNest_LogmelMixup/submission/oof.csv
+    oof: out/083_ResNest_LogmelMixup/submission/oof_weak.csv
     name: 083_ResNest_LogmelMixup
   - submission: out/084_ResNest_bce_weak_SAM_pitch_shift/submission/submission.csv
-    oof: out/084_ResNest_bce_weak_SAM_pitch_shift/submission/oof.csv
+    oof: out/084_ResNest_bce_weak_SAM_pitch_shift/submission/oof_weak.csv
     name: 084_ResNest_bce_weak_SAM_pitch_shift
   - submission: out/087_086_plus_mixup/submission/submission.csv
-    oof: out/087_086_plus_mixup/submission/oof.csv
+    oof: out/087_086_plus_mixup/submission/oof_weak.csv
     name: 087_086_plus_mixup
 
 data:
