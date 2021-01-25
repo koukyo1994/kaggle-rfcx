@@ -63,6 +63,10 @@ class BCE2WayLoss(nn.Module):
         input_ = input[self.output_key]
         target = target["weak"].float()
 
+        if self.bce.weight is not None and self.bce.weight.device == torch.device("cpu") and target.device != torch.device("cpu"):
+            device = target.device
+            self.bce.weight = self.bce.weight.to(device)
+
         if "logit" in self.output_key:
             framewise_output = input["framewise_logit"]
         else:
