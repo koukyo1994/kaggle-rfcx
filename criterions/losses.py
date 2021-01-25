@@ -48,14 +48,14 @@ class FocalLoss(nn.Module):
 
 
 class BCE2WayLoss(nn.Module):
-    def __init__(self, output_key="clipwise_output", weights=[1, 1]):
+    def __init__(self, output_key="clipwise_output", weights=[1, 1], class_weights=None):
         super().__init__()
 
         self.output_key = output_key
         if "logit" in self.output_key:
-            self.bce = nn.BCEWithLogitsLoss()
+            self.bce = nn.BCEWithLogitsLoss(weight=torch.tensor(class_weights))
         else:
-            self.bce = nn.BCELoss()
+            self.bce = nn.BCELoss(weight=torch.tensor(class_weights))
 
         self.weights = weights
 
