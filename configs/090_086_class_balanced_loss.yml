@@ -152,7 +152,7 @@ model:
 
 loader:
   train:
-    batch_size: 64
+    batch_size: 32
     shuffle: True
     num_workers: 20
   valid:
@@ -176,4 +176,4 @@ callbacks:
     params:
 
 inference:
-  prediction_type: strong
+  prediction_type: weak
