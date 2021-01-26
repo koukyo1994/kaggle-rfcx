@@ -92,12 +92,12 @@ if __name__ == "__main__":
                 "valid": {
                     "batch_size": 1,
                     "shuffle": False,
-                    "num_workers": 10
+                    "num_workers": 20
                 },
                 "test": {
                     "batch_size": 1,
                     "shuffle": False,
-                    "num_workers": 10
+                    "num_workers": 20
                 }
             }
         }

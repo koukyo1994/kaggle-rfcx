@@ -154,3 +154,4 @@ callbacks:
 
 inference:
   prediction_type: weak
+  soft_prediction: True
