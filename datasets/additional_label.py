@@ -129,7 +129,7 @@ class AdditionalLabellDataset(torchdata.Dataset):
 
         if self.additional_labels is not None:
             additional_label = self.additional_labels.query(f"filename == '{flac_id}'").reset_index(drop=True)
-            for row in additional_label.iterrows():
+            for _, row in additional_label.iterrows():
                 label[int(row.species)] = self.additional_label_value
 
         for species_id_song_id in all_tp_events["species_id_song_id"].unique():
