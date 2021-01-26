@@ -5,6 +5,7 @@ import transforms
 
 from pathlib import Path
 
+from .additional_label import AdditionalLabellDataset
 from .fp_sample import SampleFPSpectrogramDataset
 from .freq_limit_input import (LimitedFrequencySpectrogramDataset, LimitedFrequencySequentialValidationDataset,
                                LimitedFrequencySpectrogramTestDataset, SPECIES_RANGE_MAP, RANGE_SPECIES_MAP,
@@ -21,6 +22,7 @@ from .tta import SpectrogramTTADataset
 
 
 __DATASETS__ = {
+    "AdditionalLabelDataset": AdditionalLabellDataset,
     "SampleFPSpectrogramDataset": SampleFPSpectrogramDataset,
     "LimitedFrequencySpectrogramDataset": LimitedFrequencySpectrogramDataset,
     "LimitedFrequencySequentialValidationDataset": LimitedFrequencySequentialValidationDataset,
@@ -133,7 +135,8 @@ def get_train_loader(df: pd.DataFrame,
                                            "SequentialValidationDataset", "LimitedFrequencySpectrogramDataset",
                                            "LimitedFrequencySequentialValidationDataset",
                                            "RandomFasterMLSpectrogramDataset",
-                                           "RandomCropMixupDataset"]:
+                                           "RandomCropMixupDataset",
+                                           "AdditionalLabelDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, phase)
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, phase)
         params = dataset_config[phase]["params"]
