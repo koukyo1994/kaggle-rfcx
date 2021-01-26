@@ -52,10 +52,14 @@ class BCE2WayLoss(nn.Module):
         super().__init__()
 
         self.output_key = output_key
-        if "logit" in self.output_key:
-            self.bce = nn.BCEWithLogitsLoss(weight=torch.tensor(class_weights))
+        if class_weights is not None:
+            weight = torch.tensor(class_weights)
         else:
-            self.bce = nn.BCELoss(weight=torch.tensor(class_weights))
+            weight = class_weights
+        if "logit" in self.output_key:
+            self.bce = nn.BCEWithLogitsLoss(weight=weight)
+        else:
+            self.bce = nn.BCELoss(weight=weight)
 
         self.weights = weights
 
