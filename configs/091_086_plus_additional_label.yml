@@ -23,7 +23,7 @@ data:
 
 dataset:
   train:
-    name: AdditinalLabelDataset
+    name: AdditionalLabelDataset
     params:
       sampling_rate: 32000
       duration: 10
