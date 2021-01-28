@@ -1,0 +1,154 @@
+globals:
+  seed: 1213
+  device: cuda
+  num_epochs: 55
+  main_metric: epoch_lwlrap
+  minimize_metric: False
+  input_key: image
+  input_target_key: targets
+  weights:
+  folds:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+
+data:
+  train_tp_path: input/train_tp.csv
+  train_fp_path: input/train_fp.csv
+  train_audio_path: input/train
+  test_audio_path: input/test
+  sample_submission_path: input/sample_submission.csv
+
+dataset:
+  train:
+    name: MultiLabelSpectrogramDataset
+    params:
+      sampling_rate: 32000
+      duration: 10
+      melspectrogram_parameters:
+        n_mels: 128
+        fmin: 20
+        n_fft: 1024
+        hop_length: 1024
+        fmax: 16000
+      pcen_parameters:
+        gain: 0.98
+        bias: 2
+        power: 0.5
+        time_constant: 0.4
+        eps: 0.000001
+  valid:
+    name: MultiLabelSpectrogramDataset
+    params:
+      sampling_rate: 32000
+      duration: 10
+      melspectrogram_parameters:
+        n_mels: 128
+        fmin: 20
+        n_fft: 1024
+        hop_length: 1024
+        fmax: 16000
+      pcen_parameters:
+        gain: 0.98
+        bias: 2
+        power: 0.5
+        time_constant: 0.4
+        eps: 0.000001
+      centering: True
+  test:
+    name: SpectrogramTestDataset
+    params:
+      sampling_rate: 32000
+      duration: 10
+      melspectrogram_parameters:
+        n_mels: 128
+        fmin: 20
+        n_fft: 1024
+        hop_length: 1024
+        fmax: 16000
+      pcen_parameters:
+        gain: 0.98
+        bias: 2
+        power: 0.5
+        time_constant: 0.4
+        eps: 0.000001
+
+transforms:
+  train:
+    - name: PinkNoiseSNR
+      params:
+        min_snr: 10.0
+    - name: PitchShift
+      params:
+        max_steps: 3
+        sr: 32000
+    - name: Normalize
+  valid:
+    - name: Normalize
+  test:
+    - name: Normalize
+
+loss:
+  name: BCE2WayLoss
+  params:
+    output_key: logit
+    weights:
+      - 1.0
+      - 0.5
+
+optimizer:
+  name: SAM
+  base_optimizer: Adam
+  params:
+    lr: 0.001
+
+scheduler:
+  name: CosineAnnealingLR
+  params:
+    T_max: 10
+
+split:
+  name: KFold
+  params:
+    n_splits: 5
+    random_state: 42
+    shuffle: True
+
+model:
+  name: ResNestSED
+  params:
+    base_model_name: resnest50_fast_1s1x64d
+    pretrained: True
+    num_classes: 24
+    interpolate_ratio: 31
+
+loader:
+  train:
+    batch_size: 32
+    shuffle: True
+    num_workers: 20
+  valid:
+    batch_size: 40
+    shuffle: False
+    num_workers: 20
+  test:
+    batch_size: 40
+    shuffle: False
+    num_workers: 20
+
+runner: SAMRunner
+
+callbacks:
+  - name: LWLRAPCallback
+    params:
+      input_key: targets
+      output_key: logits
+      prefix: lwlrap
+  - name: SchedulerCallback
+    params:
+
+inference:
+  prediction_type: weak
+  soft_prediction: True
