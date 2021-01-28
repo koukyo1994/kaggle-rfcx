@@ -64,6 +64,19 @@ class AudioTransform:
         raise NotImplementedError
 
 
+class Normalize:
+    def __call__(self, y: np.ndarray):
+        max_vol = np.abs(y).max()
+        y_vol = y * 1 / max_vol
+        return np.asfortranarray(y_vol)
+
+
+class NewNormalize:
+    def __call__(self, y: np.ndarray):
+        y_mm = y - y.mean()
+        return y_mm / y_mm.abs().max()
+
+
 class GaussianNoiseSNR(AudioTransform):
     def __init__(self, always_apply=False, p=0.5, min_snr=5.0, max_snr=20.0, **kwargs):
         super().__init__(always_apply, p)
