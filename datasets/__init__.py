@@ -137,7 +137,8 @@ def get_train_loader(df: pd.DataFrame,
                                            "LimitedFrequencySequentialValidationDataset",
                                            "RandomFasterMLSpectrogramDataset",
                                            "RandomCropMixupDataset",
-                                           "AdditionalLabelDataset"]:
+                                           "AdditionalLabelDataset",
+                                           "WaveformMixupDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, phase)
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, phase)
         params = dataset_config[phase]["params"]
@@ -168,8 +169,7 @@ def get_test_loader(df: pd.DataFrame,
                                             "FasterSpectrogramTestDataset", "SampleWiseSpectrogramTestDataset",
                                             "LimitedFrequencySpectrogramTestDataset",
                                             "LimitedFrequencySampleWiseSpectrogramTestDataset",
-                                            "SpectrogramTTADataset",
-                                            "WaveformMixupDataset"]:
+                                            "SpectrogramTTADataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, "test")
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, "test")
         params = dataset_config["test"]["params"]
