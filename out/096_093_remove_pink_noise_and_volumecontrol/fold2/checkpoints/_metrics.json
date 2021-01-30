@@ -1,0 +1,512 @@
+{
+  "best": {
+    "epoch_lwlrap": 0.8626924919863852,
+    "loss": 0.11441266979090871,
+    "lwlrap": 0.8620876128902997
+  },
+  "last": {
+    "epoch_lwlrap": 0.8472073515966647,
+    "loss": 0.1250099705066532,
+    "lwlrap": 0.8459979004805606
+  },
+  "train.51": {
+    "epoch_lwlrap": 0.8626924919863852,
+    "loss": 0.11441266979090871,
+    "lwlrap": 0.8620876128902997
+  },
+  "epoch_0": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.1.pth",
+    0.2683843276376895,
+    {
+      "epoch_lwlrap": 0.2683843276376895,
+      "loss": 0.24886719230562449,
+      "lwlrap": 0.2674506426773225
+    }
+  ],
+  "epoch_1": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.2.pth",
+    0.31321314549592505,
+    {
+      "epoch_lwlrap": 0.31321314549592505,
+      "loss": 0.23871187400072813,
+      "lwlrap": 0.3127663285813169
+    }
+  ],
+  "epoch_2": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.3.pth",
+    0.3346162664410012,
+    {
+      "epoch_lwlrap": 0.3346162664410012,
+      "loss": 0.23652902292087674,
+      "lwlrap": 0.3358075785549729
+    }
+  ],
+  "epoch_3": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.4.pth",
+    0.4983476933177932,
+    {
+      "epoch_lwlrap": 0.4983476933177932,
+      "loss": 0.20110013941302896,
+      "lwlrap": 0.4964451924694679
+    }
+  ],
+  "epoch_4": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.5.pth",
+    0.5773693333807838,
+    {
+      "epoch_lwlrap": 0.5773693333807838,
+      "loss": 0.18433717032894492,
+      "lwlrap": 0.5756580472091143
+    }
+  ],
+  "epoch_5": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.6.pth",
+    0.6138802990902228,
+    {
+      "epoch_lwlrap": 0.6138802990902228,
+      "loss": 0.16914439527317882,
+      "lwlrap": 0.6130486875000658
+    }
+  ],
+  "epoch_6": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.7.pth",
+    0.6244513861880274,
+    {
+      "epoch_lwlrap": 0.6244513861880274,
+      "loss": 0.16169781843200326,
+      "lwlrap": 0.6228350168279666
+    }
+  ],
+  "epoch_7": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.8.pth",
+    0.6931393275790979,
+    {
+      "epoch_lwlrap": 0.6931393275790979,
+      "loss": 0.14502120530232787,
+      "lwlrap": 0.6918960690104329
+    }
+  ],
+  "epoch_8": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.9.pth",
+    0.6942932683918019,
+    {
+      "epoch_lwlrap": 0.6942932683918019,
+      "loss": 0.14000197825953364,
+      "lwlrap": 0.6928868621259164
+    }
+  ],
+  "epoch_9": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.10.pth",
+    0.7033498235838533,
+    {
+      "epoch_lwlrap": 0.7033498235838533,
+      "loss": 0.13869109004735947,
+      "lwlrap": 0.7021170930083181
+    }
+  ],
+  "epoch_10": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.11.pth",
+    0.7066194758993072,
+    {
+      "epoch_lwlrap": 0.7066194758993072,
+      "loss": 0.13826775457710028,
+      "lwlrap": 0.7058871976073099
+    }
+  ],
+  "epoch_11": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.12.pth",
+    0.7167614755451236,
+    {
+      "epoch_lwlrap": 0.7167614755451236,
+      "loss": 0.13579951855354008,
+      "lwlrap": 0.7156228740572902
+    }
+  ],
+  "epoch_12": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.13.pth",
+    0.7073563205242595,
+    {
+      "epoch_lwlrap": 0.7073563205242595,
+      "loss": 0.13644307292997837,
+      "lwlrap": 0.7060544835844156
+    }
+  ],
+  "epoch_13": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.14.pth",
+    0.7226659049178134,
+    {
+      "epoch_lwlrap": 0.7226659049178134,
+      "loss": 0.13860221975482998,
+      "lwlrap": 0.7215505788390697
+    }
+  ],
+  "epoch_14": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.15.pth",
+    0.6950001012859945,
+    {
+      "epoch_lwlrap": 0.6950001012859945,
+      "loss": 0.14074320788495243,
+      "lwlrap": 0.6942936688631202
+    }
+  ],
+  "epoch_15": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.16.pth",
+    0.6866067842998691,
+    {
+      "epoch_lwlrap": 0.6866067842998691,
+      "loss": 0.14230835018679497,
+      "lwlrap": 0.685612678256935
+    }
+  ],
+  "epoch_16": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.17.pth",
+    0.7563749118562034,
+    {
+      "epoch_lwlrap": 0.7563749118562034,
+      "loss": 0.12220664066262543,
+      "lwlrap": 0.7561686565064282
+    }
+  ],
+  "epoch_17": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.18.pth",
+    0.7254280740017984,
+    {
+      "epoch_lwlrap": 0.7254280740017984,
+      "loss": 0.14122343622148037,
+      "lwlrap": 0.7253356618118382
+    }
+  ],
+  "epoch_18": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.19.pth",
+    0.751181030028695,
+    {
+      "epoch_lwlrap": 0.751181030028695,
+      "loss": 0.13234759494662288,
+      "lwlrap": 0.7517214579562094
+    }
+  ],
+  "epoch_19": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.20.pth",
+    0.7436991826018249,
+    {
+      "epoch_lwlrap": 0.7436991826018249,
+      "loss": 0.13948083412833515,
+      "lwlrap": 0.7438437369054752
+    }
+  ],
+  "epoch_20": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.21.pth",
+    0.7830706999431742,
+    {
+      "epoch_lwlrap": 0.7830706999431742,
+      "loss": 0.12460514972917737,
+      "lwlrap": 0.7822123931874425
+    }
+  ],
+  "epoch_21": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.22.pth",
+    0.7915390198837366,
+    {
+      "epoch_lwlrap": 0.7915390198837366,
+      "loss": 0.11271729483269156,
+      "lwlrap": 0.7912241864956516
+    }
+  ],
+  "epoch_22": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.23.pth",
+    0.8146690459667559,
+    {
+      "epoch_lwlrap": 0.8146690459667559,
+      "loss": 0.11203819396905601,
+      "lwlrap": 0.8140124706340408
+    }
+  ],
+  "epoch_23": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.24.pth",
+    0.8259787074672571,
+    {
+      "epoch_lwlrap": 0.8259787074672571,
+      "loss": 0.10425079194828867,
+      "lwlrap": 0.82527365380357
+    }
+  ],
+  "epoch_24": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.25.pth",
+    0.8011254860491502,
+    {
+      "epoch_lwlrap": 0.8011254860491502,
+      "loss": 0.11442202050238848,
+      "lwlrap": 0.8009506415875508
+    }
+  ],
+  "epoch_25": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.26.pth",
+    0.7928919786744214,
+    {
+      "epoch_lwlrap": 0.7928919786744214,
+      "loss": 0.11555161559954287,
+      "lwlrap": 0.7917628988417861
+    }
+  ],
+  "epoch_26": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.27.pth",
+    0.8325790621592148,
+    {
+      "epoch_lwlrap": 0.8325790621592148,
+      "loss": 0.10881311574485153,
+      "lwlrap": 0.8318360509218932
+    }
+  ],
+  "epoch_27": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.28.pth",
+    0.8406761177753546,
+    {
+      "epoch_lwlrap": 0.8406761177753546,
+      "loss": 0.10362663841806354,
+      "lwlrap": 0.8397714624467674
+    }
+  ],
+  "epoch_28": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.29.pth",
+    0.832186547549143,
+    {
+      "epoch_lwlrap": 0.832186547549143,
+      "loss": 0.10494106239639223,
+      "lwlrap": 0.831507871944705
+    }
+  ],
+  "epoch_29": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.30.pth",
+    0.8326272963677545,
+    {
+      "epoch_lwlrap": 0.8326272963677545,
+      "loss": 0.10296923341229558,
+      "lwlrap": 0.8317389375459117
+    }
+  ],
+  "epoch_30": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.31.pth",
+    0.8358761149791685,
+    {
+      "epoch_lwlrap": 0.8358761149791685,
+      "loss": 0.10440145619213581,
+      "lwlrap": 0.8350607245305225
+    }
+  ],
+  "epoch_31": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.32.pth",
+    0.8346873864049437,
+    {
+      "epoch_lwlrap": 0.8346873864049437,
+      "loss": 0.10641428676899523,
+      "lwlrap": 0.834005572291586
+    }
+  ],
+  "epoch_32": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.33.pth",
+    0.835677935296256,
+    {
+      "epoch_lwlrap": 0.835677935296256,
+      "loss": 0.10942158871330321,
+      "lwlrap": 0.8347984165295522
+    }
+  ],
+  "epoch_33": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.34.pth",
+    0.8422088937356114,
+    {
+      "epoch_lwlrap": 0.8422088937356114,
+      "loss": 0.1137045668438077,
+      "lwlrap": 0.84174723821891
+    }
+  ],
+  "epoch_34": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.35.pth",
+    0.8315750052222886,
+    {
+      "epoch_lwlrap": 0.8315750052222886,
+      "loss": 0.11217366508208215,
+      "lwlrap": 0.8311901638782468
+    }
+  ],
+  "epoch_35": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.36.pth",
+    0.8424537930263121,
+    {
+      "epoch_lwlrap": 0.8424537930263121,
+      "loss": 0.10347280208952725,
+      "lwlrap": 0.841752654033523
+    }
+  ],
+  "epoch_36": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.37.pth",
+    0.8268474845764923,
+    {
+      "epoch_lwlrap": 0.8268474845764923,
+      "loss": 0.12740681297145784,
+      "lwlrap": 0.8264134038810106
+    }
+  ],
+  "epoch_37": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.38.pth",
+    0.7968877708381525,
+    {
+      "epoch_lwlrap": 0.7968877708381525,
+      "loss": 0.12339234584942459,
+      "lwlrap": 0.7955823535973117
+    }
+  ],
+  "epoch_38": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.39.pth",
+    0.7460490697250663,
+    {
+      "epoch_lwlrap": 0.7460490697250663,
+      "loss": 0.15424794261343777,
+      "lwlrap": 0.7452526213146101
+    }
+  ],
+  "epoch_39": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.40.pth",
+    0.7928149505411517,
+    {
+      "epoch_lwlrap": 0.7928149505411517,
+      "loss": 0.13103637751191854,
+      "lwlrap": 0.792560370321296
+    }
+  ],
+  "epoch_40": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.41.pth",
+    0.8017915710545634,
+    {
+      "epoch_lwlrap": 0.8017915710545634,
+      "loss": 0.12068153079599143,
+      "lwlrap": 0.8018465289042713
+    }
+  ],
+  "epoch_41": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.42.pth",
+    0.8082869049949202,
+    {
+      "epoch_lwlrap": 0.8082869049949202,
+      "loss": 0.10987690743058919,
+      "lwlrap": 0.8087949992151593
+    }
+  ],
+  "epoch_42": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.43.pth",
+    0.7897490867910715,
+    {
+      "epoch_lwlrap": 0.7897490867910715,
+      "loss": 0.14210264291614294,
+      "lwlrap": 0.7901396079678282
+    }
+  ],
+  "epoch_43": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.44.pth",
+    0.8431163388751778,
+    {
+      "epoch_lwlrap": 0.8431163388751778,
+      "loss": 0.10617568343877791,
+      "lwlrap": 0.842577887875282
+    }
+  ],
+  "epoch_44": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.45.pth",
+    0.8181070519810978,
+    {
+      "epoch_lwlrap": 0.8181070519810978,
+      "loss": 0.11575428862124681,
+      "lwlrap": 0.8170767540233685
+    }
+  ],
+  "epoch_45": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.46.pth",
+    0.8314083181449594,
+    {
+      "epoch_lwlrap": 0.8314083181449594,
+      "loss": 0.10972158424556255,
+      "lwlrap": 0.8309655835427557
+    }
+  ],
+  "epoch_46": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.47.pth",
+    0.8262904398400581,
+    {
+      "epoch_lwlrap": 0.8262904398400581,
+      "loss": 0.12874840525910258,
+      "lwlrap": 0.8252085198493354
+    }
+  ],
+  "epoch_47": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.48.pth",
+    0.8552058204729961,
+    {
+      "epoch_lwlrap": 0.8552058204729961,
+      "loss": 0.1116771708475426,
+      "lwlrap": 0.8545930848665224
+    }
+  ],
+  "epoch_48": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.49.pth",
+    0.8512405957062446,
+    {
+      "epoch_lwlrap": 0.8512405957062446,
+      "loss": 0.11642454331740736,
+      "lwlrap": 0.8503774955566115
+    }
+  ],
+  "epoch_49": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.50.pth",
+    0.8595012282035183,
+    {
+      "epoch_lwlrap": 0.8595012282035183,
+      "loss": 0.11422316636890173,
+      "lwlrap": 0.8589909305562888
+    }
+  ],
+  "epoch_50": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.51.pth",
+    0.8626924919863852,
+    {
+      "epoch_lwlrap": 0.8626924919863852,
+      "loss": 0.11441266979090871,
+      "lwlrap": 0.8620876128902997
+    }
+  ],
+  "epoch_51": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.52.pth",
+    0.8561220162365201,
+    {
+      "epoch_lwlrap": 0.8561220162365201,
+      "loss": 0.11701451661065221,
+      "lwlrap": 0.8554525936814428
+    }
+  ],
+  "epoch_52": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.53.pth",
+    0.8546965439141012,
+    {
+      "epoch_lwlrap": 0.8546965439141012,
+      "loss": 0.11725075356662272,
+      "lwlrap": 0.8541516203315936
+    }
+  ],
+  "epoch_53": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.54.pth",
+    0.8457954683145522,
+    {
+      "epoch_lwlrap": 0.8457954683145522,
+      "loss": 0.12571831396780908,
+      "lwlrap": 0.844664709760937
+    }
+  ],
+  "epoch_54": [
+    "out/096_093_remove_pink_noise_and_volumecontrol/fold2/checkpoints/train.55.pth",
+    0.8472073515966647,
+    {
+      "epoch_lwlrap": 0.8472073515966647,
+      "loss": 0.1250099705066532,
+      "lwlrap": 0.8459979004805606
+    }
+  ]
+}
