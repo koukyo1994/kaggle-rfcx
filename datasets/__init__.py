@@ -10,7 +10,7 @@ from .fp_sample import SampleFPSpectrogramDataset
 from .freq_limit_input import (LimitedFrequencySpectrogramDataset, LimitedFrequencySequentialValidationDataset,
                                LimitedFrequencySpectrogramTestDataset, SPECIES_RANGE_MAP, RANGE_SPECIES_MAP,
                                LimitedFrequencySampleWiseSpectrogramTestDataset)
-from .mixup import LogmelMixupDataset, LogmelMixupWithFPDataset
+from .mixup import LogmelMixupDataset, LogmelMixupWithFPDataset, WaveformMixupDataset
 from .samplewise import SampleWiseSpectrogramDataset, SampleWiseSpectrogramTestDataset
 from .sequential import SequentialValidationDataset
 from .spectrogram import (SpectrogramDataset, SpectrogramTestDataset, MultiLabelSpectrogramDataset, TorchAudioMLDataset,
@@ -46,7 +46,8 @@ __DATASETS__ = {
     "SequentialValidationDataset": SequentialValidationDataset,
     "RandomFasterMLSpectrogramDataset": RandomFasterMLSpectrogramDataset,
     "RandomCropMixupDataset": RandomCropMixupDataset,
-    "SpectrogramTTADataset": SpectrogramTTADataset
+    "SpectrogramTTADataset": SpectrogramTTADataset,
+    "WaveformMixupDataset": WaveformMixupDataset
 }
 
 
@@ -167,7 +168,8 @@ def get_test_loader(df: pd.DataFrame,
                                             "FasterSpectrogramTestDataset", "SampleWiseSpectrogramTestDataset",
                                             "LimitedFrequencySpectrogramTestDataset",
                                             "LimitedFrequencySampleWiseSpectrogramTestDataset",
-                                            "SpectrogramTTADataset"]:
+                                            "SpectrogramTTADataset",
+                                            "WaveformMixupDataset"]:
         waveform_transforms = transforms.get_waveform_transforms(config, "test")
         spectrogram_transforms = transforms.get_spectrogram_transforms(config, "test")
         params = dataset_config["test"]["params"]
