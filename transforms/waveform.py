@@ -77,6 +77,11 @@ class NewNormalize:
         return y_mm / y_mm.abs().max()
 
 
+class LibrosaNormalize:
+    def __call__(self, y: np.ndarray):
+        return librosa.util.normalize(y)
+
+
 class GaussianNoiseSNR(AudioTransform):
     def __init__(self, always_apply=False, p=0.5, min_snr=5.0, max_snr=20.0, **kwargs):
         super().__init__(always_apply, p)
