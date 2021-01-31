@@ -546,7 +546,7 @@ class CropChangedFasterMLSpectrogramDataset(torchdata.Dataset):
         t_max = sample["t_max"]
 
         range_start = max(0, t_min - self.duration)
-        range_end = min(CLIP_DURATION, t_max + self.duration)
+        range_end = t_max
 
         if not self.centering:
             offset = np.random.choice(np.arange(range_start, range_end, 0.1))
