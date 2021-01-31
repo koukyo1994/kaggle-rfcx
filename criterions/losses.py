@@ -21,6 +21,28 @@ def get_criterion(config: dict):
     return criterion
 
 
+class BCEFocalLoss(nn.Module):
+    def __init__(self, gamma=2, weights=None):
+        super().__init__(self)
+        self.gamma = gamma
+        if weights is None:
+            self.weights = torch.tensor([1] * 24).float()
+        else:
+            self.weights = torch.tensor(weights).float()
+        self.weights.requires_grad = False
+
+        self.loss_fct = nn.BCEWithLogitsLoss(reduction="none")
+
+    def forward(self, logit, target):
+        if self.weights.device == torch.device("cpu"):
+            self.weights = self.weights.to(logit.device)
+        target = target.float()
+        bce = self.loss_fct(logit, target)
+        probas = torch.sigmoid(logit)
+        loss = torch.where(target >= 0.5, (1.0 - probas) ** self.gamma * bce, probas ** self.gamma * bce)
+        return loss.mean()
+
+
 class FocalLoss(nn.Module):
     def __init__(self, gamma=2, weights=None):
         super().__init__()
@@ -107,6 +129,48 @@ class BCE2WayStrongLoss(nn.Module):
 
         loss = self.bce(input_, target_)
         aux_loss = self.bce(clipwise_output, clipwise_target)
+
+        return self.weights[0] * loss + self.weights[1] * aux_loss
+
+
+class BCEFocal2WayLoss(nn.Module):
+    def __init__(self, weights=[1, 1], class_weights=None):
+        super().__init__()
+
+        self.focal = BCEFocalLoss(weights=class_weights)
+
+        self.weights = weights
+
+    def forward(self, input, target):
+        input_ = input["logit"]
+        target = target["weak"].float()
+
+        framewise_output = input["framewise_logit"]
+        clipwise_output_with_max, _ = framewise_output.max(dim=1)
+
+        loss = self.focal(input_, target)
+        aux_loss = self.focal(clipwise_output_with_max, target)
+
+        return self.weights[0] * loss + self.weights[1] * aux_loss
+
+
+class BCEFocal2WayStrongLoss(nn.Module):
+    def __init__(self, weights=[1, 1], class_weights=None):
+        super().__init__()
+
+        self.focal = BCEFocalLoss(weights=class_weights)
+
+        self.weights = weights
+
+    def forward(self, input, target):
+        input_ = input["framewise_logit"]
+        target_ = target["strong"].float()
+
+        clipwise_output = input["logit"]
+        clipwise_target = target["weak"].float()
+
+        loss = self.focal(input_, target_)
+        aux_loss = self.focal(clipwise_output, clipwise_target)
 
         return self.weights[0] * loss + self.weights[1] * aux_loss
 
