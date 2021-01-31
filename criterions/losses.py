@@ -23,7 +23,7 @@ def get_criterion(config: dict):
 
 class BCEFocalLoss(nn.Module):
     def __init__(self, gamma=2, weights=None):
-        super().__init__(self)
+        super().__init__()
         self.gamma = gamma
         if weights is None:
             self.weights = torch.tensor([1] * 24).float()
