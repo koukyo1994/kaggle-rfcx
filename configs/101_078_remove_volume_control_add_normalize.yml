@@ -78,11 +78,11 @@ transforms:
       params:
         max_steps: 3
         sr: 32000
-    - LibrosaNormalize
+    - name: LibrosaNormalize
   valid:
-    - LibrosaNormalize
+    - name: LibrosaNormalize
   test:
-    - LibrosaNormalize
+    - name: LibrosaNormalize
 
 loss:
   name: Focal2WayStrongLoss
