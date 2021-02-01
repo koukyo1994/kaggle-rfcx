@@ -89,7 +89,6 @@ class WaveformMixupDataset(torchdata.Dataset):
         if self.waveform_transforms:
             y = self.waveform_transforms(y).astype(np.float32)
 
-        y = librosa.util.normalize(y)
         melspec = librosa.feature.melspectrogram(y, sr=sr, **self.melspectrogram_parameters)
 
         use_mixup = False
