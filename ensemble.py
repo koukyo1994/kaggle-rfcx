@@ -50,7 +50,7 @@ def search_averaging_weights(predictions: list, target: np.ndarray, trials=1000)
     return {"best_score": best_score, "best_weights": best_weights}
 
 
-def search_averaging_weight_for_each_col(predictions: list, target: np.darray, trials=10000):
+def search_averaging_weight_for_each_col(predictions: list, target: np.ndarray, trials=10000):
     best_score = -np.inf
     best_weights = np.zeros((len(predictions), 24))
     utils.set_seed(1213)
