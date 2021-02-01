@@ -1,0 +1,24 @@
+results:
+  - submission: out/078_ResNest_focal_strong_SAM_pitch_shift/submission/weak.csv
+    oof: out/078_ResNest_focal_strong_SAM_pitch_shift/submission/oof_weak.csv
+    name: 078_ResNest_focal_strong_SAM_pitch_shift
+  - submission: out/083_ResNest_LogmelMixup/submission/weak.csv
+    oof: out/083_ResNest_LogmelMixup/submission/oof_weak.csv
+    name: 083_ResNest_LogmelMixup
+  - submission: out/084_ResNest_bce_weak_SAM_pitch_shift/submission/weak.csv
+    oof: out/084_ResNest_bce_weak_SAM_pitch_shift/submission/oof_weak.csv
+    name: 084_ResNest_bce_weak_SAM_pitch_shift
+  - submission: out/087_086_plus_mixup/submission/weak.csv
+    oof: out/087_086_plus_mixup/submission/oof_weak.csv
+    name: 087_086_plus_mixup
+
+data:
+  data:
+  train_tp_path: input/train_tp.csv
+  train_fp_path: input/train_fp.csv
+  train_audio_path: input/train
+  test_audio_path: input/test
+  sample_submission_path: input/sample_submission.csv
+
+strategy:
+  name: rank_colwise

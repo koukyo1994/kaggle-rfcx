@@ -50,6 +50,24 @@ def search_averaging_weights(predictions: list, target: np.ndarray, trials=1000)
     return {"best_score": best_score, "best_weights": best_weights}
 
 
+def search_averaging_weight_for_each_col(predictions: list, target: np.darray, trials=10000):
+    best_score = -np.inf
+    best_weights = np.zeros((len(predictions), 24))
+    utils.set_seed(1213)
+    for i in tqdm(range(trials)):
+        dice = np.random.rand(len(predictions), 24)
+        weights = dice / dice.sum(axis=0)
+        blended = np.zeros_like(predictions[0], dtype=np.float32)
+        for weight, pred in zip(weights, predictions):
+            blended += weight * pred
+        score_class, class_weight = lwlrap(truth=target, scores=blended)
+        score = (score_class * class_weight).sum()
+        if score > best_score:
+            best_score = score
+            best_weights = weights
+    return {"best_score": best_score, "best_weights": best_weights}
+
+
 def to_rank(df: pd.DataFrame):
     return df.rank(axis=1, pct=True)
 
@@ -145,10 +163,23 @@ if __name__ == "__main__":
             f"Best score {result_dict['best_score']}, Best Weights{result_dict['best_weights']}")
         for class_ in classes:
             weights_dict[class_] = result_dict["best_weights"]
+    elif config["strategy"]["name"] == "rank_colwise":
+        target = ground_truth_df[classes].values
+        predictions = []
+        for i in range(len(oofs)):
+            oofs[i] = pd.concat([oofs[i][["index", "recording_id"]], oofs[i][classes].rank(axis=1, pct=True)], axis=1)
+            submissions[i] = pd.concat([submissions[i][["recording_id"]], submissions[i][classes].rank(axis=1, pct=True)], axis=1)
+
+        for oof in oofs:
+            predictions.append(oof[classes].values)
+        result_dict = search_averaging_weight_for_each_col(predictions, target)
+        logger.info(
+            f"Best score {result_dict['best_score']}, Best Weights{result_dict['best_weights']}")
+        for i, class_ in enumerate(classes):
+            weights_dict[class_] = result_dict["best_weights"][:, i]
     else:
         for class_ in classes:
             weights_dict[class_] = config["strategy"]["weights"]
-
     blended = np.zeros((len(oofs[0]), 24))
     class_level_score = {}
     for class_ in weights_dict:
