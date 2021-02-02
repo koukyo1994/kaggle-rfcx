@@ -291,6 +291,7 @@ class LSEP2WayLoss(nn.Module):
         super().__init__()
 
         self.lsep = LSEPLoss()
+        self.output_key = output_key
         self.weights = weights
 
     def forward(self, input, target):

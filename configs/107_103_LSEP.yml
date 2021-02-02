@@ -87,6 +87,7 @@ transforms:
 loss:
   name: LSEP2WayLoss
   params:
+    output_key: logit
     weights:
       - 1.0
       - 0.5
