@@ -46,9 +46,16 @@ def train_one_epoch(model,
         output = model(x)
         loss = criterion(output, y)
 
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+        if hasattr(optimizer, "first_step"):
+            loss.backward()
+            optimizer.first_step(zero_grad=True)
+
+            criterion(model(x), y).backward()
+            optimizer.second_step(zero_grad=True)
+        else:
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
 
         loss_meter.update(loss.item(), n=len(loader))
 
