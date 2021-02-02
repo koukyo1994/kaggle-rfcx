@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from torch.autograd import Function
+
 
 def get_criterion(config: dict):
     loss_config = config["loss"]
@@ -19,6 +21,61 @@ def get_criterion(config: dict):
             raise NotImplementedError
 
     return criterion
+
+
+class LSEP(Function):
+    @staticmethod
+    def forward(ctx, input, target):
+        batch_size = target.size(0)
+
+        positive_indices = target.gt(0).float()
+        negative_indices = target.eq(0).float()
+        loss = 0.0
+        for i in range(input.size(0)):
+            pos = torch.where(positive_indices[i])
+            neg = torch.where(negative_indices[i])
+            pos_inp = input[i][pos]
+            neg_inp = input[i][neg]
+            for p in pos_inp:
+                loss += torch.exp(neg_inp - p).sum()
+
+        loss = loss.log1p() / batch_size
+        ctx.save_for_backward(input, target)
+        ctx.loss = loss
+        ctx.positive_indices = positive_indices
+        ctx.negative_indices = negative_indices
+        return loss
+
+    @staticmethod
+    def backward(ctx, grad_outputs):
+        input, target = ctx.saved_variables
+        loss = ctx.loss.detach()
+        positive_indices = ctx.positive_indices
+        negative_indices = ctx.negative_indices
+
+        fac = -1.0 / loss
+        grad_input = torch.zeros_like(input)
+
+        for i in range(grad_input.size(0)):
+            pos_ind = torch.where(positive_indices[i])[0]
+            neg_ind = torch.where(negative_indices[i])[0]
+
+            oh_pos = nn.functional.one_hot(pos_ind, input.size(1)).float()
+            oh_neg = nn.functional.one_hot(neg_ind, input.size(1)).float()
+
+            for j, phot in enumerate(oh_pos):
+                for k, nhot in enumerate(oh_neg):
+                    grad_input[i] += (phot - nhot) * torch.exp(-input[i].data * (phot - nhot))
+        grad_input *= (grad_outputs * fac)
+        return grad_input, None, None
+
+
+class LSEPLoss(nn.Module):
+    def __init__(self):
+        super(LSEPLoss, self).__init__()
+
+    def forward(self, input, target):
+        return LSEP.apply(input, target)
 
 
 class BCEFocalLoss(nn.Module):
@@ -227,3 +284,26 @@ class LogitLoss(nn.Module):
         target = target["weak"].float()
         loss = self.bce(input_, target)
         return loss
+
+
+class LSEP2WayLoss(nn.Module):
+    def __init__(self, output_key="clipwise_output", weights=[1, 1]):
+        super().__init__()
+
+        self.lsep = LSEPLoss()
+        self.weights = weights
+
+    def forward(self, input, target):
+        input_ = input[self.output_key]
+        target = target["weak"].float()
+
+        if "logit" in self.output_key:
+            framewise_output = input["framewise_logit"]
+        else:
+            framewise_output = input["framewise_output"]
+        clipwise_output_with_max, _ = framewise_output.max(dim=1)
+
+        loss = self.lsep(input_, target)
+        aux_loss = self.lsep(clipwise_output_with_max, target)
+
+        return self.weights[0] * loss + self.weights[1] * aux_loss
