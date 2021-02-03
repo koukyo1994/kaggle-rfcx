@@ -54,7 +54,7 @@ dataset:
         eps: 0.000001
       centering: True
   test:
-    name: SpectrogramTestDataset
+    name: FasterSpectrogramTestDataset
     params:
       sampling_rate: 32000
       duration: 10
