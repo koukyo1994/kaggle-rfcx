@@ -110,7 +110,7 @@ split:
     shuffle: True
 
 model:
-  name: TimmSED
+  name: TimmEfficientNetSED
   params:
     base_model_name: tf_efficientnet_b0_ns
     pretrained: True
