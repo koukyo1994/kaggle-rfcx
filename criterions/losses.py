@@ -286,6 +286,18 @@ class LogitLoss(nn.Module):
         return loss
 
 
+class LogitBCEFocalLoss(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.focal = BCEFocalLoss()
+
+    def forward(self, input, target):
+        input_ = input["logit"]
+        target = target["weak"].float()
+        loss = self.focal(input_, target)
+        return loss
+
+
 class LSEP2WayLoss(nn.Module):
     def __init__(self, output_key="clipwise_output", weights=[1, 1]):
         super().__init__()
