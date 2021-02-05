@@ -3,7 +3,7 @@ import torch
 
 from pathlib import Path
 
-from .effcientnet import EfficientNetSED, TimmEfficientNetSED
+from .effcientnet import EfficientNetSED, TimmEfficientNetSED, TimmEfficientNetSEDMax
 from .layers import AttBlock, AttBlockV2
 from .panns import PANNsCNN14Att
 from .resnest import ResNestSED, ResNestSEDMax
@@ -164,6 +164,28 @@ def get_model(config: dict, fold=0):
                 model.att_block = AttBlockV2(  # type: ignore
                     model.att_block.att.in_channels, model_params["num_classes"], activation="sigmoid")
                 model.att_block.init_weights()
+        return model
+    elif model_name == "TimmEfficientNetSEDMax":
+        model = TimmEfficientNetSEDMax(**model_params)  # type: ignore
+
+        weights_path = config["globals"].get("weights")
+        if weights_path is not None:
+            weight_path = weights_path[fold]
+            if Path(weight_path).exists():
+                weights = torch.load(weight_path)["model_state_dict"]
+                if "n_averaged" in weights.keys():
+                    # for loading ema weight
+                    model_state_dict = {}
+                    for key in weights:
+                        if key == "n_averaged":
+                            continue
+                        new_key = key.replace("module.", "")
+                        model_state_dict[new_key] = weights[key]
+                    # to fit for birdcall competition
+                    n_classes = model_state_dict["att_block.att.weight"].size(0)
+                else:
+                    model_state_dict = weights
+                    n_classes = model_state_dict["att_block.att.weight"].size(0)
         return model
     elif model_name == "TimmSED":
         model = TimmSED(**model_params)  # type: ignore
