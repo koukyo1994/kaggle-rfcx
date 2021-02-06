@@ -95,6 +95,7 @@ class ResNestSEDMax(nn.Module):
 
     def init_weight(self):
         init_layer(self.fc1)
+        init_layer(self.fc_audioset)
 
     def forward(self, input):
         frames_num = input.size(3)
