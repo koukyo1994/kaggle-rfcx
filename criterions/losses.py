@@ -287,13 +287,14 @@ class LogitLoss(nn.Module):
 
 
 class LogitBCEFocalLoss(nn.Module):
-    def __init__(self):
+    def __init__(self, smoothing=0.00):
         super().__init__()
+        self.smoothing = smoothing
         self.focal = BCEFocalLoss()
 
     def forward(self, input, target):
         input_ = input["logit"]
-        target = target["weak"].float()
+        target = target["weak"].float() * (1.0 - self.smoothing)
         loss = self.focal(input_, target)
         return loss
 
