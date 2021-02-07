@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+from torch.autograd import Function
+
 from .utils import init_bn, init_layer
 
 
@@ -141,3 +143,14 @@ class AttBlockV2(nn.Module):
             return x
         elif self.activation == 'sigmoid':
             return torch.sigmoid(x)
+
+
+class GradientReversalLayer(Function):
+    @staticmethod
+    def forward(context, x, constant):
+        context.constant = constant
+        return x.view_as(x) * constant
+
+    @staticmethod
+    def backward(context, grad):
+        return grad.neg() * context.constant, None
