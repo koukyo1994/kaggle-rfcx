@@ -217,7 +217,8 @@ class LogmelMixupDataset(torchdata.Dataset):
                  duration=10,
                  mixup_prob=0.5,
                  mixup_alpha=5,
-                 float_label=False):
+                 float_label=False,
+                 no_lambda=False):
         unique_recording_id = df.recording_id.unique().tolist()
         unique_tp_recordin_id = tp.recording_id.unique().tolist()
         intersection = set(unique_recording_id).intersection(unique_tp_recordin_id)
@@ -235,6 +236,7 @@ class LogmelMixupDataset(torchdata.Dataset):
         self.mixup_prob = mixup_prob
         self.mixup_alpha = mixup_alpha
         self.float_label = float_label
+        self.no_lambda = no_lambda
 
         if len(list(datadir.glob("*.flac"))) == 0:
             self.suffix = ".wav"
@@ -295,8 +297,11 @@ class LogmelMixupDataset(torchdata.Dataset):
             mixup_melspec = librosa.feature.melspectrogram(
                 y_mixup, sr=self.sampling_rate, **self.melspectrogram_parameters)
 
-            lam = np.random.beta(self.mixup_alpha, self.mixup_alpha)
-            melspec = lam * melspec + (1 - lam) * mixup_melspec
+            if self.no_lambda:
+                melspec = melspec + mixup_melspec
+            else:
+                lam = np.random.beta(self.mixup_alpha, self.mixup_alpha)
+                melspec = lam * melspec + (1 - lam) * mixup_melspec
 
         pcen = librosa.pcen(melspec, sr=sr, **self.pcen_parameters)
         clean_mel = librosa.power_to_db(melspec ** 1.5)
@@ -339,7 +344,7 @@ class LogmelMixupDataset(torchdata.Dataset):
         strong_label = np.zeros((n_frames, N_CLASSES), dtype=np.float32)
 
         for species_id in all_tp_events["species_id"].unique():
-            if self.float_label and use_mixup:
+            if self.float_label and use_mixup and not self.no_lambda:
                 label[int(species_id)] = lam
             else:
                 label[int(species_id)] = 1.0
@@ -352,14 +357,14 @@ class LogmelMixupDataset(torchdata.Dataset):
             start_index = int((t_min - offset) / seconds_per_frame)
             end_index = int((t_max - offset) / seconds_per_frame)
 
-            if self.float_label and use_mixup:
+            if self.float_label and use_mixup and not self.no_lambda:
                 strong_label[start_index:end_index, species_id] = lam
             else:
                 strong_label[start_index:end_index, species_id] = 1.0
 
         if use_mixup:
             for species_id in mixup_tp_events["species_id"].unique():
-                if self.float_label:
+                if self.float_label and not self.no_lambda:
                     label[int(species_id)] = (1 - lam)
                 else:
                     label[int(species_id)] = 1.0
@@ -372,7 +377,7 @@ class LogmelMixupDataset(torchdata.Dataset):
                 start_index = int((t_min - mixup_offset) / seconds_per_frame)
                 end_index = int((t_max - mixup_offset) / seconds_per_frame)
 
-                if self.float_label:
+                if self.float_label and not self.no_lambda:
                     strong_label[start_index:end_index, species_id] = 1 - lam
                 else:
                     strong_label[start_index:end_index, species_id] = 1.0
