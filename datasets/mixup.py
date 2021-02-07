@@ -216,7 +216,8 @@ class LogmelMixupDataset(torchdata.Dataset):
                  img_size=224,
                  duration=10,
                  mixup_prob=0.5,
-                 mixup_alpha=5):
+                 mixup_alpha=5,
+                 float_label=False):
         unique_recording_id = df.recording_id.unique().tolist()
         unique_tp_recordin_id = tp.recording_id.unique().tolist()
         intersection = set(unique_recording_id).intersection(unique_tp_recordin_id)
@@ -233,6 +234,7 @@ class LogmelMixupDataset(torchdata.Dataset):
         self.duration = duration
         self.mixup_prob = mixup_prob
         self.mixup_alpha = mixup_alpha
+        self.float_label = float_label
 
         if len(list(datadir.glob("*.flac"))) == 0:
             self.suffix = ".wav"
@@ -327,44 +329,57 @@ class LogmelMixupDataset(torchdata.Dataset):
             query_string = f"recording_id == '{mixup_flac_id}' & "
             query_string += f"t_min < {mixup_tail} & t_max > {mixup_offset}"
             mixup_tp_events = self.tp.query(query_string)
-            all_tp_events = pd.concat([
-                all_tp_events, mixup_tp_events
-            ], axis=0)
 
         label = np.zeros(N_CLASSES, dtype=np.float32)
-        songtype_label = np.zeros(N_CLASSES + 2, dtype=np.float32)
-
         n_frames = image.shape[2]
         seconds_per_frame = self.duration / n_frames
         strong_label = np.zeros((n_frames, N_CLASSES), dtype=np.float32)
-        songtype_strong_label = np.zeros((n_frames, N_CLASSES + 2), dtype=np.float32)
 
         for species_id in all_tp_events["species_id"].unique():
-            label[int(species_id)] = 1.0
-
-        for species_id_song_id in all_tp_events["species_id_song_id"].unique():
-            songtype_label[CLASS_MAP[species_id_song_id]] = 1.0
+            if self.float_label and use_mixup:
+                label[int(species_id)] = lam
+            else:
+                label[int(species_id)] = 1.0
 
         for _, row in all_tp_events.iterrows():
             t_min = row.t_min
             t_max = row.t_max
             species_id = row.species_id
-            species_id_song_id = row.species_id_song_id
 
             start_index = int((t_min - offset) / seconds_per_frame)
             end_index = int((t_max - offset) / seconds_per_frame)
 
-            strong_label[start_index:end_index, species_id] = 1.0
-            songtype_strong_label[start_index:end_index, CLASS_MAP[species_id_song_id]] = 1.0
+            if self.float_label and use_mixup:
+                strong_label[start_index:end_index, species_id] = lam
+            else:
+                strong_label[start_index:end_index, species_id] = 1.0
+
+        if use_mixup:
+            for species_id in mixup_tp_events["species_id"].unique():
+                if self.float_label:
+                    label[int(species_id)] = (1 - lam)
+                else:
+                    label[int(species_id)] = 1.0
+
+            for _, row in mixup_tp_events.iterrows():
+                t_min = row.t_min
+                t_max = row.t_max
+                species_id = row.species_id
+
+                start_index = int((t_min - mixup_offset) / seconds_per_frame)
+                end_index = int((t_max - mixup_offset) / seconds_per_frame)
+
+                if self.float_label:
+                    strong_label[start_index:end_index, species_id] = 1 - lam
+                else:
+                    strong_label[start_index:end_index, species_id] = 1.0
 
         return {
             "recording_id": flac_id,
             "image": image,
             "targets": {
                 "weak": label,
-                "strong": strong_label,
-                "weak_songtype": songtype_label,
-                "strong_songtype": songtype_strong_label
+                "strong": strong_label
             },
             "index": index
         }
