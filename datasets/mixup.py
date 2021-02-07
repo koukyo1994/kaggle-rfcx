@@ -315,7 +315,10 @@ class LogmelMixupDataset(torchdata.Dataset):
         image = np.stack([norm_melspec, norm_pcen, norm_clean_mel], axis=-1)
 
         height, width, _ = image.shape
-        image = cv2.resize(image, (int(width * self.img_size / height), self.img_size))
+        if isinstance(self.img_size, int):
+            image = cv2.resize(image, (int(width * self.img_size / height), self.img_size))
+        else:
+            image = cv2.resize(image, tuple(self.img_size))
         image = np.moveaxis(image, 2, 0)
         image = (image / 255.0).astype(np.float32)
 
