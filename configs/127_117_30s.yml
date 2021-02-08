@@ -26,7 +26,7 @@ dataset:
     name: FasterMLSpectrogramDataset
     params:
       sampling_rate: 32000
-      duration: 30
+      duration: 20
       melspectrogram_parameters:
         n_mels: 128
         fmin: 300
@@ -37,12 +37,12 @@ dataset:
         power: 0.5
         time_constant: 0.4
         eps: 0.000001
-      img_size: [2880, 240]
+      img_size: [1920, 240]
   valid:
     name: FasterMLSpectrogramDataset
     params:
       sampling_rate: 32000
-      duration: 30
+      duration: 20
       melspectrogram_parameters:
         n_mels: 128
         fmin: 300
@@ -54,12 +54,12 @@ dataset:
         time_constant: 0.4
         eps: 0.000001
       centering: True
-      img_size: [2880, 240]
+      img_size: [1920, 240]
   test:
     name: FasterSpectrogramTestDataset
     params:
       sampling_rate: 32000
-      duration: 30
+      duration: 20
       melspectrogram_parameters:
         n_mels: 128
         fmin: 300
@@ -70,7 +70,7 @@ dataset:
         power: 0.5
         time_constant: 0.4
         eps: 0.000001
-      img_size: [2880, 240]
+      img_size: [1920, 240]
 
 transforms:
   train:
