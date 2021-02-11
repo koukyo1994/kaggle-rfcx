@@ -50,7 +50,7 @@ class CFG:
     duration = 10
     period = 6
     step_scheduler = True
-    epoch = 60
+    epochs = 60
     T_max = 10
     T_0 = 10
     lr = 1e-3
@@ -252,7 +252,7 @@ def cut_spect(spect: torch.Tensor, fmin_mel: int, fmax_mel: int):
 def do_normalize(img: torch.Tensor):
     bs, ch, w, h = img.shape
     _img = img.clone()
-    _img = _img.view(-1)
+    _img = _img.view(bs, -1)
     _img -= _img.min(1, keepdim=True)[0]
     _img /= _img.max(1, keepdim=True)[0]
     _img = _img.view(bs, ch, w, h) * 255
@@ -945,8 +945,10 @@ def train_loop(fold):
         "istp", "f_min_mel", "f_max_mel", "kfold"
     ]
     train_fold = train_fold[columns]
+    print(f"train fold before concat: {train_fold.shape}")
     train_additional_fold = train_additional_fold[columns]
     train_fold = pd.concat([train_fold, train_additional_fold], axis=0).reset_index(drop=True)
+    print(f"train fold after concat: {train_fold.shape}")
     train_dataset = AudioDataset(
         df=train_fold,
         period=CFG.period,
@@ -1051,7 +1053,7 @@ def train_loop(fold):
 
         if valid_avg['f1score'] > best_score:
             LOGGER.info(f">>>>>>>> Model Improved From {best_score} ----> {valid_avg['f1score']}")
-            torch.save(model.state_dict(), OUTPUT_DIR+f'fold-{fold}.bin')
+            torch.save(model.state_dict(), OUTPUT_DIR / f'fold-{fold}.bin')
             best_score = valid_avg['f1score']
 
 
