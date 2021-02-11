@@ -874,6 +874,8 @@ def get_valid_all_clip_result(fold: int):
         "recording_id": valid_fold.recording_id.values
     })
     test_pred_df["kfold"] = fold
+    for i in range(24):
+        test_pred_df[f"s{i}"] = 0
     test_pred_df[[f's{i}' for i in range(24)]] = test_pred
     return test_pred_df
 
@@ -922,6 +924,8 @@ def inference(fold: int):
         "recording_id": sub_df.recording_id.values
     })
     test_pred_df["kfold"] = fold
+    for i in range(24):
+        test_pred_df[f"s{i}"] = 0
     test_pred_df[[f's{i}' for i in range(24)]] = test_pred
     return test_pred_df
 
