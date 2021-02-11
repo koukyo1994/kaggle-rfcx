@@ -1067,6 +1067,8 @@ def get_master_df():
     for i, species in enumerate(output['species_ids'].values):
         for s in species.split():
             y_true[i, int(s)] = 1
+    for i in range(24):
+        output[f"true_s{i}"] = 0
     output[[f'true_s{i}' for i in range(24)]] = y_true
     return output.reset_index(drop=True)
 
