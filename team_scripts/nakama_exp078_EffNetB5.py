@@ -55,7 +55,7 @@ class CFG:
     T_0 = 10
     lr = 1e-3
     min_lr = 0.0
-    batch_size = 24
+    batch_size = 16
     weight_decay = 1e-6
     gradient_accumulation_steps = 1
     max_grad_norm = 1000
@@ -892,7 +892,7 @@ def inference(fold: int):
     )
     test_loader = torch.utils.data.DataLoader(
         test_dataset,
-        batch_size=CFG.batch_size//24,
+        batch_size=CFG.batch_size//16,
         shuffle=False,
         drop_last=False,
         num_workers=CFG.num_workers
