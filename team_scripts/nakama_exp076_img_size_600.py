@@ -55,7 +55,7 @@ class CFG:
     T_0 = 10
     lr = 1e-3
     min_lr = 0.0
-    batch_size = 64
+    batch_size = 48
     weight_decay = 1e-6
     gradient_accumulation_steps = 1
     max_grad_norm = 1000

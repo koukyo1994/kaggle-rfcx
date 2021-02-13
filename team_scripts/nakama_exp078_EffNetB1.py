@@ -41,7 +41,7 @@ OUTPUT_DIR.mkdir(exist_ok=True, parents=True)
 class CFG:
     debug = False
     apex = False
-    num_workers = 20
+    num_workers = 10
     model_name = "tf_efficientnet_b1_ns"
     model_param = {
         "encoder": model_name,
@@ -55,7 +55,7 @@ class CFG:
     T_0 = 10
     lr = 1e-3
     min_lr = 0.0
-    batch_size = 64
+    batch_size = 32
     weight_decay = 1e-6
     gradient_accumulation_steps = 1
     max_grad_norm = 1000

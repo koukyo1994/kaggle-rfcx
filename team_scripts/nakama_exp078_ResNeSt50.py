@@ -536,7 +536,10 @@ class AudioClassifier(nn.Module):
         self.avg_pool = nn.AdaptiveAvgPool2d((1, 1))
         self.dropout1 = nn.Dropout(0.3)
         self.dropout2 = nn.Dropout(0.3)
-        n_features = self.net.classifier.in_features
+        if hasattr(self.net, "classifier"):
+            n_features = self.net.classifier.in_features
+        elif hasattr(self.net, "fc"):
+            n_features = self.net.fc.in_features
         self.net_classifier = nn.Linear(n_features, n_out)
         self.init_weight()
 
