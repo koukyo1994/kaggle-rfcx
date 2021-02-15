@@ -307,7 +307,7 @@ class AudioDataset(Dataset):
             # 音声のAugumentation(gaussianノイズとか)が入ってる
             y = self.transforms(samples=y, sample_rate=sr)
 
-        label = float(istp)
+        label = float(istp[rint])
 
         return {
             "wav": torch.tensor(y, dtype=torch.float),
@@ -361,7 +361,7 @@ class ValidDataset(Dataset):
         end = start + effective_length
         y = y[start:end]
 
-        label = float(istp)
+        label = float(istp[rint])
         return {
             "wav": torch.tensor(y, dtype=torch.float),
             "target": label,
