@@ -575,7 +575,7 @@ def train_epoch(model, spectrogram_extractor, logmel_extractor, loader,
         x = do_normalize(x)
 
         output = model(x)
-        loss = criterion(output, target)
+        loss = criterion(output, target.view(-1, 1))
 
         if CFG.gradient_accumulation_steps > 1:
             loss = loss / CFG.gradient_accumulation_steps
@@ -626,7 +626,7 @@ def valid_epoch(model, spectrogram_extractor, logmel_extractor,
             bs = x.size(0)
             output = model(x)
 
-            loss = criterion(output, target)
+            loss = criterion(output, target.view(-1, 1))
             scores.update(target, output)
             losses.update(loss.item(), bs)
             t.set_description(f"Valid E:{epoch} - Loss:{losses.avg:0.4f}")
