@@ -560,6 +560,8 @@ def train_epoch(model, spectrogram_extractor, logmel_extractor, loader,
         x = spectrogram_extractor(x)  # (batch_size, 1, time_steps, freq_bins)
         x = logmel_extractor(x)
 
+        x = x.squeeze(1)
+
         import pdb
         pdb.set_trace()
         spects = []
@@ -608,6 +610,8 @@ def valid_epoch(model, spectrogram_extractor, logmel_extractor,
             f_max_mel = sample["f_max_mel"].numpy()[0]
             x = spectrogram_extractor(x)  # (batch_size, 1, time_steps, freq_bins)
             x = logmel_extractor(x)
+
+            x = x.squeeze(1)
 
             spects = []
             for i in range(len(x)):
