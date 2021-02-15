@@ -562,8 +562,6 @@ def train_epoch(model, spectrogram_extractor, logmel_extractor, loader,
 
         x = x.squeeze(1)
 
-        import pdb
-        pdb.set_trace()
         spects = []
         for i in range(len(x)):
             spect = x[i]
@@ -900,6 +898,9 @@ def train_loop(fold: int, species: int):
             LOGGER.info(f">>>>>>>> Model Improved From {best_score} ----> {valid_avg['f1score']}")
             torch.save(model.state_dict(), OUTPUT_DIR / f'fold-{fold}.bin')
             best_score = valid_avg['f1score']
+
+        import pdb
+        pdb.set_trace()
 
 
 def get_master_df():
