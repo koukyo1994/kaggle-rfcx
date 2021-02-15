@@ -51,6 +51,7 @@ class CFG:
     period = 6
     step_scheduler = True
     epochs = 60
+    scheduler = "CosineAnnealingLR"
     T_max = 10
     T_0 = 10
     lr = 1e-3
@@ -856,9 +857,10 @@ def train_loop(fold: int, species: int):
     # optimizer = Adam(model.parameters(), lr=CFG.lr, weight_decay=CFG.weight_decay, amsgrad=False)
     # scheduler = get_scheduler(optimizer)
     optimizer = torch.optim.AdamW(model.parameters(), lr=CFG.lr)
-    num_train_steps = int(len(train_loader) * CFG.epochs)
-    num_warmup_steps = int(0.1 * CFG.epochs * len(train_loader))
-    scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=num_warmup_steps, num_training_steps=num_train_steps)
+    # num_train_steps = int(len(train_loader) * CFG.epochs)
+    # num_warmup_steps = int(0.1 * CFG.epochs * len(train_loader))
+    # scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=num_warmup_steps, num_training_steps=num_train_steps)
+    scheduler = get_scheduler(optimizer)
 
     # criterion = nn.BCEWithLogitsLoss()
     criterion = BCEFocalLoss()
