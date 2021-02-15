@@ -555,11 +555,13 @@ def train_epoch(model, spectrogram_extractor, logmel_extractor, loader,
     for i, sample in enumerate(t):
         x = sample['wav'].to(device)  # (bs, seq)
         target = sample['target'].to(device)
-        f_min_mel = sample["f_min_mel"][0]
-        f_max_mel = sample["f_max_mel"][0]
+        f_min_mel = sample["f_min_mel"].numpy()[0]
+        f_max_mel = sample["f_max_mel"].numpy()[0]
         x = spectrogram_extractor(x)  # (batch_size, 1, time_steps, freq_bins)
         x = logmel_extractor(x)
 
+        import pdb
+        pdb.set_trace()
         spects = []
         for i in range(len(x)):
             spect = x[i]
@@ -602,8 +604,8 @@ def valid_epoch(model, spectrogram_extractor, logmel_extractor,
         for i, sample in enumerate(t):
             x = sample['wav'].to(device)  # (bs, seq)
             target = sample['target'].to(device)
-            f_min_mel = sample["f_min_mel"][0]
-            f_max_mel = sample["f_max_mel"][0]
+            f_min_mel = sample["f_min_mel"].numpy()[0]
+            f_max_mel = sample["f_max_mel"].numpy()[0]
             x = spectrogram_extractor(x)  # (batch_size, 1, time_steps, freq_bins)
             x = logmel_extractor(x)
 
@@ -860,8 +862,6 @@ def train_loop(fold: int, species: int):
     criterion = BCEFocalLoss()
 
     best_score = -np.inf
-    import pdb
-    pdb.set_trace()
     for epoch in range(CFG.epochs):
 
         if epoch < CFG.mixup_epochs:
