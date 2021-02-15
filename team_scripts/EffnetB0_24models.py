@@ -899,9 +899,6 @@ def train_loop(fold: int, species: int):
             torch.save(model.state_dict(), OUTPUT_DIR / f'fold-{fold}.bin')
             best_score = valid_avg['f1score']
 
-        import pdb
-        pdb.set_trace()
-
 
 def get_master_df():
     df = pd.read_csv("../input/train_tp.csv").sort_values("recording_id")
@@ -945,6 +942,8 @@ def main():
             if fold in CFG.trn_fold:
                 for species_id in range(24):
                     train_loop(fold, species_id)
+                    import pdb
+                    pdb.set_trace()
                     _oof_df = get_valid_all_clip_result(fold)
                     _oof_df = _oof_df.merge(master_df, on='recording_id', how='left')
                     oof_df = pd.concat([oof_df, _oof_df])
