@@ -891,7 +891,7 @@ def train_loop(fold: int, species: int):
         elapsed = time.time() - start_time
 
         LOGGER.info(f'Epoch {epoch+1} - avg_train_loss: {train_loss:.5f}  avg_val_loss: {valid_loss:.5f}  time: {elapsed:.0f}s')
-        LOGGER.info(f"Epoch {epoch+1} - train_LWLRAP:{train_avg['lwlrap']:0.5f}  valid_LWLRAP:{valid_avg['lwlrap']:0.5f}")
+        LOGGER.info(f"Epoch {epoch+1} - train_auc:{train_avg['auc']:0.5f}  valid_auc:{valid_avg['auc']:0.5f}")
         LOGGER.info(f"Epoch {epoch+1} - train_F1:{train_avg['f1score']:0.5f}  valid_F1:{valid_avg['f1score']:0.5f}")
 
         if valid_avg['f1score'] > best_score:
