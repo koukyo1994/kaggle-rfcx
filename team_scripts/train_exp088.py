@@ -2,7 +2,7 @@
 # Directory settings
 # ====================================================
 import os
-OUTPUT_DIR = '../output/exp088/'
+OUTPUT_DIR = '../out/exp088/'
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
 
@@ -14,14 +14,14 @@ class CFG:
     debug=False
     apex=False # True
     num_workers=20
-    pretrained_models={244: {'../output/exp071/': "tf_efficientnet_b0_ns"},
-                       320: {'../output/exp073/': "tf_efficientnet_b0_ns"},
-                       456: {'../output/exp078/': "tf_efficientnet_b0_ns",
-                             '../output/exp083/': "tf_efficientnet_b1_ns",
-                             '../output/exp084/': "tf_efficientnet_b2_ns",
-                             '../output/exp085/': "tf_efficientnet_b3_ns",
-                             '../output/nakama_078_EffNetB4/': "tf_efficientnet_b4_ns",
-                             '../output/nakama_078_EffNetB5/': "tf_efficientnet_b5_ns",
+    pretrained_models={244: {'../out/exp071/': "tf_efficientnet_b0_ns"},
+                       320: {'../out/exp073/': "tf_efficientnet_b0_ns"},
+                       456: {'../out/exp078/': "tf_efficientnet_b0_ns",
+                             '../out/exp083/': "tf_efficientnet_b1_ns",
+                             '../out/exp084/': "tf_efficientnet_b2_ns",
+                             '../out/exp085/': "tf_efficientnet_b3_ns",
+                             '../out/nakama_exp078_EffNetB4/': "tf_efficientnet_b4_ns",
+                             '../out/nakama_exp078_EffNetB5/': "tf_efficientnet_b5_ns",
                              },
                        }
     n_models=8 # Change here !
@@ -186,11 +186,11 @@ seed_torch(seed=CFG.seed)
 # ====================================================
 # Data Loading
 # ====================================================
-traint = pd.read_csv('../input/rfcx-species-audio-detection/train_tp.csv')
-trainf = pd.read_csv('../input/rfcx-species-audio-detection/train_fp.csv')
+traint = pd.read_csv('../input/train_tp.csv')
+trainf = pd.read_csv('../input/train_fp.csv')
 traint["istp"] = 1
 trainf["istp"] = 0
-test = pd.read_csv('../input/rfcx-species-audio-detection/sample_submission.csv')
+test = pd.read_csv('../input/sample_submission.csv')
 print(traint.shape, trainf.shape, test.shape)
 
 if CFG.debug:
@@ -881,7 +881,7 @@ def get_valid_all_clip_result(fold):
         df=valid_fold,
         period=CFG.period,
         transforms=None,
-        data_path="../input/rfcx-species-audio-detection/train",
+        data_path="../input/train",
     )
     test_loader = torch.utils.data.DataLoader(
         test_dataset,
@@ -927,7 +927,7 @@ def get_valid_all_clip_result(fold):
 
 def inference(fold):
     # Load Data
-    sub_df = pd.read_csv("../input/rfcx-species-audio-detection/sample_submission.csv")
+    sub_df = pd.read_csv("../input/sample_submission.csv")
     f_min_mels_dict = {}
     f_max_mels_dict = {}
     for size in [244, 320, 456]:
@@ -956,7 +956,7 @@ def inference(fold):
         df=sub_df,
         period=CFG.period,
         transforms=None,
-        data_path="../input/rfcx-species-audio-detection/test",
+        data_path="../input/test",
     )
     test_loader = torch.utils.data.DataLoader(
         test_dataset,
@@ -1015,13 +1015,13 @@ def train_loop(fold):
         time=CFG.duration,
         transforms=augmenter,
         #transforms=None,
-        data_path="../input/rfcx-species-audio-detection/train",
+        data_path="../input/train",
     )
     valid_dataset = ValidDataset(
         df=valid_fold,
         period=CFG.period,
         transforms=None,
-        data_path="../input/rfcx-species-audio-detection/train"
+        data_path="../input/train"
     )
     train_loader = torch.utils.data.DataLoader(
         train_dataset,
@@ -1149,7 +1149,7 @@ def train_loop(fold):
 
 
 def get_master_df():
-    df = pd.read_csv("../input/rfcx-species-audio-detection/train_tp.csv").sort_values("recording_id")
+    df = pd.read_csv("../input/train_tp.csv").sort_values("recording_id")
     df['species_ids'] = df['species_id'].astype(str)
     label_dict = {}
     for recording_id, tmp in df.groupby(['recording_id']):
