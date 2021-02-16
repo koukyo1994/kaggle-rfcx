@@ -13,13 +13,13 @@ if not os.path.exists(OUTPUT_DIR):
 class CFG:
     debug=False
     apex=False # True
-    num_workers=8
+    num_workers=20
     pretrained_models={244: {'../output/exp071/': "tf_efficientnet_b0_ns"},
                        320: {'../output/exp073/': "tf_efficientnet_b0_ns"},
-                       456: {'../output/exp078/': "tf_efficientnet_b0_ns", 
-                             '../output/exp083/': "tf_efficientnet_b1_ns", 
-                             '../output/exp084/': "tf_efficientnet_b2_ns", 
-                             '../output/exp085/': "tf_efficientnet_b3_ns", 
+                       456: {'../output/exp078/': "tf_efficientnet_b0_ns",
+                             '../output/exp083/': "tf_efficientnet_b1_ns",
+                             '../output/exp084/': "tf_efficientnet_b2_ns",
+                             '../output/exp085/': "tf_efficientnet_b3_ns",
                              '../output/nakama_078_EffNetB4/': "tf_efficientnet_b4_ns",
                              '../output/nakama_078_EffNetB5/': "tf_efficientnet_b5_ns",
                              },
@@ -45,7 +45,7 @@ class CFG:
     target_col='target'
     n_fold=5
     trn_fold=[0, 1, 2, 3, 4]
-    train=True
+    train=False
     inference=True
 
 if CFG.debug:
@@ -103,7 +103,7 @@ import kornia.augmentation as K
 
 import timm
 
-import warnings 
+import warnings
 warnings.filterwarnings('ignore')
 
 if CFG.apex:
@@ -495,7 +495,7 @@ class TestDataset(Dataset):
         effective_length = sr * self.period
 
         y_ = []
-        i = 0
+        i = sr * 3.0
         while i < len_y:
             # インクリメントしていき全部を舐めていく(effective_lengthずつ飛ばしているけど良い？？)
             y__ = y[i:i+effective_length]
@@ -532,7 +532,7 @@ class AudioClassifier(nn.Module):
         super(AudioClassifier, self).__init__()
 
         # Spec augmenter
-        self.spec_augmenter = SpecAugmentation(time_drop_width=80, time_stripes_num=2, 
+        self.spec_augmenter = SpecAugmentation(time_drop_width=80, time_stripes_num=2,
                                               freq_drop_width=16, freq_stripes_num=2)
         self.net = timm.create_model(model_name, pretrained=True, in_chans=1)
         self.avg_pool = nn.AdaptiveAvgPool2d((1, 1))
@@ -550,7 +550,7 @@ class AudioClassifier(nn.Module):
 
     def init_weight(self):
         init_layer(self.net_classifier)
-        
+
     def forward(self, x, f_min_mels, f_max_mels, IMAGE_WIDTH, IMAGE_HEIGHT, train=True, test=False):  # x: (bs, 1, w, h)
         # f_min_melとf_max_melによってカットする
         bs, ch, w, h = x.shape
@@ -703,11 +703,11 @@ class AverageMeter(object):
 class MetricMeter(object):
     def __init__(self):
         self.reset()
-    
+
     def reset(self):
         self.y_true = []
         self.y_pred = []
-    
+
     def update(self, y_true, y_pred):
         self.y_true.extend(y_true.cpu().detach().numpy().tolist())
         self.y_pred.extend(torch.sigmoid(y_pred).cpu().detach().numpy().tolist())
@@ -724,7 +724,7 @@ class MetricMeter(object):
 
 
 def train_epoch(model, fold_pretrained_models,
-                spectrogram_extractor_dict, logmel_extractor_dict, loader, 
+                spectrogram_extractor_dict, logmel_extractor_dict, loader,
                 criterion, optimizer, scheduler, epoch, device,
                 normalize=True, resize=True, spec_aug=True):
     losses = AverageMeter()
@@ -748,10 +748,10 @@ def train_epoch(model, fold_pretrained_models,
                 with torch.no_grad():
                     _output = pretrained_model(tmp_x, f_min_mels, f_max_mels, size, size, train=False)
                     model_input = torch.cat([model_input, _output], 1)
-        
+
         output = model(model_input)
         loss = criterion(output, target)
-        
+
         if CFG.gradient_accumulation_steps > 1:
             loss = loss / CFG.gradient_accumulation_steps
         if CFG.apex:
@@ -759,15 +759,15 @@ def train_epoch(model, fold_pretrained_models,
                 scaled_loss.backward()
         else:
             loss.backward()
-        
+
         grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), CFG.max_grad_norm)
-        
+
         if (i + 1) % CFG.gradient_accumulation_steps == 0:
             optimizer.step()
             optimizer.zero_grad()
             if CFG.step_scheduler:
                 scheduler.step()
-        
+
         scores.update(target, output)
         losses.update(loss.item(), bs)
         t.set_description(f"Train E:{epoch} - Loss{losses.avg:0.4f}")
@@ -776,7 +776,7 @@ def train_epoch(model, fold_pretrained_models,
 
 
 def valid_epoch(model, fold_pretrained_models,
-                spectrogram_extractor_dict, logmel_extractor_dict, 
+                spectrogram_extractor_dict, logmel_extractor_dict,
                 loader, criterion, epoch, device):
     losses = AverageMeter()
     scores = MetricMeter()
@@ -803,7 +803,7 @@ def valid_epoch(model, fold_pretrained_models,
 
             output = model(model_input)
             loss = criterion(output, target)
-            
+
             scores.update(target, output)
             losses.update(loss.item(), bs)
             t.set_description(f"Valid E:{epoch} - Loss:{losses.avg:0.4f}")
@@ -824,7 +824,7 @@ def test_epoch(model, fold_pretrained_models,
             id = sample["id"]
             bs, c, seq = x.shape
             x = x.reshape(bs*c, seq)
-            
+
             model_input = torch.Tensor([]).to(device)
             for size, pretrained_models in fold_pretrained_models.items():
                 f_min_mels = f_min_mels_dict[size]
@@ -835,10 +835,10 @@ def test_epoch(model, fold_pretrained_models,
                     pretrained_model.to(device)
                     pretrained_model.eval()
                     with torch.no_grad():
-                        _output = pretrained_model(tmp_x, f_min_mels, f_max_mels, size, size, 
+                        _output = pretrained_model(tmp_x, f_min_mels, f_max_mels, size, size,
                                                    train=False, test=True)
                         model_input = torch.cat([model_input, _output], 1)
-            
+
             output = torch.sigmoid(model(model_input))
             output = output.reshape(bs, c*24, -1)
             output, _ = torch.max(output, dim=1)
@@ -896,7 +896,7 @@ def get_valid_all_clip_result(fold):
     ref = 1.0
     amin = 1e-10
     top_db = None
-    
+
     spectrogram_extractor_dict = {}
     logmel_extractor_dict = {}
 
@@ -971,7 +971,7 @@ def inference(fold):
     ref = 1.0
     amin = 1e-10
     top_db = None
-    
+
     spectrogram_extractor_dict = {}
     logmel_extractor_dict = {}
 
@@ -988,7 +988,7 @@ def inference(fold):
 
         spectrogram_extractor_dict[k] = spectrogram_extractor
         logmel_extractor_dict[k] = logmel_extractor
-    
+
     test_pred, ids = test_epoch(model, fold_pretrained_models,
                                 spectrogram_extractor_dict, logmel_extractor_dict, test_loader,
                                 f_min_mels_dict, f_max_mels_dict, device, resize=True)
@@ -1043,24 +1043,24 @@ def train_loop(fold):
     ref = 1.0
     amin = 1e-10
     top_db = None
-    
+
     spectrogram_extractor_dict = {}
     logmel_extractor_dict = {}
-    
+
     for k, v in SIZE_DICT.items():
-    
-        spectrogram_extractor = Spectrogram(n_fft=v['WINDOW_SIZE'], hop_length=HOP_SIZE, 
+
+        spectrogram_extractor = Spectrogram(n_fft=v['WINDOW_SIZE'], hop_length=HOP_SIZE,
                                             win_length=v['WINDOW_SIZE'], window=window,
-                                            center=center, pad_mode=pad_mode, 
+                                            center=center, pad_mode=pad_mode,
                                             freeze_parameters=True).to(device)
-        logmel_extractor = LogmelFilterBank(sr=SR, n_fft=v['WINDOW_SIZE'], 
+        logmel_extractor = LogmelFilterBank(sr=SR, n_fft=v['WINDOW_SIZE'],
                                             n_mels=v['N_MELS'], fmin=FMIN, fmax=FMAX,
-                                            ref=ref, amin=amin, top_db=top_db, 
+                                            ref=ref, amin=amin, top_db=top_db,
                                             freeze_parameters=True).to(device)
-        
+
         spectrogram_extractor_dict[k] = spectrogram_extractor
         logmel_extractor_dict[k] = logmel_extractor
-    
+
     # ====================================================
     # scheduler
     # ====================================================
@@ -1092,12 +1092,12 @@ def train_loop(fold):
 
     #optimizer = Adam(model.parameters(), lr=CFG.lr, weight_decay=CFG.weight_decay, amsgrad=False)
     #scheduler = get_scheduler(optimizer)
-    
+
     optimizer = torch.optim.AdamW(model.parameters(), lr=CFG.lr)
     num_train_steps = int(len(train_loader) * CFG.epochs)
     num_warmup_steps = int(0.1 * CFG.epochs * len(train_loader))
     scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=num_warmup_steps, num_training_steps=num_train_steps)
-    
+
     #optimizer = torch.optim.Adam(model.parameters(), lr=CFG.lr)
     #scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer=optimizer, pct_start=0.1, div_factor=1e3,
     #                                                max_lr=1e-2, epochs=CFG.epochs, steps_per_epoch=len(train_loader))
@@ -1112,23 +1112,23 @@ def train_loop(fold):
     #criterion = BCEFocalLoss()
 
     best_score = -np.inf
-    
+
     for epoch in range(CFG.epochs):
-        
+
         start_time = time.time()
-        
+
         # train
         train_avg, train_loss = train_epoch(model, fold_pretrained_models,
-                                            spectrogram_extractor_dict, logmel_extractor_dict, 
-                                            train_loader, criterion, optimizer, scheduler, 
+                                            spectrogram_extractor_dict, logmel_extractor_dict,
+                                            train_loader, criterion, optimizer, scheduler,
                                             epoch, device, spec_aug=True)
-        
+
         # valid
         valid_avg, valid_loss = valid_epoch(model, fold_pretrained_models,
-                                            spectrogram_extractor_dict, logmel_extractor_dict, 
-                                            valid_loader, criterion, 
+                                            spectrogram_extractor_dict, logmel_extractor_dict,
+                                            valid_loader, criterion,
                                             epoch, device)
-        
+
         if isinstance(scheduler, ReduceLROnPlateau):
             scheduler.step(valid_loss)
         elif isinstance(scheduler, CosineAnnealingLR):
@@ -1137,11 +1137,11 @@ def train_loop(fold):
             scheduler.step()
 
         elapsed = time.time() - start_time
-        
+
         LOGGER.info(f'Epoch {epoch+1} - avg_train_loss: {train_loss:.5f}  avg_val_loss: {valid_loss:.5f}  time: {elapsed:.0f}s')
         LOGGER.info(f"Epoch {epoch+1} - train_LWLRAP:{train_avg['lwlrap']:0.5f}  valid_LWLRAP:{valid_avg['lwlrap']:0.5f}")
         LOGGER.info(f"Epoch {epoch+1} - train_F1:{train_avg['f1score']:0.5f}  valid_F1:{valid_avg['f1score']:0.5f}")
-        
+
         if valid_avg['f1score'] > best_score:
             LOGGER.info(f">>>>>>>> Model Improved From {best_score} ----> {valid_avg['f1score']}")
             torch.save(model.state_dict(), OUTPUT_DIR+f'fold-{fold}.bin')
@@ -1178,10 +1178,10 @@ def get_result(oof_df):
 # main
 # ====================================================
 def main():
-    
+
     if CFG.train:
         master_df = get_master_df()
-        # train 
+        # train
         oof_df = pd.DataFrame()
         for fold in range(CFG.n_fold):
             if fold in CFG.trn_fold:
