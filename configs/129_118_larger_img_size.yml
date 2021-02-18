@@ -115,7 +115,7 @@ split:
 model:
   name: TimmEfficientNetSEDMax
   params:
-    base_model_name: tf_efficientnet_b3_ns
+    base_model_name: tf_efficientnet_b0_ns
     pretrained: True
     num_classes: 24
 
